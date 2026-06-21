@@ -1,0 +1,996 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBL Group — Kaizen Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<style>
+  :root{
+    --navy:#1F3864;
+    --navy-deep:#142a4d;
+    --accent:#2E75B6;
+    --accent-soft:#EAF1F8;
+    --bg:#F3F5F8;
+    --card:#FFFFFF;
+    --text:#262626;
+    --muted:#6b7280;
+    --border:#E2E6EC;
+    --good:#1F7A3D;
+    --danger:#C0392B;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  body, input, textarea, button{
+    font-family:"Hind Siliguri","Noto Sans Bengali","Segoe UI",Arial,sans-serif;
+    color:var(--text);
+  }
+  body{ background:var(--bg); min-height:100vh; }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-deep) 100%);
+    color:#fff;
+    padding:16px 28px;
+    border-bottom:4px solid var(--accent);
+  }
+  .topbar-row{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+  .brand{display:flex; align-items:center; gap:14px;}
+  .logo-box{
+    width:54px; height:54px; border-radius:10px; background:rgba(255,255,255,.12);
+    border:1.5px dashed rgba(255,255,255,.4);
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+    cursor:pointer; flex-shrink:0;
+  }
+  .logo-box img{width:100%; height:100%; object-fit:contain; background:#fff;}
+  .logo-box .logo-ph{font-size:10.5px; text-align:center; color:#cfe0f2; line-height:1.3; padding:2px;}
+  .logo-box input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .logo-box .logo-edit-tag{
+    position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.5); color:#fff;
+    font-size:9px; text-align:center; padding:2px 0; opacity:0; transition:opacity .15s;
+  }
+  .logo-box:hover .logo-edit-tag{opacity:1;}
+  .brand-text h1{margin:0; font-size:18px; letter-spacing:0.5px;}
+  .brand-text p{margin:0; font-size:12px; color:#cfe0f2;}
+  .top-actions{display:flex; gap:10px; flex-wrap:wrap;}
+
+  .team-bar{
+    margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,.18);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-size:13px;
+  }
+  .team-bar .tb-item{display:flex; align-items:center; gap:6px; color:#dce8f5;}
+  .team-bar .tb-label{font-weight:700; color:#fff;}
+  .member-chip{
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25);
+    padding:3px 10px; border-radius:14px; font-size:12px; color:#fff;
+  }
+  .tb-edit{
+    background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.3);
+    border-radius:7px; padding:4px 10px; font-size:12px; cursor:pointer; font-weight:600;
+  }
+  .tb-edit:hover{background:rgba(255,255,255,.22);}
+
+  button{
+    cursor:pointer; border:none; border-radius:8px; font-size:14px; font-weight:600;
+    padding:10px 16px; transition:transform .08s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  button:active{transform:translateY(1px);}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{box-shadow:0 4px 14px rgba(46,117,182,.35);}
+  .btn-ghost{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.35);}
+  .btn-ghost:hover{background:rgba(255,255,255,.2);}
+  .btn-outline{background:#fff; color:var(--navy); border:1px solid var(--border);}
+  .btn-outline:hover{border-color:var(--accent); color:var(--accent);}
+  .btn-danger-outline{background:#fff;color:var(--danger);border:1px solid #f1c6c0;}
+  .btn-danger-outline:hover{background:#fdecea;}
+  .icon-btn{
+    width:30px;height:30px;border-radius:6px;background:#fff;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:14px;padding:0;
+  }
+  .icon-btn:hover{border-color:var(--accent);}
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    max-width:1180px; margin:20px auto 0; padding:0 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .search-wrap{position:relative; flex:1; min-width:220px; max-width:380px;}
+  .search-wrap input{
+    width:100%; padding:10px 14px 10px 36px; border-radius:9px; border:1px solid var(--border);
+    background:#fff; font-size:14px;
+  }
+  .search-wrap input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .search-wrap .ic{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:14px;}
+  .count-pill{
+    background:var(--accent-soft); color:var(--navy); font-size:12.5px; font-weight:700;
+    padding:6px 12px; border-radius:20px;
+  }
+
+  /* ---------- Grid ---------- */
+  .wrap{max-width:1180px; margin:0 auto; padding:18px 20px 60px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:18px; margin-top:16px;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    overflow:hidden; cursor:pointer; display:flex; flex-direction:column;
+    transition:box-shadow .15s ease, transform .1s ease;
+  }
+  .card:hover{box-shadow:0 8px 22px rgba(31,56,100,.12); transform:translateY(-2px);}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; padding:14px 14px 0;}
+  .sl-badge{
+    background:var(--navy); color:#fff; font-size:11px; font-weight:700;
+    border-radius:6px; padding:3px 8px; letter-spacing:.5px;
+  }
+  .card-controls{display:flex; gap:6px;}
+  .card-body{padding:10px 14px 4px;}
+  .card-title{font-size:15.5px; font-weight:700; margin:2px 0 6px; color:var(--navy-deep); line-height:1.3;}
+  .meta-tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
+  .meta-tag{font-size:11px; background:var(--accent-soft); color:var(--navy); padding:2px 8px; border-radius:10px; font-weight:600;}
+  .card-desc-label{font-size:11px; font-weight:700; color:var(--muted); margin-bottom:2px; text-transform:uppercase; letter-spacing:.3px;}
+  .card-desc{
+    font-size:13px; color:#444; line-height:1.5; margin:0 0 10px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .ba-row{display:flex; gap:8px; padding:0 14px 14px;}
+  .ba-box{
+    flex:1; border-radius:8px; overflow:hidden; position:relative; background:#f0f2f5;
+    aspect-ratio:4/3; border:1px solid var(--border);
+  }
+  .ba-box img{width:100%; height:100%; object-fit:cover; display:block;}
+  .ba-box .ba-label{
+    position:absolute; bottom:0; left:0; right:0; text-align:center;
+    font-size:10.5px; font-weight:700; color:#fff; padding:3px 0;
+    background:rgba(0,0,0,.45); letter-spacing:.3px;
+  }
+  .ba-box.empty{display:flex; align-items:center; justify-content:center; color:#9aa3b0; font-size:11px; text-align:center; padding:4px;}
+  .card-footer{
+    margin-top:auto; padding:10px 14px; border-top:1px dashed var(--border);
+    font-size:12px; color:var(--accent); font-weight:700; display:flex; align-items:center; gap:5px;
+  }
+
+  /* ---------- Empty state ---------- */
+  .empty-state{text-align:center; padding:70px 20px; color:var(--muted);}
+  .empty-state .emoji{font-size:42px; display:block; margin-bottom:10px;}
+  .empty-state h3{color:var(--navy); margin:0 0 6px;}
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(15,25,45,.55); display:none;
+    align-items:center; justify-content:center; padding:20px; z-index:100;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff; width:100%; max-width:640px; border-radius:14px; max-height:92vh;
+    overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.3);
+  }
+  .modal.wide{max-width:820px;}
+  .modal.narrow{max-width:460px;}
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between; padding:18px 22px;
+    border-bottom:1px solid var(--border); position:sticky; top:0; background:#fff; z-index:2;
+  }
+  .modal-head h2{margin:0; font-size:17px; color:var(--navy-deep);}
+  .modal-close{background:none; border:none; font-size:20px; color:var(--muted); cursor:pointer; padding:4px 8px;}
+  .modal-close:hover{color:var(--danger);}
+  .modal-body{padding:20px 22px;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;}
+  .field .hint{font-size:11.5px; color:var(--muted); font-weight:400; margin-left:4px;}
+  .field input[type=text], .field input[type=date], .field textarea{
+    width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px;
+    background:#fbfcfe;
+  }
+  .field input:focus, .field textarea:focus{outline:2px solid var(--accent); outline-offset:0; border-color:var(--accent);}
+  .field textarea{resize:vertical; min-height:72px; line-height:1.5;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .three-col{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
+  @media (max-width:560px){.two-col, .three-col{grid-template-columns:1fr;}}
+
+  .section-divider{
+    font-size:12px; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.5px;
+    margin:22px 0 12px; padding-top:14px; border-top:1px dashed var(--border);
+  }
+  .section-divider:first-child{margin-top:0; padding-top:0; border-top:none;}
+
+  .upload-box{
+    border:2px dashed var(--border); border-radius:10px; padding:12px; text-align:center;
+    position:relative; background:#fafbfd; min-height:140px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:6px;
+  }
+  .upload-box.has-img{border-style:solid; padding:0; overflow:hidden;}
+  .upload-box img{width:100%; height:140px; object-fit:cover; display:block;}
+  .upload-box input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .upload-hint{font-size:12px; color:var(--muted);}
+  .upload-icon{font-size:22px; color:var(--accent);}
+  .remove-img{
+    position:absolute; top:6px; right:6px; background:rgba(0,0,0,.55); color:#fff;
+    width:24px; height:24px; border-radius:50%; font-size:13px; line-height:1; z-index:3;
+    display:flex; align-items:center; justify-content:center; padding:0;
+  }
+
+  .modal-footer{
+    display:flex; justify-content:flex-end; gap:10px; padding:16px 22px;
+    border-top:1px solid var(--border); position:sticky; bottom:0; background:#fff;
+  }
+
+  /* View modal */
+  .view-meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  .view-pill{background:var(--accent-soft); color:var(--navy); font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px;}
+  .view-images{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;}
+  @media (max-width:520px){.view-images{grid-template-columns:1fr;}}
+  .view-img-card{border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#f6f7f9;}
+  .view-img-card .lbl{
+    background:var(--navy); color:#fff; font-size:12px; font-weight:700; padding:6px 10px; text-align:center; letter-spacing:.4px;
+  }
+  .view-img-card .lbl.after{background:var(--good);}
+  .view-img-card .ph{aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; color:#9aa3b0; font-size:13px;}
+  .view-img-card img{width:100%; aspect-ratio:4/3; object-fit:cover; display:block;}
+  .view-block{margin-bottom:16px;}
+  .view-block-title{font-size:12.5px; font-weight:800; color:var(--navy); margin-bottom:5px; text-transform:uppercase; letter-spacing:.4px; display:flex; align-items:center; gap:6px;}
+  .view-block-title .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block;}
+  .view-block-title.problem .dot{background:#C0392B;}
+  .view-block-title.solution .dot{background:var(--accent);}
+  .view-block-title.benefit .dot{background:var(--good);}
+  .view-block-text{font-size:14px; line-height:1.7; color:#333; white-space:pre-wrap; padding-left:13px;}
+  .view-members{display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;}
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:var(--navy-deep); color:#fff; padding:11px 20px; border-radius:30px;
+    font-size:13.5px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,.25);
+    z-index:300; opacity:0; transition:opacity .25s ease, bottom .25s ease; pointer-events:none;
+  }
+  .toast.show{opacity:1; bottom:36px;}
+
+  .footnote{text-align:center; font-size:12px; color:var(--muted); margin-top:30px;}
+
+  /* ---------- Admin / View mode gating ---------- */
+  body:not(.admin-mode) .admin-only{ display:none !important; }
+  .logo-box.locked{ cursor:default; }
+  .logo-box.locked input{ pointer-events:none; }
+  .logo-box.locked .logo-edit-tag{ display:none; }
+  .mode-pill{
+    font-size:11.5px; font-weight:700; padding:5px 11px; border-radius:14px;
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .mode-pill.view{ background:rgba(255,255,255,.14); color:#fff; }
+  .mode-pill.admin{ background:#2BAA5E; color:#fff; }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="logo-box" id="logoBox" title="ক্লিক করে লোগো আপলোড করুন">
+          <span class="logo-ph">+ লোগো<br>আপলোড করুন</span>
+          <input type="file" accept="image/*" id="f_logo">
+          <span class="logo-edit-tag">পরিবর্তন</span>
+        </div>
+        <div class="brand-text">
+          <h1 id="companyNameDisplay">DBL Group</h1>
+          <p>Kaizen Tracker — Continuous Improvement Log</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="mode-pill view" id="modePill">👁 View Mode</span>
+        <button class="btn-ghost" id="adminToggleBtn">🔒 Admin Mode</button>
+        <button class="btn-ghost" id="exportBtn">⬇ Export to Excel</button>
+        <button class="btn-primary admin-only" id="addBtn">+ নতুন কাইজেন</button>
+      </div>
+    </div>
+    <div class="team-bar">
+      <div class="tb-item"><span class="tb-label">👤 টিম লিডার:</span> <span id="tb_leader">নির্ধারণ করা হয়নি</span></div>
+      <div class="tb-item"><span class="tb-label">👥 সদস্যবৃন্দ:</span></div>
+      <div class="view-members" id="tb_members" style="margin:0;"></div>
+      <button class="tb-edit admin-only" id="editTeamBtn">✏ টিম তথ্য এডিট করুন</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="ic">🔍</span>
+      <input type="text" id="searchInput" placeholder="Kaizen Point দিয়ে খুঁজুন...">
+    </div>
+    <span class="count-pill" id="countPill">০ টি এন্ট্রি</span>
+  </div>
+
+  <div class="wrap">
+    <div class="grid" id="grid"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <span class="emoji">🗂️</span>
+      <h3>এখনো কোনো কাইজেন এন্ট্রি নেই</h3>
+      <p>উপরের "নতুন কাইজেন" বাটনে ক্লিক করে প্রথম এন্ট্রি যুক্ত করুন।</p>
+    </div>
+    <p class="footnote">তথ্য এই ব্রাউজারে নিরাপদে সংরক্ষিত থাকে। নিয়মিত "Export to Excel" করে ব্যাকআপ রাখার পরামর্শ দেওয়া হচ্ছে।</p>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="overlay" id="formOverlay">
+    <div class="modal wide">
+      <div class="modal-head">
+        <h2 id="formTitle">নতুন কাইজেন এন্ট্রি</h2>
+        <button class="modal-close" data-close>✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="section-divider">মূল তথ্য</div>
+        <div class="field">
+          <label>Kaizen Point (শিরোনাম) *</label>
+          <input type="text" id="f_title" placeholder="যেমন: Data Entry Optimization">
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label>তারিখ</label>
+            <input type="date" id="f_date">
+          </div>
+          <div class="field">
+            <label>Idea By <span class="hint">(কার আইডিয়া)</span></label>
+            <input type="text" id="f_ideaby" placeholder="নাম লিখুন">
+          </div>
+        </div>
+
+        <div class="section-divider">বিস্তারিত</div>
+        <div class="field">
+          <label>Current Problem (বর্তমান সমস্যা)</label>
+          <textarea id="f_problem" placeholder="কাজে কী সমস্যা ছিল তা লিখুন..."></textarea>
+        </div>
+        <div class="field">
+          <label>Solution Applied (প্রয়োগকৃত সমাধান)</label>
+          <textarea id="f_solution" placeholder="কী সমাধান প্রয়োগ করা হয়েছে তা লিখুন..."></textarea>
+        </div>
+        <div class="field">
+          <label>Benefit Achieved (প্রাপ্ত সুফল)</label>
+          <textarea id="f_benefit" placeholder="এর ফলে কী সুফল পাওয়া গেছে তা লিখুন..."></textarea>
+        </div>
+
+        <div class="section-divider">টিম তথ্য</div>
+        <div class="two-col">
+          <div class="field">
+            <label>Team Leader Name</label>
+            <input type="text" id="f_teamleader" placeholder="টিম লিডারের নাম">
+          </div>
+          <div class="field">
+            <label>Group Members <span class="hint">(কমা দিয়ে আলাদা করুন)</span></label>
+            <input type="text" id="f_members" placeholder="যেমন: রহিম, করিম, সালমা">
+          </div>
+        </div>
+
+        <div class="section-divider">Before / After ছবি</div>
+        <div class="two-col">
+          <div class="field">
+            <label>Before ছবি</label>
+            <div class="upload-box" id="beforeBox">
+              <span class="upload-icon">📷</span>
+              <span class="upload-hint">ক্লিক করে Before ছবি আপলোড করুন</span>
+              <input type="file" accept="image/*" id="f_before">
+            </div>
+          </div>
+          <div class="field">
+            <label>After ছবি</label>
+            <div class="upload-box" id="afterBox">
+              <span class="upload-icon">📷</span>
+              <span class="upload-hint">ক্লিক করে After ছবি আপলোড করুন</span>
+              <input type="file" accept="image/*" id="f_after">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" data-close>বাতিল</button>
+        <button class="btn-primary" id="saveBtn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Modal -->
+  <div class="overlay" id="viewOverlay">
+    <div class="modal wide">
+      <div class="modal-head">
+        <h2 id="v_title">শিরোনাম</h2>
+        <button class="modal-close" data-close>✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="view-meta">
+          <span class="view-pill" id="v_date">তারিখ</span>
+          <span class="view-pill" id="v_ideaby" style="display:none;"></span>
+          <span class="view-pill" id="v_leader" style="display:none;"></span>
+        </div>
+
+        <div class="view-images">
+          <div class="view-img-card">
+            <div class="lbl">BEFORE</div>
+            <div id="v_before_wrap"></div>
+          </div>
+          <div class="view-img-card">
+            <div class="lbl after">AFTER</div>
+            <div id="v_after_wrap"></div>
+          </div>
+        </div>
+
+        <div class="view-block">
+          <div class="view-block-title problem"><span class="dot"></span>Current Problem</div>
+          <div class="view-block-text" id="v_problem"></div>
+        </div>
+        <div class="view-block">
+          <div class="view-block-title solution"><span class="dot"></span>Solution Applied</div>
+          <div class="view-block-text" id="v_solution"></div>
+        </div>
+        <div class="view-block">
+          <div class="view-block-title benefit"><span class="dot"></span>Benefit Achieved</div>
+          <div class="view-block-text" id="v_benefit"></div>
+        </div>
+        <div class="view-block" id="v_members_block">
+          <div class="view-block-title"><span class="dot" style="background:#888;"></span>Group Members</div>
+          <div class="view-members" id="v_members"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-danger-outline admin-only" id="v_deleteBtn">🗑 ডিলিট করুন</button>
+        <button class="btn-outline admin-only" id="v_editBtn">✏ এডিট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Settings Modal -->
+  <div class="overlay" id="teamOverlay">
+    <div class="modal narrow">
+      <div class="modal-head">
+        <h2>টিম তথ্য এডিট করুন</h2>
+        <button class="modal-close" data-close>✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label>কোম্পানির নাম</label>
+          <input type="text" id="t_company" placeholder="DBL Group">
+        </div>
+        <div class="field">
+          <label>Team Leader Name</label>
+          <input type="text" id="t_leader" placeholder="টিম লিডারের নাম">
+        </div>
+        <div class="field">
+          <label>Group Members <span class="hint">(কমা দিয়ে আলাদা করুন)</span></label>
+          <textarea id="t_members" placeholder="যেমন: রহিম, করিম, সালমা, জাহিদ"></textarea>
+        </div>
+        <div class="field">
+          <label>Admin পাসওয়ার্ড <span class="hint">(এডিট/ডিলিট সুরক্ষার জন্য)</span></label>
+          <input type="text" id="t_password" placeholder="একটি পাসওয়ার্ড সেট করুন">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" data-close>বাতিল</button>
+        <button class="btn-primary" id="t_saveBtn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div class="overlay" id="loginOverlay">
+    <div class="modal narrow">
+      <div class="modal-head">
+        <h2>🔒 Admin Mode</h2>
+        <button class="modal-close" data-close>✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; color:var(--muted); margin-top:0;">এডিট ও ডিলিট করার জন্য Admin পাসওয়ার্ড দিন।</p>
+        <div class="field">
+          <label>পাসওয়ার্ড</label>
+          <input type="password" id="l_password" placeholder="পাসওয়ার্ড লিখুন">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" data-close>বাতিল</button>
+        <button class="btn-primary" id="l_submitBtn">প্রবেশ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = "dbl_kaizen_entries_v2";
+  const SETTINGS_KEY = "dbl_kaizen_settings_v2";
+  let entries = [];
+  let settings = { logo: null, companyName: "DBL Group", teamLeader: "", members: [], adminPassword: "" };
+  let editingId = null;
+  let viewingId = null;
+  let isAdmin = false; // resets to View Mode every time the page is opened/reloaded
+  let pendingBefore = null, pendingAfter = null;
+  let removeBeforeFlag = false, removeAfterFlag = false;
+
+  // ---------- Persistence ----------
+  function loadAll(){
+    try{ const raw = localStorage.getItem(STORAGE_KEY); entries = raw ? JSON.parse(raw) : []; }
+    catch(e){ entries = []; }
+    try{
+      const raw2 = localStorage.getItem(SETTINGS_KEY);
+      if(raw2) settings = Object.assign(settings, JSON.parse(raw2));
+    }catch(e){}
+  }
+  function saveEntries(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+    catch(e){ showToast("⚠ স্টোরেজ পূর্ণ — পুরনো এন্ট্রি Export করে ডিলিট করুন"); }
+  }
+  function saveSettings(){
+    try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
+    catch(e){ showToast("⚠ টিম তথ্য সংরক্ষণে সমস্যা হয়েছে"); }
+  }
+
+  // ---------- Toast ----------
+  let toastTimer = null;
+  function showToast(msg){
+    const t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> t.classList.remove("show"), 2400);
+  }
+
+  // ---------- Image resize ----------
+  function resizeImage(file, maxWidth, quality){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const img = new Image();
+        img.onload = function(){
+          let w = img.width, h = img.height;
+          if(w > maxWidth){ h = Math.round(h * (maxWidth / w)); w = maxWidth; }
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,w,h);
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function setUploadBoxImage(boxEl, dataUrl, label){
+    boxEl.classList.add("has-img");
+    boxEl.innerHTML = "";
+    const img = document.createElement("img"); img.src = dataUrl;
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "remove-img"; removeBtn.type = "button"; removeBtn.textContent = "✕";
+    boxEl.appendChild(img); boxEl.appendChild(removeBtn);
+    const fileInput = document.createElement("input");
+    fileInput.type = "file"; fileInput.accept = "image/*";
+    fileInput.id = boxEl.id === "beforeBox" ? "f_before" : "f_after";
+    boxEl.appendChild(fileInput);
+    fileInput.addEventListener("change", (ev)=> handleFileSelect(ev, boxEl, label));
+    removeBtn.addEventListener("click", (ev)=>{
+      ev.stopPropagation();
+      resetUploadBox(boxEl, label);
+      if(label === "before"){ pendingBefore = null; removeBeforeFlag = true; }
+      else { pendingAfter = null; removeAfterFlag = true; }
+    });
+  }
+
+  function resetUploadBox(boxEl, label){
+    boxEl.classList.remove("has-img");
+    boxEl.innerHTML = `
+      <span class="upload-icon">📷</span>
+      <span class="upload-hint">ক্লিক করে ${label === "before" ? "Before" : "After"} ছবি আপলোড করুন</span>
+      <input type="file" accept="image/*" id="${label === "before" ? "f_before" : "f_after"}">
+    `;
+    boxEl.querySelector("input[type=file]").addEventListener("change", (ev)=> handleFileSelect(ev, boxEl, label));
+  }
+
+  async function handleFileSelect(ev, boxEl, label){
+    const file = ev.target.files[0];
+    if(!file) return;
+    try{
+      const dataUrl = await resizeImage(file, 900, 0.82);
+      if(label === "before"){ pendingBefore = dataUrl; removeBeforeFlag = false; }
+      else { pendingAfter = dataUrl; removeAfterFlag = false; }
+      setUploadBoxImage(boxEl, dataUrl, label);
+    }catch(e){ showToast("⚠ ছবি লোড করা যায়নি, আবার চেষ্টা করুন"); }
+  }
+
+  // ---------- Helpers ----------
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+  }
+  function formatDate(d){
+    try{ const dt = new Date(d + "T00:00:00"); return dt.toLocaleDateString("bn-BD", { year:"numeric", month:"long", day:"numeric" }); }
+    catch(e){ return d; }
+  }
+  function parseMembers(str){
+    return String(str || "").split(",").map(s=>s.trim()).filter(Boolean);
+  }
+  function chipsHtml(arr, cls){
+    if(!arr || arr.length === 0) return `<span class="${cls || ''}" style="font-size:12px;color:var(--muted);">যুক্ত করা হয়নি</span>`;
+    return arr.map(m=>`<span class="member-chip ${cls || ''}">${escapeHtml(m)}</span>`).join("");
+  }
+
+  // ---------- Admin mode ----------
+  function updateAdminUI(){
+    document.body.classList.toggle("admin-mode", isAdmin);
+    const btn = document.getElementById("adminToggleBtn");
+    btn.textContent = isAdmin ? "🔓 Lock করুন" : "🔒 Admin Mode";
+    const pill = document.getElementById("modePill");
+    pill.textContent = isAdmin ? "🛠 Admin Mode" : "👁 View Mode";
+    pill.classList.toggle("admin", isAdmin);
+    pill.classList.toggle("view", !isAdmin);
+    document.getElementById("logoBox").classList.toggle("locked", !isAdmin);
+  }
+  function openLogin(){
+    document.getElementById("l_password").value = "";
+    document.getElementById("loginOverlay").classList.add("show");
+    setTimeout(()=> document.getElementById("l_password").focus(), 60);
+  }
+  function closeLogin(){ document.getElementById("loginOverlay").classList.remove("show"); }
+  function attemptLogin(){
+    const val = document.getElementById("l_password").value;
+    if(!settings.adminPassword){
+      isAdmin = true; updateAdminUI(); closeLogin();
+      showToast("✓ Admin Mode চালু হয়েছে — Team Settings থেকে একটি পাসওয়ার্ড সেট করে নিন");
+      return;
+    }
+    if(val === settings.adminPassword){
+      isAdmin = true; updateAdminUI(); closeLogin();
+      showToast("✓ Admin Mode চালু হয়েছে");
+    } else {
+      showToast("⚠ ভুল পাসওয়ার্ড");
+    }
+  }
+
+  // ---------- Team / settings render ----------
+  function renderTeamBar(){
+    document.getElementById("companyNameDisplay").textContent = settings.companyName || "DBL Group";
+    document.getElementById("tb_leader").textContent = settings.teamLeader || "নির্ধারণ করা হয়নি";
+    const membersEl = document.getElementById("tb_members");
+    membersEl.innerHTML = settings.members && settings.members.length
+      ? settings.members.map(m=>`<span class="member-chip">${escapeHtml(m)}</span>`).join("")
+      : `<span style="color:#cfe0f2; font-size:12.5px;">নির্ধারণ করা হয়নি</span>`;
+    const logoBox = document.getElementById("logoBox");
+    if(settings.logo){
+      logoBox.innerHTML = `<img src="${settings.logo}" alt="Logo"><input type="file" accept="image/*" id="f_logo"><span class="logo-edit-tag">পরিবর্তন</span>`;
+    } else {
+      logoBox.innerHTML = `<span class="logo-ph">+ লোগো<br>আপলোড করুন</span><input type="file" accept="image/*" id="f_logo"><span class="logo-edit-tag">পরিবর্তন</span>`;
+    }
+    document.getElementById("f_logo").addEventListener("change", handleLogoSelect);
+  }
+
+  async function handleLogoSelect(ev){
+    if(!isAdmin){ showToast("⚠ লোগো পরিবর্তনের জন্য Admin Mode প্রয়োজন"); return; }
+    const file = ev.target.files[0];
+    if(!file) return;
+    try{
+      const dataUrl = await resizeImage(file, 240, 0.9);
+      settings.logo = dataUrl;
+      saveSettings();
+      renderTeamBar();
+      showToast("✓ লোগো সংরক্ষণ করা হয়েছে");
+    }catch(e){ showToast("⚠ লোগো আপলোডে সমস্যা হয়েছে"); }
+  }
+
+  function openTeamModal(){
+    if(!isAdmin){ showToast("⚠ Admin Mode প্রয়োজন"); return; }
+    document.getElementById("t_company").value = settings.companyName || "DBL Group";
+    document.getElementById("t_leader").value = settings.teamLeader || "";
+    document.getElementById("t_members").value = (settings.members || []).join(", ");
+    document.getElementById("t_password").value = settings.adminPassword || "";
+    document.getElementById("teamOverlay").classList.add("show");
+  }
+  function saveTeamModal(){
+    if(!isAdmin){ showToast("⚠ Admin Mode প্রয়োজন"); return; }
+    settings.companyName = document.getElementById("t_company").value.trim() || "DBL Group";
+    settings.teamLeader = document.getElementById("t_leader").value.trim();
+    settings.members = parseMembers(document.getElementById("t_members").value);
+    settings.adminPassword = document.getElementById("t_password").value.trim();
+    saveSettings();
+    renderTeamBar();
+    document.getElementById("teamOverlay").classList.remove("show");
+    showToast("✓ টিম তথ্য সংরক্ষণ করা হয়েছে");
+  }
+
+  // ---------- Render grid ----------
+  function render(){
+    const grid = document.getElementById("grid");
+    const empty = document.getElementById("emptyState");
+    const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    const filtered = entries.filter(it => (it.title || "").toLowerCase().includes(query));
+    document.getElementById("countPill").textContent = entries.length + " টি এন্ট্রি";
+
+    grid.innerHTML = "";
+    if(filtered.length === 0){
+      empty.style.display = "block";
+      empty.querySelector("h3").textContent = entries.length === 0 ? "এখনো কোনো কাইজেন এন্ট্রি নেই" : "কোনো ফলাফল পাওয়া যায়নি";
+      return;
+    }
+    empty.style.display = "none";
+
+    filtered.slice().reverse().forEach((item)=>{
+      const idx = entries.findIndex(e=>e.id === item.id) + 1;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.addEventListener("click", ()=> openView(item.id));
+      const dateStr = item.date ? formatDate(item.date) : "তারিখ উল্লেখ নেই";
+
+      let tags = `<span class="meta-tag">📅 ${dateStr}</span>`;
+      if(item.ideaBy) tags += `<span class="meta-tag">💡 ${escapeHtml(item.ideaBy)}</span>`;
+      if(item.teamLeader) tags += `<span class="meta-tag">👤 ${escapeHtml(item.teamLeader)}</span>`;
+
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="sl-badge">#${String(idx).padStart(2,"0")}</span>
+          <div class="card-controls">
+            <button class="icon-btn admin-only" data-edit="${item.id}" title="এডিট">✏</button>
+            <button class="icon-btn admin-only" data-del="${item.id}" title="ডিলিট">🗑</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${escapeHtml(item.title)}</div>
+          <div class="meta-tags">${tags}</div>
+          <div class="card-desc-label">Current Problem</div>
+          <div class="card-desc">${escapeHtml(item.problem || "উল্লেখ করা হয়নি")}</div>
+        </div>
+        <div class="ba-row">
+          ${imgBoxHtml(item.before, "BEFORE")}
+          ${imgBoxHtml(item.after, "AFTER")}
+        </div>
+        <div class="card-footer">👁 বিস্তারিত দেখুন</div>
+      `;
+      card.querySelector(`[data-edit="${item.id}"]`).addEventListener("click", (ev)=>{ ev.stopPropagation(); openForm(item.id); });
+      card.querySelector(`[data-del="${item.id}"]`).addEventListener("click", (ev)=>{ ev.stopPropagation(); deleteEntry(item.id); });
+      grid.appendChild(card);
+    });
+  }
+
+  function imgBoxHtml(src, label){
+    if(src) return `<div class="ba-box"><img src="${src}" alt="${label}"><span class="ba-label">${label}</span></div>`;
+    return `<div class="ba-box empty">${label}<br>ছবি নেই</div>`;
+  }
+
+  // ---------- Form modal ----------
+  function openForm(id){
+    if(!isAdmin){ showToast("⚠ এডিট করার জন্য Admin Mode প্রয়োজন"); return; }
+    editingId = id || null;
+    pendingBefore = null; pendingAfter = null;
+    removeBeforeFlag = false; removeAfterFlag = false;
+    resetUploadBox(document.getElementById("beforeBox"), "before");
+    resetUploadBox(document.getElementById("afterBox"), "after");
+
+    if(id){
+      const item = entries.find(e=>e.id === id);
+      document.getElementById("formTitle").textContent = "কাইজেন এন্ট্রি এডিট করুন";
+      document.getElementById("f_title").value = item.title || "";
+      document.getElementById("f_date").value = item.date || "";
+      document.getElementById("f_ideaby").value = item.ideaBy || "";
+      document.getElementById("f_problem").value = item.problem || "";
+      document.getElementById("f_solution").value = item.solution || "";
+      document.getElementById("f_benefit").value = item.benefit || "";
+      document.getElementById("f_teamleader").value = item.teamLeader || "";
+      document.getElementById("f_members").value = (item.members || []).join(", ");
+      if(item.before) setUploadBoxImage(document.getElementById("beforeBox"), item.before, "before");
+      if(item.after) setUploadBoxImage(document.getElementById("afterBox"), item.after, "after");
+    } else {
+      document.getElementById("formTitle").textContent = "নতুন কাইজেন এন্ট্রি";
+      document.getElementById("f_title").value = "";
+      document.getElementById("f_date").value = new Date().toISOString().slice(0,10);
+      document.getElementById("f_ideaby").value = "";
+      document.getElementById("f_problem").value = "";
+      document.getElementById("f_solution").value = "";
+      document.getElementById("f_benefit").value = "";
+      // prefill team info from global settings for convenience
+      document.getElementById("f_teamleader").value = settings.teamLeader || "";
+      document.getElementById("f_members").value = (settings.members || []).join(", ");
+    }
+    document.getElementById("formOverlay").classList.add("show");
+    document.getElementById("f_title").focus();
+  }
+  function closeForm(){ document.getElementById("formOverlay").classList.remove("show"); }
+
+  function saveEntry(){
+    if(!isAdmin){ showToast("⚠ Admin Mode প্রয়োজন"); return; }
+    const title = document.getElementById("f_title").value.trim();
+    if(!title){ showToast("⚠ Kaizen Point (শিরোনাম) আবশ্যক"); document.getElementById("f_title").focus(); return; }
+    const date = document.getElementById("f_date").value;
+    const ideaBy = document.getElementById("f_ideaby").value.trim();
+    const problem = document.getElementById("f_problem").value.trim();
+    const solution = document.getElementById("f_solution").value.trim();
+    const benefit = document.getElementById("f_benefit").value.trim();
+    const teamLeader = document.getElementById("f_teamleader").value.trim();
+    const members = parseMembers(document.getElementById("f_members").value);
+
+    if(editingId){
+      const item = entries.find(e=>e.id === editingId);
+      Object.assign(item, { title, date, ideaBy, problem, solution, benefit, teamLeader, members });
+      if(pendingBefore) item.before = pendingBefore; else if(removeBeforeFlag) item.before = null;
+      if(pendingAfter) item.after = pendingAfter; else if(removeAfterFlag) item.after = null;
+      showToast("✓ এন্ট্রি আপডেট হয়েছে");
+    } else {
+      entries.push({
+        id: "k_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+        title, date, ideaBy, problem, solution, benefit, teamLeader, members,
+        before: pendingBefore || null, after: pendingAfter || null,
+      });
+      showToast("✓ নতুন কাইজেন যুক্ত হয়েছে");
+    }
+    saveEntries(); closeForm(); render();
+  }
+
+  function deleteEntry(id){
+    if(!isAdmin){ showToast("⚠ ডিলিট করার জন্য Admin Mode প্রয়োজন"); return; }
+    if(!confirm("আপনি কি নিশ্চিত এই এন্ট্রিটি ডিলিট করতে চান?")) return;
+    entries = entries.filter(e=>e.id !== id);
+    saveEntries(); render();
+    document.getElementById("viewOverlay").classList.remove("show");
+  }
+
+  // ---------- View modal ----------
+  function openView(id){
+    viewingId = id;
+    const item = entries.find(e=>e.id === id);
+    if(!item) return;
+    document.getElementById("v_title").textContent = item.title;
+    document.getElementById("v_date").textContent = "📅 " + (item.date ? formatDate(item.date) : "তারিখ উল্লেখ নেই");
+
+    const ideaEl = document.getElementById("v_ideaby");
+    if(item.ideaBy){ ideaEl.style.display = "inline-block"; ideaEl.textContent = "💡 Idea by: " + item.ideaBy; }
+    else ideaEl.style.display = "none";
+
+    const leaderEl = document.getElementById("v_leader");
+    if(item.teamLeader){ leaderEl.style.display = "inline-block"; leaderEl.textContent = "👤 Team Leader: " + item.teamLeader; }
+    else leaderEl.style.display = "none";
+
+    document.getElementById("v_before_wrap").innerHTML = item.before ? `<img src="${item.before}" alt="Before">` : `<div class="ph">ছবি আপলোড করা হয়নি</div>`;
+    document.getElementById("v_after_wrap").innerHTML = item.after ? `<img src="${item.after}" alt="After">` : `<div class="ph">ছবি আপলোড করা হয়নি</div>`;
+
+    document.getElementById("v_problem").textContent = item.problem || "উল্লেখ করা হয়নি।";
+    document.getElementById("v_solution").textContent = item.solution || "উল্লেখ করা হয়নি।";
+    document.getElementById("v_benefit").textContent = item.benefit || "উল্লেখ করা হয়নি।";
+    document.getElementById("v_members").innerHTML = chipsHtml(item.members);
+
+    document.getElementById("viewOverlay").classList.add("show");
+  }
+  function closeView(){ document.getElementById("viewOverlay").classList.remove("show"); }
+
+  // ---------- Excel export ----------
+  async function exportToExcel(){
+    if(entries.length === 0){ showToast("⚠ এক্সপোর্ট করার জন্য কোনো এন্ট্রি নেই"); return; }
+    if(typeof ExcelJS === "undefined"){ showToast("⚠ Excel লাইব্রেরি লোড হয়নি — ইন্টারনেট সংযোগ পরীক্ষা করুন"); return; }
+    showToast("⏳ Excel ফাইল তৈরি হচ্ছে...");
+
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = settings.companyName || "DBL Group";
+    workbook.created = new Date();
+    const sheet = workbook.addWorksheet("Kaizen Report");
+
+    sheet.columns = [
+      { header: "SL", key: "sl", width: 5 },
+      { header: "Kaizen Point", key: "title", width: 22 },
+      { header: "Date", key: "date", width: 13 },
+      { header: "Idea By", key: "ideaBy", width: 14 },
+      { header: "Current Problem", key: "problem", width: 30 },
+      { header: "Solution Applied", key: "solution", width: 30 },
+      { header: "Benefit Achieved", key: "benefit", width: 28 },
+      { header: "Team Leader", key: "teamLeader", width: 16 },
+      { header: "Group Members", key: "members", width: 22 },
+      { header: "Before", key: "before", width: 18 },
+      { header: "After", key: "after", width: 18 },
+    ];
+
+    const headerRow = sheet.getRow(1);
+    headerRow.eachCell((cell)=>{
+      cell.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
+      cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF1F3864" } };
+      cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+    });
+    headerRow.height = 24;
+
+    for(let i=0; i<entries.length; i++){
+      const item = entries[i];
+      const rowIndex = i + 2;
+      const row = sheet.addRow({
+        sl: i + 1,
+        title: item.title,
+        date: item.date ? formatDate(item.date) : "",
+        ideaBy: item.ideaBy || "",
+        problem: item.problem || "",
+        solution: item.solution || "",
+        benefit: item.benefit || "",
+        teamLeader: item.teamLeader || "",
+        members: (item.members || []).join(", "),
+        before: "", after: "",
+      });
+      row.height = 90;
+      row.eachCell((cell)=>{
+        cell.alignment = { vertical: "middle", wrapText: true };
+        cell.border = {
+          top: { style: "thin", color: { argb: "FFD9D9D9" } },
+          bottom: { style: "thin", color: { argb: "FFD9D9D9" } },
+          left: { style: "thin", color: { argb: "FFD9D9D9" } },
+          right: { style: "thin", color: { argb: "FFD9D9D9" } },
+        };
+      });
+      row.getCell(1).alignment = { vertical: "middle", horizontal: "center" };
+
+      if(item.before){
+        try{
+          const imgId = workbook.addImage({ base64: item.before.split(",")[1], extension: "jpeg" });
+          sheet.addImage(imgId, { tl: { col: 9, row: rowIndex - 1, offset: { x: 4, y: 4 } }, ext: { width: 130, height: 80 } });
+        }catch(e){}
+      }
+      if(item.after){
+        try{
+          const imgId2 = workbook.addImage({ base64: item.after.split(",")[1], extension: "jpeg" });
+          sheet.addImage(imgId2, { tl: { col: 10, row: rowIndex - 1, offset: { x: 4, y: 4 } }, ext: { width: 130, height: 80 } });
+        }catch(e){}
+      }
+    }
+
+    try{
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateTag = new Date().toISOString().slice(0,10);
+      a.href = url; a.download = `${(settings.companyName || "DBL_Group").replace(/\s+/g,"_")}_Kaizen_Report_${dateTag}.xlsx`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("✓ Excel ফাইল ডাউনলোড হয়েছে");
+    }catch(e){ showToast("⚠ Excel ফাইল তৈরিতে সমস্যা হয়েছে"); }
+  }
+
+  // ---------- Wire up events ----------
+  document.getElementById("addBtn").addEventListener("click", ()=> openForm(null));
+  document.getElementById("saveBtn").addEventListener("click", saveEntry);
+  document.getElementById("exportBtn").addEventListener("click", exportToExcel);
+  document.getElementById("searchInput").addEventListener("input", render);
+  document.getElementById("v_deleteBtn").addEventListener("click", ()=> deleteEntry(viewingId));
+  document.getElementById("v_editBtn").addEventListener("click", ()=>{ closeView(); openForm(viewingId); });
+  document.getElementById("editTeamBtn").addEventListener("click", openTeamModal);
+  document.getElementById("t_saveBtn").addEventListener("click", saveTeamModal);
+  document.getElementById("adminToggleBtn").addEventListener("click", ()=>{
+    if(isAdmin){ isAdmin = false; updateAdminUI(); showToast("🔒 View Mode চালু হয়েছে"); }
+    else openLogin();
+  });
+  document.getElementById("l_submitBtn").addEventListener("click", attemptLogin);
+  document.getElementById("l_password").addEventListener("keydown", (e)=>{ if(e.key === "Enter") attemptLogin(); });
+
+  document.querySelectorAll("[data-close]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.getElementById("formOverlay").classList.remove("show");
+      document.getElementById("viewOverlay").classList.remove("show");
+      document.getElementById("teamOverlay").classList.remove("show");
+      document.getElementById("loginOverlay").classList.remove("show");
+    });
+  });
+  ["formOverlay","viewOverlay","teamOverlay","loginOverlay"].forEach(id=>{
+    document.getElementById(id).addEventListener("click", (e)=>{ if(e.target.id === id) e.currentTarget.classList.remove("show"); });
+  });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape"){
+      document.getElementById("formOverlay").classList.remove("show");
+      document.getElementById("viewOverlay").classList.remove("show");
+      document.getElementById("teamOverlay").classList.remove("show");
+      document.getElementById("loginOverlay").classList.remove("show");
+    }
+  });
+
+  document.getElementById("beforeBox").querySelector("input[type=file]")
+    .addEventListener("change", (ev)=> handleFileSelect(ev, document.getElementById("beforeBox"), "before"));
+  document.getElementById("afterBox").querySelector("input[type=file]")
+    .addEventListener("change", (ev)=> handleFileSelect(ev, document.getElementById("afterBox"), "after"));
+  document.getElementById("f_logo").addEventListener("change", handleLogoSelect);
+
+  // ---------- Init ----------
+  loadAll();
+  updateAdminUI();
+  renderTeamBar();
+  render();
+})();
+</script>
+</body>
+</html>
