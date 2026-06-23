@@ -146,6 +146,45 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
   .hdr-right .btn span{display:none}
 }
 @media(max-width:480px){.stats{grid-template-columns:1fr}}
+
+/* ── TEAM PANEL ──────────────────────────────────────────────── */
+.team-wrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding:18px 20px}
+.team-divider{width:1px;align-self:stretch;background:var(--border)}
+.leader-block{text-align:center;flex-shrink:0}
+.avatar{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#EFF3F8;border:2px solid var(--accent);display:block;margin:0 auto 6px}
+.avatar.member-av{width:46px;height:46px;border:2px solid var(--border)}
+.avatar-ph{width:58px;height:58px;border-radius:50%;background:#EFF3F8;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 6px;color:var(--muted)}
+.avatar-ph.member-av{width:46px;height:46px;font-size:18px}
+.leader-name{font-size:13px;font-weight:700;color:var(--text)}
+.leader-tag{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.members-row{display:flex;gap:16px;flex-wrap:wrap}
+.member-block{text-align:center;width:64px}
+.member-name{font-size:11.5px;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* team view modal */
+.team-view-leader{text-align:center;padding:10px 0 20px;border-bottom:1px dashed var(--border);margin-bottom:18px}
+.team-view-leader .avatar,.team-view-leader .avatar-ph{width:88px;height:88px;font-size:34px}
+.team-view-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:560px){.team-view-grid{grid-template-columns:repeat(2,1fr)}}
+.team-view-member{text-align:center}
+.team-view-member .avatar,.team-view-member .avatar-ph{width:68px;height:68px;font-size:26px}
+
+/* team edit modal rows */
+.team-edit-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.team-edit-row:last-child{border-bottom:none}
+.tphoto{width:54px;height:54px;border-radius:50%;overflow:hidden;position:relative;background:#EFF3F8;border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;color:var(--muted)}
+.tphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.tphoto input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.tphoto-label{position:absolute;bottom:0;left:0;right:0;background:rgba(13,27,42,.55);color:#fff;font-size:8px;text-align:center;padding:2px 0}
+.team-edit-row .f-input{flex:1}
+.role-tag-sm{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;width:56px;flex-shrink:0}
+
+/* member checkboxes inside entry modal */
+.mem-check-list{display:flex;flex-wrap:wrap;gap:10px;grid-column:1/-1}
+.mem-check{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px 5px 6px;font-size:12.5px;cursor:pointer}
+.mem-check input{cursor:pointer}
+.mem-check img{width:20px;height:20px;border-radius:50%;object-fit:cover}
+.mem-check-empty{font-size:12.5px;color:var(--muted);grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -188,6 +227,20 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
     <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">সম্পন্ন</div><div class="stat-val" id="sDone">0</div></div></div>
     <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">চলমান</div><div class="stat-val" id="sProgress">0</div></div></div>
     <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">ছবিসহ</div><div class="stat-val" id="sPic">0</div></div></div>
+  </div>
+  <div class="tbl-card" style="margin-bottom:18px">
+    <div class="tbl-hdr">
+      <div class="tbl-title">👥 Project Team</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="editTeamBtn" style="display:none">✏ <span>Edit Team</span></button>
+        <button class="btn btn-primary btn-sm" id="viewTeamBtn">👁 <span>View Details</span></button>
+      </div>
+    </div>
+    <div class="team-wrap" id="teamPreviewWrap">
+      <div class="leader-block" id="leaderPreview"></div>
+      <div class="team-divider"></div>
+      <div class="members-row" id="membersPreview"></div>
+    </div>
   </div>
   <div class="toolbar">
     <div class="search-wrap">
@@ -278,6 +331,19 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group full">
         <label class="f-lbl">প্রাপ্ত সুফল</label>
         <textarea class="f-textarea" id="fBen" placeholder="কী উপকার পাওয়া গেছে?"></textarea>
+      </div>
+      <div class="sec-lbl">👥 Team Information</div>
+      <div class="f-group">
+        <label class="f-lbl">Team Leader</label>
+        <input class="f-input" id="fTeamLeader" placeholder="Team leader's name"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">Implemented By</label>
+        <input class="f-input" id="fImplementedBy" placeholder="যিনি এই কাইজেনটি ইমপ্লিমেন্ট করেছেন"/>
+      </div>
+      <div class="f-group full">
+        <label class="f-lbl">Team Members Involved</label>
+        <div class="mem-check-list" id="fMembersChecks"></div>
       </div>
       <div class="sec-lbl">📸 Before / After ছবি</div>
       <div class="img-grid">
@@ -377,9 +443,52 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
+<!-- TEAM VIEW MODAL -->
+<div class="overlay" id="teamViewOvl">
+<div class="modal">
+  <div class="modal-hdr">
+    <div class="modal-title">👥 Project Team Details</div>
+    <button class="cls-btn" id="closeTeamView">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="team-view-leader" id="teamViewLeader"></div>
+    <div class="team-view-grid" id="teamViewMembers"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="closeTeamView2">বন্ধ করুন</button>
+  </div>
+</div>
+</div>
+
+<!-- TEAM EDIT MODAL -->
+<div class="overlay" id="teamEditOvl">
+<div class="modal">
+  <div class="modal-hdr">
+    <div class="modal-title">✏ Edit Project Team</div>
+    <button class="cls-btn" id="closeTeamEdit">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="team-edit-row">
+      <span class="role-tag-sm">Leader</span>
+      <div class="tphoto" id="teLeaderPhotoBox">
+        <span id="teLeaderPhotoPh">👤</span>
+        <img id="teLeaderPhotoImg" src="" alt="" style="display:none"/>
+        <input type="file" accept="image/*" id="teLeaderPhotoFile"/>
+      </div>
+      <input class="f-input" id="teLeaderName" placeholder="Team Leader name"/>
+    </div>
+    <div id="teMembersRows"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelTeamEdit">বাতিল</button>
+    <button class="btn btn-primary" id="saveTeamBtn">💾 সংরক্ষণ করুন</button>
+  </div>
+</div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp }
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, setDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── CONFIG ──────────────────────────────────────────────────────
@@ -406,6 +515,22 @@ let bFileObj  = null;
 let aFileObj  = null;
 let bUrl      = "";
 let aUrl      = "";
+
+// ── TEAM STATE ───────────────────────────────────────────────────
+let teamData = { leaderName:"", leaderPhoto:"", members:[0,1,2,3,4,5].map(()=>({name:"",photo:""})) };
+let teLeaderFileObj = null;
+let teMemberFileObjs = [null,null,null,null,null,null];
+
+const teamDocRef = doc(db,"settings","team");
+onSnapshot(teamDocRef, snap=>{
+  if(snap.exists()){
+    const d = snap.data();
+    const members = (d.members||[]).slice(0,6);
+    while(members.length<6) members.push({name:"",photo:""});
+    teamData = { leaderName:d.leaderName||"", leaderPhoto:d.leaderPhoto||"", members };
+  }
+  renderTeamPreview();
+}, err=>{ showToast("❌ "+err.message); });
 
 // ── REAL-TIME ────────────────────────────────────────────────────
 const q = query(collection(db,"kaizen_entries"), orderBy("createdAt","desc"));
@@ -473,6 +598,9 @@ async function doSave() {
       aCap:     document.getElementById("aCap").value.trim(),
       bUrl:     finalB,
       aUrl:     finalA,
+      teamLeader:     document.getElementById("fTeamLeader").value.trim(),
+      implementedBy:  document.getElementById("fImplementedBy").value.trim(),
+      teamMembers:    [...document.getElementById("fMembersChecks").querySelectorAll("input[type=checkbox]:checked")].map(c=>c.value),
     };
 
     if (editId) {
@@ -518,6 +646,9 @@ function doEdit(id) {
   document.getElementById("fBen").value     = e.benefit||"";
   document.getElementById("bCap").value     = e.bCap||"";
   document.getElementById("aCap").value     = e.aCap||"";
+  document.getElementById("fTeamLeader").value    = e.teamLeader||"";
+  document.getElementById("fImplementedBy").value = e.implementedBy||"";
+  renderMemberChecks(e.teamMembers||[]);
   if (e.bUrl) showPrev("b", e.bUrl); else resetPrev("b");
   if (e.aUrl) showPrev("a", e.aUrl); else resetPrev("a");
   openModal("entryOvl");
@@ -546,6 +677,9 @@ function viewPhotos(id) {
     ${e.problem  ? dr("সমস্যা",e.problem)  : ""}
     ${e.solution ? dr("সমাধান",e.solution) : ""}
     ${e.benefit  ? dr("সুফল",e.benefit)   : ""}
+    ${e.teamLeader ? dr("Team Leader", e.teamLeader) : ""}
+    ${(e.teamMembers && e.teamMembers.length) ? dr("Team Members", e.teamMembers.join(", ")) : ""}
+    ${e.implementedBy ? dr("Implemented By", "<b>"+e.implementedBy+"</b>") : ""}
   `;
   // lightbox on img click
   document.querySelectorAll("#detRows img, #pBefore img, #pAfter img").forEach(img=>{
@@ -554,6 +688,153 @@ function viewPhotos(id) {
   openModal("photoOvl");
 }
 function dr(k,v){return`<div class="det-row"><div class="det-k">${k}</div><div style="font-size:13px;color:var(--text)">${v}</div></div>`;}
+
+// ── TEAM: PREVIEW ────────────────────────────────────────────────
+function avatarHtml(photo, size /* "lead" | "member" */, emoji){
+  const cls = size==="lead" ? "" : " member-av";
+  if(photo) return `<img class="avatar${cls}" src="${photo}" alt=""/>`;
+  return `<div class="avatar-ph${cls}">${emoji||"👤"}</div>`;
+}
+
+function renderTeamPreview(){
+  const lp = document.getElementById("leaderPreview");
+  lp.innerHTML = teamData.leaderName
+    ? `${avatarHtml(teamData.leaderPhoto,"lead","👤")}<div class="leader-name">${teamData.leaderName}</div><div class="leader-tag">Team Leader</div>`
+    : `${avatarHtml("","lead","👤")}<div class="leader-name" style="color:var(--muted)">লিডার সেট করা নেই</div>`;
+
+  const mp = document.getElementById("membersPreview");
+  const active = teamData.members.filter(m=>m.name);
+  mp.innerHTML = active.length
+    ? active.map(m=>`<div class="member-block">${avatarHtml(m.photo,"member","🙂")}<div class="member-name">${m.name}</div></div>`).join("")
+    : `<div style="color:var(--muted);font-size:12.5px">কোনো সদস্য যুক্ত করা হয়নি</div>`;
+
+  document.getElementById("editTeamBtn").style.display = isAdmin ? "inline-flex" : "none";
+}
+
+// ── TEAM: VIEW MODAL ─────────────────────────────────────────────
+function openTeamView(){
+  document.getElementById("teamViewLeader").innerHTML = teamData.leaderName
+    ? `${avatarHtml(teamData.leaderPhoto,"lead","👤")}<div class="leader-name" style="font-size:16px;margin-top:4px">${teamData.leaderName}</div><div class="leader-tag">Team Leader</div>`
+    : `${avatarHtml("","lead","👤")}<div class="leader-name" style="color:var(--muted)">লিডার সেট করা নেই</div>`;
+
+  const active = teamData.members.filter(m=>m.name);
+  document.getElementById("teamViewMembers").innerHTML = active.length
+    ? active.map(m=>`<div class="team-view-member">${avatarHtml(m.photo,"lead","🙂")}<div class="leader-name" style="margin-top:4px">${m.name}</div></div>`).join("")
+    : `<div style="color:var(--muted);font-size:13px;grid-column:1/-1;text-align:center">কোনো সদস্য যুক্ত করা হয়নি</div>`;
+
+  openModal("teamViewOvl");
+}
+
+// ── TEAM: EDIT MODAL ─────────────────────────────────────────────
+function teamPhotoBoxHtml(idx, photo){
+  return `
+    <span class="role-tag-sm">M${idx+1}</span>
+    <div class="tphoto" data-tmidx="${idx}">
+      ${photo ? `<img src="${photo}" alt=""/>` : `<span>👤</span>`}
+      <input type="file" accept="image/*" class="te-mem-file" data-tmidx="${idx}"/>
+    </div>
+    <input class="f-input te-mem-name" data-tmidx="${idx}" placeholder="Member ${idx+1} name" value="${teamData.members[idx].name||""}"/>
+  `;
+}
+
+function openTeamEdit(){
+  if(!isAdmin){ showToast("⚠️ Admin mode চালু করুন"); return; }
+  teLeaderFileObj = null;
+  teMemberFileObjs = [null,null,null,null,null,null];
+
+  document.getElementById("teLeaderName").value = teamData.leaderName||"";
+  const limg = document.getElementById("teLeaderPhotoImg");
+  const lph  = document.getElementById("teLeaderPhotoPh");
+  if(teamData.leaderPhoto){ limg.src=teamData.leaderPhoto; limg.style.display="block"; lph.style.display="none"; }
+  else { limg.style.display="none"; lph.style.display="block"; }
+
+  const rows = document.getElementById("teMembersRows");
+  rows.innerHTML = teamData.members.map((m,idx)=>`<div class="team-edit-row">${teamPhotoBoxHtml(idx,m.photo)}</div>`).join("");
+  rows.querySelectorAll(".te-mem-file").forEach(bindMemberFileInput);
+
+  document.getElementById("teLeaderPhotoFile").value = "";
+  openModal("teamEditOvl");
+}
+
+function bindMemberFileInput(inp){
+  inp.addEventListener("change", e=>{
+    const f = e.target.files[0]; if(!f) return;
+    const idx = +inp.dataset.tmidx;
+    teMemberFileObjs[idx] = f;
+    const r = new FileReader();
+    r.onload = ev=>{
+      const box = document.querySelector(`#teMembersRows .tphoto[data-tmidx="${idx}"]`);
+      box.innerHTML = `<img src="${ev.target.result}" alt=""/><input type="file" accept="image/*" class="te-mem-file" data-tmidx="${idx}"/>`;
+      bindMemberFileInput(box.querySelector(".te-mem-file"));
+    };
+    r.readAsDataURL(f);
+  });
+}
+
+document.getElementById("teLeaderPhotoFile").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  teLeaderFileObj = f;
+  const r = new FileReader();
+  r.onload = ev=>{
+    const limg = document.getElementById("teLeaderPhotoImg");
+    const lph  = document.getElementById("teLeaderPhotoPh");
+    limg.src = ev.target.result; limg.style.display="block"; lph.style.display="none";
+  };
+  r.readAsDataURL(f);
+});
+
+async function uploadTeamImg(file){
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", CLOUD_PRESET);
+  fd.append("folder", "kaizen_dbl_team");
+  const res = await fetch(CLOUD_URL, {method:"POST", body:fd});
+  const json = await res.json();
+  if(json.secure_url) return json.secure_url;
+  throw new Error(json.error?.message || "Upload failed");
+}
+
+async function doSaveTeam(){
+  const btn = document.getElementById("saveTeamBtn");
+  btn.disabled = true; btn.textContent = "⏳ সংরক্ষণ হচ্ছে...";
+  try{
+    let leaderPhoto = teamData.leaderPhoto||"";
+    if(teLeaderFileObj) leaderPhoto = await uploadTeamImg(teLeaderFileObj);
+
+    const rows = document.getElementById("teMembersRows");
+    const names = [...rows.querySelectorAll(".te-mem-name")].map(i=>i.value.trim());
+    const members = [];
+    for(let i=0;i<6;i++){
+      let photo = teamData.members[i].photo||"";
+      if(teMemberFileObjs[i]) photo = await uploadTeamImg(teMemberFileObjs[i]);
+      members.push({ name:names[i]||"", photo });
+    }
+
+    const newData = { leaderName: document.getElementById("teLeaderName").value.trim(), leaderPhoto, members };
+    await setDoc(teamDocRef, newData);
+    showToast("✅ টিম তথ্য সংরক্ষণ হয়েছে");
+    closeModal("teamEditOvl");
+  }catch(e){ showToast("❌ "+e.message); }
+  btn.disabled = false; btn.textContent = "💾 সংরক্ষণ করুন";
+}
+
+// ── ENTRY MODAL: member checkboxes ────────────────────────────────
+function renderMemberChecks(checkedNames){
+  const wrap = document.getElementById("fMembersChecks");
+  const active = teamData.members.filter(m=>m.name);
+  if(!active.length){
+    wrap.innerHTML = `<span class="mem-check-empty">কোনো টিম সদস্য যুক্ত করা হয়নি — উপরের "Project Team" থেকে যুক্ত করুন।</span>`;
+    return;
+  }
+  wrap.innerHTML = active.map(m=>{
+    const checked = checkedNames && checkedNames.includes(m.name) ? "checked" : "";
+    return `<label class="mem-check">
+      <input type="checkbox" value="${m.name}" ${checked}/>
+      ${m.photo ? `<img src="${m.photo}" alt=""/>` : ""}
+      ${m.name}
+    </label>`;
+  }).join("");
+}
 
 // ── RENDER ─────────────────────────────────────────────────────────
 function render() {
@@ -572,7 +853,7 @@ function render() {
     document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>"নতুন কাইজেন" বাটনে ক্লিক করুন</p></div>`;
     return;
   }
-  let h=`<table><thead><tr><th>No.</th><th>Kaizen Point</th><th>Category</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>${isAdmin?"<th>Action</th>":""}</tr></thead><tbody>`;
+  let h=`<div style="overflow-x:auto"><table><thead><tr><th>No.</th><th>Kaizen Point</th><th>Category</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>Implemented By</th><th>ছবি</th>${isAdmin?"<th>Action</th>":""}</tr></thead><tbody>`;
   list.forEach((e,i) => {
     const hp = !!(e.bUrl||e.aUrl);
     h+=`<tr>
@@ -582,6 +863,7 @@ function render() {
       <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+      <td style="font-size:12px">${e.implementedBy||"-"}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
       ${isAdmin?`<td><div class="act-btns">
         <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
@@ -589,7 +871,7 @@ function render() {
       </div></td>`:""}
     </tr>`;
   });
-  h+="</tbody></table>";
+  h+="</tbody></table></div>";
   document.getElementById("tblWrap").innerHTML=h;
   // attach click events via delegation
   document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid)));
@@ -650,11 +932,13 @@ function closeModal(id){ document.getElementById(id).classList.remove("on"); }
 function openNew() {
   editId=null; bFileObj=null; aFileObj=null; bUrl=""; aUrl="";
   document.getElementById("entryTitle").textContent="নতুন কাইজেন এন্ট্রি";
-  ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
+  ["fTitle","fProb","fSol","fBen","bCap","aCap","fImplementedBy"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value    = new Date().toISOString().split("T")[0];
   document.getElementById("fCatI").value    = "Reporting";
   document.getElementById("fStatus2").value = "Implemented";
   document.getElementById("fImpact").value  = "3";
+  document.getElementById("fTeamLeader").value = teamData.leaderName||"";
+  renderMemberChecks([]);
   document.getElementById("bStat").className = "up-status";
   document.getElementById("aStat").className = "up-status";
   resetPrev("b"); resetPrev("a");
@@ -674,6 +958,7 @@ function doLogin() {
     document.getElementById("adminBadge").style.display = "flex";
     document.getElementById("adminBtn").innerHTML       = "🔓 <span>Admin</span>";
     render();
+    renderTeamPreview();
   } else {
     errEl.style.display = "block";
     document.getElementById("passIn").value = "";
@@ -700,13 +985,14 @@ function doLogout() {
   document.getElementById("passErr").style.display    = "none";
   document.getElementById("adminActBtn").textContent  = "প্রবেশ করুন";
   render(); closeModal("adminOvl");
+  renderTeamPreview();
   showToast("🔒 Logout হয়েছে");
 }
 
 // ── EXPORT ─────────────────────────────────────────────────────────
 function doExport() {
-  const rows=[["No.","Title","Date","Category","Status","Impact","Problem","Solution","Benefit","Before URL","After URL"]];
-  entries.forEach((e,i)=>rows.push([i+1,e.title||"",e.date||"",e.category||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.bUrl||"",e.aUrl||""]));
+  const rows=[["No.","Title","Date","Category","Status","Impact","Problem","Solution","Benefit","Team Leader","Team Members","Implemented By","Before URL","After URL"]];
+  entries.forEach((e,i)=>rows.push([i+1,e.title||"",e.date||"",e.category||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.teamLeader||"",(e.teamMembers||[]).join(", "),e.implementedBy||"",e.bUrl||"",e.aUrl||""]));
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
@@ -736,6 +1022,13 @@ document.getElementById("closeAdmin").addEventListener("click",  ()=>closeModal(
 document.getElementById("cancelAdmin").addEventListener("click", ()=>closeModal("adminOvl"));
 document.getElementById("logoutBtn").addEventListener("click", doLogout);
 document.getElementById("exportBtn").addEventListener("click", doExport);
+document.getElementById("viewTeamBtn").addEventListener("click", openTeamView);
+document.getElementById("editTeamBtn").addEventListener("click", openTeamEdit);
+document.getElementById("closeTeamView").addEventListener("click",  ()=>closeModal("teamViewOvl"));
+document.getElementById("closeTeamView2").addEventListener("click", ()=>closeModal("teamViewOvl"));
+document.getElementById("closeTeamEdit").addEventListener("click",  ()=>closeModal("teamEditOvl"));
+document.getElementById("cancelTeamEdit").addEventListener("click", ()=>closeModal("teamEditOvl"));
+document.getElementById("saveTeamBtn").addEventListener("click", doSaveTeam);
 document.getElementById("srch").addEventListener("input", render);
 document.getElementById("fStatus").addEventListener("change", render);
 document.getElementById("fCat").addEventListener("change", render);
@@ -763,7 +1056,7 @@ document.getElementById("passIn").addEventListener("keydown", e=>{
 });
 
 // close overlay on backdrop click
-["entryOvl","photoOvl","adminOvl"].forEach(id=>{
+["entryOvl","photoOvl","adminOvl","teamViewOvl","teamEditOvl"].forEach(id=>{
   document.getElementById(id).addEventListener("click", e=>{
     if(e.target.id===id) closeModal(id);
   });
@@ -794,9 +1087,3 @@ if(sl){
 </script>
 </body>
 </html>
-
-
-
-
-
-
