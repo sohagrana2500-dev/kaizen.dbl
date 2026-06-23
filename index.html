@@ -523,6 +523,7 @@ let teLeaderFileObj = null;
 let teMemberFileObjs = [null,null,null,null,null,null];
 
 const teamDocRef = doc(db,"settings","team");
+renderTeamPreview(); // show placeholder immediately, don't wait on network
 onSnapshot(teamDocRef, snap=>{
   if(snap.exists()){
     const d = snap.data();
@@ -531,7 +532,12 @@ onSnapshot(teamDocRef, snap=>{
     teamData = { leaderName:d.leaderName||"", leaderPhoto:d.leaderPhoto||"", members };
   }
   renderTeamPreview();
-}, err=>{ showToast("❌ "+err.message); });
+}, err=>{
+  console.error("Team load error:", err);
+  document.getElementById("leaderPreview").innerHTML = `<div style="color:var(--red);font-size:12px;max-width:160px">⚠️ টিম তথ্য লোড করা যায়নি:<br>${err.message}</div>`;
+  document.getElementById("membersPreview").innerHTML = "";
+  showToast("❌ Team load error: "+err.message);
+});
 
 // ── REAL-TIME ────────────────────────────────────────────────────
 const q = query(collection(db,"kaizen_entries"), orderBy("createdAt","desc"));
