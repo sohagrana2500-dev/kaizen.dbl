@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>dbl-kaizen tracker — Multi Team System</title>
+<title>DBL Kaizen — Multi Team System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -74,7 +74,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .approved-home{max-width:1100px;margin:0 auto;padding:0 24px 40px}
 .section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .section-title{font-size:17px;font-weight:700;color:var(--navy)}
-.team-dbl-kaizen-block{margin-bottom:20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.team-kaizen-block{margin-bottom:20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
 .tkb-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,var(--navy),var(--blue));cursor:pointer;user-select:none}
 .tkb-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .tkb-avatar img{width:100%;height:100%;object-fit:cover}
@@ -273,7 +273,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name"> dbl-kaizen tracker</div>
+        <div class="brand-name">🏭 DBL Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -297,7 +297,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="page active" id="homePage">
   <div class="main">
     <div class="home-hero">
-      <h1>dbl-kaizen Tracker</h1>
+      <h1>🏭 DBL Kaizen Tracker</h1>
       <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
     </div>
     <div class="teams-grid" id="teamsGrid">
@@ -308,14 +308,14 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     </div>
   </div>
 
-  <!-- APPROVED dbl-kaizen — TEAM WISE -->
+  <!-- APPROVED KAIZEN — TEAM WISE -->
   <div class="approved-home" id="approvedHomeSection">
     <div class="section-hdr">
-      <div class="section-title">✅ Approved dbl-kaizen — টিম অনুযায়ী</div>
+      <div class="section-title">✅ Approved Kaizen — টিম অনুযায়ী</div>
       <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 দেখুন</button>
     </div>
     <div id="approvedHomeWrap" style="display:none">
-      <div id="teamdbl-kaizenBlocks">
+      <div id="teamKaizenBlocks">
         <div class="empty"><div class="eico">✅</div><p>লোড হচ্ছে...</p></div>
       </div>
     </div>
@@ -327,11 +327,11 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="team-bar" id="teamBar">
     <div class="team-bar-inner">
       <div class="team-bar-left">
-        <div class="team-avatar-bar" id="teamAvatarDisp"></div>
+        <div class="team-avatar-bar" id="teamAvatarDisp">🏭</div>
         <div>
           <div class="team-bar-name" id="teamNameDisp">Team</div>
           <div class="team-bar-leader" id="teamLeaderDisp"></div>
-          <div class="team-bar-sub" id="teamSubDisp">dbl-kaizen Tracker</div>
+          <div class="team-bar-sub" id="teamSubDisp">Kaizen Tracker</div>
         </div>
       </div>
       <div style="flex:1">
@@ -340,7 +340,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="team-bar-right">
         <span class="pending-badge" id="pendingBadgeDisp" style="display:none">⏳ 0 Pending</span>
         <button class="btn btn-outline btn-sm" id="teamExportBtn">⬇ Export</button>
-        <button class="btn btn-primary" id="newdbl-kaizenBtn">+ নতুন কাইজেন</button>
+        <button class="btn btn-primary" id="newKaizenBtn">+ নতুন কাইজেন</button>
       </div>
     </div>
   </div>
@@ -383,16 +383,16 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <button class="cls-btn" id="closeNewTeam">✕</button>
   </div>
   <div class="modal-body">
-    <div class="info-box" id="newTeamInfoBox">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন</div>
+    <div class="info-box" id="newTeamInfoBox">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। Admin পরে পাসওয়ার্ড দেখতে পারবে।</div>
     <div class="fg" style="grid-template-columns:1fr">
       <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
       <div class="f-group">
         <label class="f-lbl">টিমের নাম <span>*</span></label>
-        <input class="f-input" id="ntName" placeholder="যেমন: Finishing Team 01"/>
+        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
       </div>
       <div class="f-group">
         <label class="f-lbl">বিভাগ / Division</label>
-        <input class="f-input" id="ntDiv" placeholder="যেমন: Finishing Division"/>
+        <input class="f-input" id="ntDiv" placeholder="যেমন: Warehouse Division"/>
       </div>
       <div class="f-group">
         <label class="f-lbl" id="ntPassLbl">টিম পাসওয়ার্ড <span>*</span></label>
@@ -454,7 +454,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
-<!-- dbl-kaizen ENTRY MODAL -->
+<!-- KAIZEN ENTRY MODAL -->
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
@@ -465,7 +465,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div class="fg">
       <div class="sec-lbl">📝 মূল তথ্য</div>
       <div class="f-group full">
-        <label class="f-lbl">dbl-kaizen Point <span>*</span></label>
+        <label class="f-lbl">Kaizen Point <span>*</span></label>
         <input class="f-input" id="fTitle" placeholder="কাইজেন পয়েন্টের শিরোনাম..."/>
       </div>
       <div class="f-group">
@@ -602,7 +602,7 @@ import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const CLOUD_NAME   = "dhdllytiv";
-const CLOUD_PRESET = "dbl-kaizen_upload";
+const CLOUD_PRESET = "kaizen_upload";
 const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
 const app = initializeApp({
@@ -654,7 +654,7 @@ async function uploadImg(file,type){
   if(el){el.className="up-status uploading";el.textContent="⏳ আপলোড হচ্ছে...";}
   try{
     const fd=new FormData();
-    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","dbl-kaizen");
+    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
@@ -670,7 +670,7 @@ async function uploadImg(file,type){
 
 async function uploadImgDirect(file){
   const fd=new FormData();
-  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","dbl-kaizen_");
+  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
   const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
   const j=await r.json();
   if(j.secure_url) return j.secure_url;
@@ -713,7 +713,7 @@ function updateLiveClock(){
 updateLiveClock();setInterval(updateLiveClock,1000);
 
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
-onSnapshot(query(collection(db,"dbl-kaizen_teams"),orderBy("createdAt","asc")),snap=>{
+onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
   allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
   renderTeamCards();
   renderApprovedHome();
@@ -726,12 +726,12 @@ onSnapshot(query(collection(db,"dbl-kaizen_teams"),orderBy("createdAt","asc")),s
   showToast("❌ টিম লোড করতে সমস্যা: "+err.message);
 });
 
-// APPROVED dbl-kaizen — all teams realtime
+// APPROVED KAIZEN — all teams realtime
 // NOTE: শুধু where() ব্যবহার করা হয়েছে, orderBy() বাদ দেওয়া হয়েছে কারণ Firestore-এ
 // composite index না থাকলে where+orderBy একসাথে ব্যবহার করলে কোয়েরি silently fail করে
 // এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
 onSnapshot(
-  query(collection(db,"dbl-kaizen_entries"),where("approved","==",true)),
+  query(collection(db,"kaizen_entries"),where("approved","==",true)),
   snap=>{
     allApproved=snap.docs.map(d=>({id:d.id,...d.data()}));
     allApproved.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
@@ -740,10 +740,10 @@ onSnapshot(
   err=>{console.error("approved entries error:",err);showToast("❌ ডেটা লোড করতে সমস্যা: "+err.message);}
 );
 
-// PENDING (অনুমোদনের অপেক্ষায়) dbl-kaizen — সব টিম, admin panel-এ দেখানোর জন্য
+// PENDING (অনুমোদনের অপেক্ষায়) KAIZEN — সব টিম, admin panel-এ দেখানোর জন্য
 let allPending=[];
 onSnapshot(
-  query(collection(db,"dbl-kaizen_entries"),where("approved","==",false)),
+  query(collection(db,"kaizen_entries"),where("approved","==",false)),
   snap=>{
     allPending=snap.docs.map(d=>({id:d.id,...d.data()}));
     allPending.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
@@ -776,7 +776,7 @@ function renderPendingApprovalList(){
     </div>
   `).join("");
   list.querySelectorAll("[data-papprove]").forEach(b=>{
-    b.addEventListener("click",()=>approvedbl-kaizen(b.dataset.papprove));
+    b.addEventListener("click",()=>approveKaizen(b.dataset.papprove));
   });
 }
 
@@ -789,7 +789,7 @@ function renderTeamCards(){
     const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
     const avHtml=t.leaderUrl
       ?`<img src="${t.leaderUrl}" alt="${t.leaderName||''}" loading="lazy"/>`
-      :``;
+      :`🏭`;
     h+=`<div class="team-card" data-tid="${t.id}">
       ${isAdmin?`<div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:2">
         <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="এডিট" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
@@ -814,9 +814,9 @@ function renderTeamCards(){
 
 // ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
 function renderApprovedHome(){
-  const wrap=document.getElementById("teamdbl-kaizenBlocks");
+  const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
-    wrap.innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved dbl-kaizen নেই</p></div>`;
+    wrap.innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
     return;
   }
   // group by teamId
@@ -831,8 +831,8 @@ function renderApprovedHome(){
     const items=grouped[tid];
     const team=allTeams.find(t=>t.id===tid);
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
-    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
-    h+=`<div class="team-dbl-kaizen-block">
+    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"🏭";
+    h+=`<div class="team-kaizen-block">
       <div class="tkb-hdr" onclick="toggleTKB(this)">
         <div class="tkb-avatar">${avHtml}</div>
         <div class="tkb-name">${tname}</div>
@@ -841,7 +841,7 @@ function renderApprovedHome(){
       </div>
       <div class="tkb-body">
         <table><thead><tr>
-          <th>No.</th><th>dbl-kaizen Point</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+          <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
         </tr></thead><tbody>
         ${items.map((e,i)=>{
           const hp=!!(e.bUrl||e.aUrl);
@@ -892,14 +892,14 @@ function handleTeamClick(tid){
 function enterTeam(team){
   currentTeam=team;currentTeamId=team.id;
   document.getElementById("teamNameDisp").textContent=team.name;
-  document.getElementById("teamSubDisp").textContent=team.division||"dbl-kaizen Tracker";
+  document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
   // leader
   const ld=document.getElementById("teamLeaderDisp");
   ld.textContent=team.leaderName?`👑 লিডার: ${team.leaderName}`:"";
   // avatar
   const av=document.getElementById("teamAvatarDisp");
   if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
-  else{av.textContent="";}
+  else{av.textContent="🏭";}
   // members
   renderTeamMembersBar(team.members||[]);
   document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — কাইজেন তালিকা`;
@@ -924,7 +924,7 @@ function subscribeTeamEntries(tid){
   // লিস্টে কখনো ডেটা না এসে শুধু "লোড হচ্ছে..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
   // client-side এ সর্ট করা হচ্ছে যাতে index ছাড়াই কাজ করে।
   unsubTeam=onSnapshot(
-    query(collection(db,"dbl-kaizen_entries"),where("teamId","==",tid)),
+    query(collection(db,"kaizen_entries"),where("teamId","==",tid)),
     snap=>{
       teamEntries=snap.docs.map(d=>({id:d.id,...d.data()}));
       teamEntries.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
@@ -962,7 +962,7 @@ function resetNewTeamForm(){
   document.getElementById("ntLeaderImg").src="";
   document.getElementById("ntLeaderStat").className="up-status";
   document.getElementById("newTeamModalTitle").textContent="➕ নতুন টিম তৈরি করুন";
-  document.getElementById("newTeamInfoBox").textContent="নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেনে";
+  document.getElementById("newTeamInfoBox").textContent="নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন";
   document.getElementById("ntPassLbl").innerHTML="টিম পাসওয়ার্ড <span>*</span>";
   document.getElementById("ntPass2Lbl").innerHTML="পাসওয়ার্ড নিশ্চিত করুন <span>*</span>";
   document.getElementById("ntPass").placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন";
@@ -997,9 +997,9 @@ async function deleteTeam(tid){
   const t=allTeams.find(x=>x.id===tid);if(!t)return;
   if(!confirm(`আপনি কি নিশ্চিত "${t.name}" টিমটি ডিলিট করতে চান?\n\n⚠️ এই টিমের সব কাইজেন এন্ট্রিও স্থায়ীভাবে মুছে যাবে।`))return;
   try{
-    const entrySnap=await getDocs(query(collection(db,"dbl-kaizen_entries"),where("teamId","==",tid)));
-    await Promise.all(entrySnap.docs.map(d=>deleteDoc(doc(db,"dbl-kaizen_entries",d.id))));
-    await deleteDoc(doc(db,"dbl-kaizen_teams",tid));
+    const entrySnap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
+    await Promise.all(entrySnap.docs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
+    await deleteDoc(doc(db,"kaizen_teams",tid));
     showToast("🗑 টিম ও এর সব এন্ট্রি ডিলিট হয়েছে");
     if(currentTeamId===tid){
       if(unsubTeam){unsubTeam();unsubTeam=null;}
@@ -1088,7 +1088,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
     if(editingTeamId){
       const updateData={name,division:div,leaderName,leaderUrl,members:membersData};
       if(p1)updateData.password=p1;
-      await updateDoc(doc(db,"dbl-kaizen_teams",editingTeamId),updateData);
+      await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
       showToast("✅ টিম আপডেট হয়েছে!");
       if(currentTeamId===editingTeamId){
         currentTeam={...currentTeam,...updateData};
@@ -1096,9 +1096,9 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
         renderTeamMembersBar(membersData);
       }
     }else{
-      await addDoc(collection(db,"dbl-kaizen_teams"),{
+      await addDoc(collection(db,"kaizen_teams"),{
         name,division:div,password:p1,
-        icon:"",color:"#2E86C1",
+        icon:"🏭",color:"#2E86C1",
         leaderName,leaderUrl,
         members:membersData,
         createdAt:serverTimestamp()
@@ -1113,8 +1113,8 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
 document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 
-// ── dbl-kaizen SAVE ──────────────────────────────────────────────────────
-document.getElementById("newdbl-kaizenBtn").addEventListener("click",openNewEntry);
+// ── KAIZEN SAVE ──────────────────────────────────────────────────────
+document.getElementById("newKaizenBtn").addEventListener("click",openNewEntry);
 document.getElementById("saveBtn").addEventListener("click",doSave);
 document.getElementById("cancelEntry").addEventListener("click",()=>closeModal("entryOvl"));
 document.getElementById("closeEntry").addEventListener("click",()=>closeModal("entryOvl"));
@@ -1160,10 +1160,10 @@ async function doSave(){
       approved:isAdmin?true:false, // admin এর এন্ট্রি সরাসরি approved
     };
     if(editId){
-      await updateDoc(doc(db,"dbl-kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
+      await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
       showToast("✅ আপডেট হয়েছে!");
     }else{
-      await addDoc(collection(db,"dbl-kaizen_entries"),{...data,createdAt:serverTimestamp()});
+      await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
       showToast(isAdmin?"✅ কাইজেন যোগ হয়েছে!":"✅ এন্ট্রি যোগ হয়েছে! Admin approval এর জন্য অপেক্ষা করুন।");
     }
     closeModal("entryOvl");
@@ -1185,7 +1185,7 @@ function renderTeamTable(){
     return;
   }
   let h=`<table><thead><tr>
-    <th>No.</th><th>dbl-kaizen Point</th><th>Status</th><th>Impact</th>
+    <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th>
     <th>তারিখ</th><th>Approval</th><th>ছবি</th>
     ${isAdmin?"<th>Action</th>":""}
   </tr></thead><tbody>`;
@@ -1214,7 +1214,7 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
-  document.getElementById("tblWrap").querySelectorAll("[data-approve]").forEach(b=>b.addEventListener("click",()=>approvedbl-kaizen(b.dataset.approve)));
+  document.getElementById("tblWrap").querySelectorAll("[data-approve]").forEach(b=>b.addEventListener("click",()=>approveKaizen(b.dataset.approve)));
   const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
   if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
@@ -1229,11 +1229,11 @@ function updateStats(){
 }
 
 // ── APPROVE ─────────────────────────────────────────────────────────
-async function approvedbl-kaizen(id){
+async function approveKaizen(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   try{
-    await updateDoc(doc(db,"dbl-kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
-    showToast("✅ dbl-kaizen Approved! হোম পেজে দেখা যাবে।");
+    await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
+    showToast("✅ Kaizen Approved! হোম পেজে দেখা যাবে।");
   }catch(e){showToast("❌ "+e.message);}
 }
 
@@ -1241,7 +1241,7 @@ async function approvedbl-kaizen(id){
 async function doDelete(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   if(!confirm("মুছে ফেলবেন?"))return;
-  try{await deleteDoc(doc(db,"dbl-kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
+  try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
   catch(e){showToast("❌ "+e.message);}
 }
 function doEdit(id){
@@ -1381,7 +1381,7 @@ document.getElementById("teamExportBtn").addEventListener("click",()=>{
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download=`dbl-kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
+  a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
   showToast("✅ Export সম্পন্ন!");
 });
 
