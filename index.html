@@ -607,9 +607,9 @@ const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload
 
 const app = initializeApp({
   apiKey:"AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
-  authDomain:"dbl-kaizen.firebaseapp.com",
-  projectId:"dbl-kaizen",
-  storageBucket:"dbl-kaizen.firebasestorage.app",
+  authDomain:"Kaizen.firebaseapp.com",
+  projectId:"Kaizen",
+  storageBucket:"Kaizen.firebasestorage.app",
   messagingSenderId:"447302057753",
   appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
 });
@@ -654,7 +654,7 @@ async function uploadImg(file,type){
   if(el){el.className="up-status uploading";el.textContent="⏳ আপলোড হচ্ছে...";}
   try{
     const fd=new FormData();
-    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
+    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
@@ -670,7 +670,7 @@ async function uploadImg(file,type){
 
 async function uploadImgDirect(file){
   const fd=new FormData();
-  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
+  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_");
   const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
   const j=await r.json();
   if(j.secure_url) return j.secure_url;
