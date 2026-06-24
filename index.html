@@ -9,7 +9,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#0D1B2A;--blue:#1B4F72;--accent:#2E86C1;
+  --navy:#0A1A2F;--blue:#143C5C;--accent:#2E86C1;
+  --hdr-line:#C9A65A;
   --green:#1E8449;--green-lt:#D5F5E3;
   --orange:#D35400;--orange-lt:#FDEBD0;
   --gold:#B7950B;--gold-lt:#FEF9E7;
@@ -24,13 +25,19 @@
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* HEADER */
-.hdr{background:linear-gradient(135deg,var(--navy),var(--blue));padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.3)}
-.hdr-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.hdr{background:linear-gradient(120deg,var(--navy) 0%,var(--blue) 60%,#1B4F72 100%);padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.35);border-bottom:2px solid var(--hdr-line)}
+.hdr-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
 .logo-area{display:flex;align-items:center;gap:12px}
 .brand{color:#fff}
 .brand-name{font-size:18px;font-weight:700}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.55)}
 .hdr-right{display:flex;align-items:center;gap:8px}
+.live-clock{display:none;align-items:center;gap:10px;padding:7px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(201,166,90,.35);border-radius:9px;backdrop-filter:blur(2px)}
+.live-clock .lc-date{font-size:11px;color:rgba(255,255,255,.65);font-weight:500;white-space:nowrap}
+.live-clock .lc-time{font-family:'Courier New',monospace;font-size:15px;font-weight:700;letter-spacing:1.5px;color:var(--hdr-line);white-space:nowrap}
+.live-clock .lc-dot{width:6px;height:6px;border-radius:50%;background:#3ECF8E;box-shadow:0 0 0 0 rgba(62,207,142,.6);animation:lcPulse 1.6s infinite}
+@keyframes lcPulse{0%{box-shadow:0 0 0 0 rgba(62,207,142,.55)}70%{box-shadow:0 0 0 6px rgba(62,207,142,0)}100%{box-shadow:0 0 0 0 rgba(62,207,142,0)}}
+@media(min-width:560px){.live-clock{display:flex}}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.18s;font-family:inherit;white-space:nowrap}
 .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:#1f6fa0}
 .btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#176038}
@@ -236,6 +243,11 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
+    <div class="live-clock" id="liveClock">
+      <span class="lc-dot"></span>
+      <span class="lc-date" id="lcDate">—</span>
+      <span class="lc-time" id="lcTime">--:--:--</span>
+    </div>
     <div class="hdr-right">
       <div id="adminBadge" style="display:none" class="admin-badge">🔓 Admin</div>
       <button class="btn btn-outline btn-sm" id="adminBtn">🔒 <span>Admin</span></button>
@@ -309,15 +321,6 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <option value="In Progress">⏳ In Progress</option>
         <option value="Planned">📅 Planned</option>
       </select>
-      <select class="flt" id="fCat">
-        <option value="">সব ক্যাটাগরি</option>
-        <option value="Reporting">📊 Reporting</option>
-        <option value="Automation">🤖 Automation</option>
-        <option value="Security">🛡 Security</option>
-        <option value="Monitoring">📈 Monitoring</option>
-        <option value="Data Mgmt">🗂 Data Mgmt</option>
-        <option value="Efficiency">⚡ Efficiency</option>
-      </select>
     </div>
     <div class="tbl-card">
       <div class="tbl-hdr">
@@ -339,15 +342,15 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <button class="cls-btn" id="closeNewTeam">✕</button>
   </div>
   <div class="modal-body">
-    <div class="info-box">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। </div>
+    <div class="info-box">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। Admin পরে পাসওয়ার্ড দেখতে পারবে।</div>
     <div class="fg" style="grid-template-columns:1fr">
       <div class="f-group">
         <label class="f-lbl">টিমের নাম <span>*</span></label>
-        <input class="f-input" id="ntName" placeholder="যেমন: Team 01"/>
+        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
       </div>
       <div class="f-group">
         <label class="f-lbl">বিভাগ / Division</label>
-        <input class="f-input" id="ntDiv" placeholder="যেমন: Team 01 Division"/>
+        <input class="f-input" id="ntDiv" placeholder="যেমন: Warehouse Division"/>
       </div>
       <div class="f-group">
         <label class="f-lbl">টিম পাসওয়ার্ড <span>*</span></label>
@@ -404,17 +407,6 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">তারিখ</label>
         <input class="f-input" id="fDate" type="date"/>
-      </div>
-      <div class="f-group">
-        <label class="f-lbl">Category</label>
-        <select class="f-select" id="fCatI">
-          <option value="Reporting">📊 Reporting</option>
-          <option value="Automation">🤖 Automation</option>
-          <option value="Security">🛡 Security</option>
-          <option value="Monitoring">📈 Monitoring</option>
-          <option value="Data Mgmt">🗂 Data Mgmt</option>
-          <option value="Efficiency">⚡ Efficiency</option>
-        </select>
       </div>
       <div class="f-group">
         <label class="f-lbl">Status</label>
@@ -631,6 +623,23 @@ document.getElementById("aFile").addEventListener("change",e=>{
 document.getElementById("rmB").addEventListener("click",()=>resetPrev("b"));
 document.getElementById("rmA").addEventListener("click",()=>resetPrev("a"));
 
+// ── LIVE DATE & TIME ────────────────────────────────────────────────
+const BN_DAYS=["রবিবার","সোমবার","মঙ্গলবার","বুধবার","বৃহস্পতিবার","শুক্রবার","শনিবার"];
+const BN_MONTHS=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
+function updateLiveClock(){
+  const now=new Date();
+  const pad=n=>String(n).padStart(2,"0");
+  let h=now.getHours();
+  const ampm=h>=12?"PM":"AM";
+  h=h%12; if(h===0)h=12;
+  const dateEl=document.getElementById("lcDate");
+  const timeEl=document.getElementById("lcTime");
+  if(dateEl) dateEl.textContent=`${BN_DAYS[now.getDay()]}, ${now.getDate()} ${BN_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  if(timeEl) timeEl.textContent=`${pad(h)}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${ampm}`;
+}
+updateLiveClock();
+setInterval(updateLiveClock,1000);
+
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
 onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")), snap=>{
   allTeams = snap.docs.map(d=>({id:d.id,...d.data()}));
@@ -754,7 +763,6 @@ function openNewEntry(){
   document.getElementById("entryTitle").textContent="নতুন কাইজেন এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
-  document.getElementById("fCatI").value="Reporting";
   document.getElementById("fStatus2").value="Implemented";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
@@ -780,7 +788,6 @@ async function doSave(){
     const data={
       title,
       date:document.getElementById("fDate").value,
-      category:document.getElementById("fCatI").value,
       status:document.getElementById("fStatus2").value,
       impact:document.getElementById("fImpact").value,
       problem:document.getElementById("fProb").value.trim(),
@@ -809,19 +816,17 @@ async function doSave(){
 function renderTeamTable(){
   const srch=document.getElementById("srch").value.toLowerCase();
   const fs=document.getElementById("fStatus").value;
-  const fc=document.getElementById("fCat").value;
   const list=teamEntries.filter(e=>{
     const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
-    return ms&&(!fs||e.status===fs)&&(!fc||e.category===fc);
+    return ms&&(!fs||e.status===fs);
   });
   document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
-  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
   if(!list.length){
     document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>+ নতুন কাইজেন বাটনে ক্লিক করুন</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
-    <th>No.</th><th>Kaizen Point</th><th>Category</th><th>Status</th><th>Impact</th>
+    <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th>
     <th>তারিখ</th><th>Approval</th><th>ছবি</th>
     ${isAdmin?"<th>Action</th>":""}
   </tr></thead><tbody>`;
@@ -833,7 +838,6 @@ function renderTeamTable(){
     h+=`<tr>
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
-      <td><span class="badge b-blue">${ci[e.category]||""} ${e.category||"-"}</span></td>
       <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
@@ -889,7 +893,6 @@ function doEdit(id){
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fCatI").value=e.category||"Reporting";
   document.getElementById("fStatus2").value=e.status||"Implemented";
   document.getElementById("fImpact").value=e.impact||"3";
   document.getElementById("fProb").value=e.problem||"";
@@ -915,13 +918,11 @@ function viewPhotos(id,list){
   document.getElementById("pAfter").innerHTML=mkI(e.aUrl,"After");
   document.getElementById("pBCap").textContent=e.bCap||"কোনো বিবরণ নেই";
   document.getElementById("pACap").textContent=e.aCap||"কোনো বিবরণ নেই";
-  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
   const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
   document.getElementById("detRows").innerHTML=`
     <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">বিস্তারিত</div>
     ${dr("টিম",e.teamName||"-")}
     ${dr("তারিখ",e.date||"-")}
-    ${dr("Category",(ci[e.category]||"")+" "+(e.category||"-"))}
     ${dr("Status",stBadge(e.status))}
     ${dr("Impact",is[e.impact]||"-")}
     ${e.problem?dr("সমস্যা",e.problem):""}
@@ -945,13 +946,12 @@ document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
 });
 
 function renderApprovedTable(){
-  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
   if(!allApproved.length){
     document.getElementById("approvedTblBody").innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
-    <th>No.</th><th>Team</th><th>Kaizen Point</th><th>Category</th>
+    <th>No.</th><th>Team</th><th>Kaizen Point</th>
     <th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
   </tr></thead><tbody>`;
   allApproved.forEach((e,i)=>{
@@ -960,7 +960,6 @@ function renderApprovedTable(){
       <td class="td-no">${i+1}</td>
       <td><span class="badge b-purple">${e.teamName||"-"}</span></td>
       <td class="td-title">${e.title||"-"}</td>
-      <td><span class="badge b-blue">${ci[e.category]||""} ${e.category||"-"}</span></td>
       <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
@@ -1053,8 +1052,8 @@ document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("
 
 // ── EXPORT ────────────────────────────────────────────────────────────
 document.getElementById("teamExportBtn").addEventListener("click",()=>{
-  const rows=[["No.","Team","Title","Date","Category","Status","Impact","Problem","Solution","Benefit","Approved"]];
-  teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.category||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
+  const rows=[["No.","Team","Title","Date","Status","Impact","Problem","Solution","Benefit","Approved"]];
+  teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
@@ -1072,7 +1071,6 @@ document.getElementById("homeBtn").addEventListener("click",()=>{
 // ── SEARCH / FILTER ───────────────────────────────────────────────────
 document.getElementById("srch").addEventListener("input",renderTeamTable);
 document.getElementById("fStatus").addEventListener("change",renderTeamTable);
-document.getElementById("fCat").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────────
 function stBadge(s){
