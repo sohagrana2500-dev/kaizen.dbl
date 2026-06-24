@@ -273,7 +273,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name">🏭 DBL Kaizen</div>
+        <div class="brand-name"> DBL Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -297,7 +297,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="page active" id="homePage">
   <div class="main">
     <div class="home-hero">
-      <h1>🏭 DBL Kaizen Tracker</h1>
+      <h1> Kaizen Tracker</h1>
       <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
     </div>
     <div class="teams-grid" id="teamsGrid">
@@ -327,7 +327,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="team-bar" id="teamBar">
     <div class="team-bar-inner">
       <div class="team-bar-left">
-        <div class="team-avatar-bar" id="teamAvatarDisp">🏭</div>
+        <div class="team-avatar-bar" id="teamAvatarDisp"></div>
         <div>
           <div class="team-bar-name" id="teamNameDisp">Team</div>
           <div class="team-bar-leader" id="teamLeaderDisp"></div>
@@ -789,7 +789,7 @@ function renderTeamCards(){
     const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
     const avHtml=t.leaderUrl
       ?`<img src="${t.leaderUrl}" alt="${t.leaderName||''}" loading="lazy"/>`
-      :`🏭`;
+      :``;
     h+=`<div class="team-card" data-tid="${t.id}">
       ${isAdmin?`<div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:2">
         <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="এডিট" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
@@ -831,7 +831,7 @@ function renderApprovedHome(){
     const items=grouped[tid];
     const team=allTeams.find(t=>t.id===tid);
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
-    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"🏭";
+    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
     h+=`<div class="team-kaizen-block">
       <div class="tkb-hdr" onclick="toggleTKB(this)">
         <div class="tkb-avatar">${avHtml}</div>
@@ -899,7 +899,7 @@ function enterTeam(team){
   // avatar
   const av=document.getElementById("teamAvatarDisp");
   if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
-  else{av.textContent="🏭";}
+  else{av.textContent="";}
   // members
   renderTeamMembersBar(team.members||[]);
   document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — কাইজেন তালিকা`;
@@ -1098,7 +1098,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
     }else{
       await addDoc(collection(db,"kaizen_teams"),{
         name,division:div,password:p1,
-        icon:"🏭",color:"#2E86C1",
+        icon:"",color:"#2E86C1",
         leaderName,leaderUrl,
         members:membersData,
         createdAt:serverTimestamp()
