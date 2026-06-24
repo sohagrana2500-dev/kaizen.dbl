@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DBL Kaizen — Multi Team System</title>
+<title>Kaizen — Multi Team System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -239,7 +239,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name">🏭 DBL Kaizen</div>
+        <div class="brand-name">🏭 Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -260,7 +260,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="page active" id="homePage">
   <div class="main">
     <div class="home-hero">
-      <h1>🏭 DBL Kaizen Tracker</h1>
+      <h1>🏭   Kaizen Tracker</h1>
       <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
     </div>
     <div class="teams-grid" id="teamsGrid">
@@ -541,9 +541,9 @@ const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload
 
 const app = initializeApp({
   apiKey:"AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
-  authDomain:"dbl-kaizen.firebaseapp.com",
-  projectId:"dbl-kaizen",
-  storageBucket:"dbl-kaizen.firebasestorage.app",
+  authDomain:" -kaizen.firebaseapp.com",
+  projectId:" -kaizen",
+  storageBucket:" -kaizen.firebasestorage.app",
   messagingSenderId:"447302057753",
   appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
 });
@@ -586,7 +586,7 @@ async function uploadImg(file, type){
   el.className="up-status uploading"; el.textContent="⏳ আপলোড হচ্ছে...";
   try{
     const fd=new FormData();
-    fd.append("file",file); fd.append("upload_preset",CLOUD_PRESET); fd.append("folder","kaizen_dbl");
+    fd.append("file",file); fd.append("upload_preset",CLOUD_PRESET); fd.append("folder","kaizen_ ");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
