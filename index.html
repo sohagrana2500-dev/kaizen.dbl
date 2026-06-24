@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kaizen — Multi Team System</title>
+<title>DBL Kaizen — Multi Team System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -51,26 +51,39 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .page{display:none}.page.active{display:block}
 .main{max-width:1300px;margin:0 auto;padding:24px}
 
-/* HOME PAGE — TEAM SELECTOR */
-.home-hero{text-align:center;padding:48px 24px 32px}
+/* HOME PAGE */
+.home-hero{text-align:center;padding:40px 24px 24px}
 .home-hero h1{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px}
-.home-hero p{font-size:14px;color:var(--muted);margin-bottom:32px}
-.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto 32px}
-.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s;box-shadow:var(--shadow)}
-.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.15);transform:translateY(-2px)}
-.team-card .tc-icon{font-size:36px;margin-bottom:10px}
-.team-card .tc-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.team-card .tc-meta{font-size:11px;color:var(--muted)}
-.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:8px}
-.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s}
+.home-hero p{font-size:14px;color:var(--muted);margin-bottom:24px}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;max-width:960px;margin:0 auto 32px}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.18);transform:translateY(-2px)}
+.team-card .tc-avatar{width:60px;height:60px;border-radius:50%;overflow:hidden;margin:0 auto 10px;border:3px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:24px}
+.team-card .tc-avatar img{width:100%;height:100%;object-fit:cover}
+.team-card .tc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.team-card .tc-meta{font-size:11px;color:var(--muted);margin-bottom:6px}
+.team-card .tc-leader{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:4px}
+.team-card .tc-members{font-size:10px;color:var(--muted)}
+.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:6px}
+.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:160px}
 .add-team-card:hover{border-color:var(--accent);background:#F0F7FF}
 .add-team-card .atc-ico{font-size:32px;margin-bottom:8px}
 .add-team-card span{font-size:13px;color:var(--muted);font-weight:500}
 
-/* APPROVED KAIZEN HOME TABLE */
-.approved-section{max-width:1100px;margin:0 auto;padding:0 24px 32px}
-.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.section-title{font-size:16px;font-weight:700;color:var(--navy)}
+/* HOME APPROVED — TEAM WISE */
+.approved-home{max-width:1100px;margin:0 auto;padding:0 24px 40px}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.section-title{font-size:17px;font-weight:700;color:var(--navy)}
+.team-kaizen-block{margin-bottom:20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.tkb-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,var(--navy),var(--blue));cursor:pointer;user-select:none}
+.tkb-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.tkb-avatar img{width:100%;height:100%;object-fit:cover}
+.tkb-name{font-size:14px;font-weight:700;color:#fff;flex:1}
+.tkb-count{font-size:11px;background:rgba(255,255,255,.18);color:#fff;padding:2px 8px;border-radius:12px;font-weight:600}
+.tkb-arrow{color:rgba(255,255,255,.7);font-size:12px;transition:.2s}
+.tkb-arrow.open{transform:rotate(180deg)}
+.tkb-body{display:none;overflow-x:auto}
+.tkb-body.open{display:block}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
@@ -121,15 +134,23 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .empty .eico{font-size:44px;margin-bottom:10px}
 
 /* TEAM HEADER BAR */
-.team-bar{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 24px;margin-bottom:24px;border-radius:var(--radius)}
+.team-bar{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 24px;margin-bottom:24px;border-radius:0}
 .team-bar-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.team-bar-left{display:flex;align-items:center;gap:12px}
-.team-avatar{width:48px;height:48px;border-radius:12px;border:2px solid rgba(255,255,255,.3);overflow:hidden;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px}
-.team-avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.team-bar-left{display:flex;align-items:center;gap:14px}
+.team-avatar-bar{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,.35);overflow:hidden;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.team-avatar-bar img{width:100%;height:100%;object-fit:cover}
 .team-bar-name{font-size:18px;font-weight:700;color:#fff}
 .team-bar-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.team-bar-leader{font-size:11px;color:rgba(255,215,0,.8);font-weight:600;margin-top:2px}
 .team-bar-right{display:flex;gap:8px;align-items:center}
 .pending-badge{background:rgba(255,200,0,.2);color:#FFD700;border:1px solid rgba(255,200,0,.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700}
+
+/* MEMBER AVATARS ROW */
+.members-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
+.member-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border-radius:20px;padding:3px 8px 3px 3px;border:1px solid rgba(255,255,255,.15)}
+.member-chip-av{width:20px;height:20px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.member-chip-av img{width:100%;height:100%;object-fit:cover}
+.member-chip-name{font-size:10px;color:rgba(255,255,255,.85);font-weight:500}
 
 /* OVERLAY + MODAL */
 .overlay{position:fixed;inset:0;background:rgba(13,27,42,.52);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:.2s}
@@ -159,13 +180,13 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .img-type-tag{display:block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:7px;text-align:center}
 .before-tag{background:var(--red-lt);color:var(--red)}
 .after-tag{background:var(--green-lt);color:var(--green)}
-.upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px 14px;text-align:center;cursor:pointer;transition:.18s;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;position:relative}
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px 14px;text-align:center;cursor:pointer;transition:.18s;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;position:relative}
 .upload-area:hover{border-color:var(--accent);background:#F0F7FF}
 .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .u-ico{font-size:26px;pointer-events:none}
 .u-lbl{font-size:12px;font-weight:600;color:var(--text);pointer-events:none}
 .prev-wrap{position:relative;display:none}
-.prev-wrap img{width:100%;height:140px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:block}
+.prev-wrap img{width:100%;height:130px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:block}
 .rm-btn{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;z-index:2}
 .cap-input{margin-top:7px;width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none;color:var(--text)}
 .cap-input:focus{border-color:var(--accent)}
@@ -174,6 +195,16 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .up-status.done{display:block;background:var(--green-lt);color:var(--green)}
 .up-status.error{display:block;background:var(--red-lt);color:var(--red)}
 
+/* MEMBER FORM */
+.member-list-edit{display:flex;flex-direction:column;gap:8px;margin-top:6px;max-height:240px;overflow-y:auto}
+.member-item{display:grid;grid-template-columns:36px 1fr 28px;gap:6px;align-items:center;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+.member-av-wrap{width:36px;height:36px;border-radius:50%;overflow:hidden;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;border:2px dashed var(--border);position:relative}
+.member-av-wrap img{width:100%;height:100%;object-fit:cover}
+.member-av-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.member-name-in{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none}
+.member-name-in:focus{border-color:var(--accent)}
+.member-del-btn{width:24px;height:24px;border-radius:6px;border:none;background:var(--red-lt);color:var(--red);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+
 /* PHOTO VIEW */
 .photo-modal{max-width:900px}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:4px}
@@ -181,8 +212,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .pcard-hdr{padding:8px 12px;font-size:11px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.5px}
 .pcard-hdr.before{background:var(--red-lt);color:var(--red)}
 .pcard-hdr.after{background:var(--green-lt);color:var(--green)}
-.pcard img{width:100%;height:260px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in}
-.pcard .no-img{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);background:#F8FAFC;font-size:13px}
+.pcard img{width:100%;height:240px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in}
+.pcard .no-img{height:240px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);background:#F8FAFC;font-size:13px}
 .pcard-cap{padding:9px 12px;font-size:12px;color:var(--muted);background:#FAFBFC;border-top:1px solid var(--border);min-height:36px}
 .det-rows{margin-top:18px;display:flex;flex-direction:column;gap:7px}
 .det-row{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px}
@@ -203,10 +234,12 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .pass-err{color:var(--red);font-size:12px;font-weight:600;margin-top:5px;display:none}
 .info-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:12px;color:#1E40AF;margin-bottom:14px}
 .warn-box{background:var(--gold-lt);border:1px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--gold);margin-bottom:14px}
-
-/* PENDING SECTION */
 .pending-section{background:var(--orange-lt);border:1px solid var(--orange);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
 .pending-section .ps-title{font-size:14px;font-weight:700;color:var(--orange);margin-bottom:12px}
+
+/* APPROVE BTN in table */
+.approve-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:var(--green-lt);color:var(--green);transition:.15s}
+.approve-btn:hover{background:#a7f3d0;color:#065f46}
 
 @media(max-width:768px){
   .stats{grid-template-columns:1fr 1fr}
@@ -216,6 +249,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   .main{padding:14px}
   .teams-grid{grid-template-columns:1fr 1fr}
   .hdr-right .btn span{display:none}
+  .members-row{display:none}
 }
 @media(max-width:480px){
   .stats{grid-template-columns:1fr}
@@ -239,7 +273,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name">🏭 Kaizen</div>
+        <div class="brand-name">🏭 DBL Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -260,7 +294,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="page active" id="homePage">
   <div class="main">
     <div class="home-hero">
-      <h1>🏭   Kaizen Tracker</h1>
+      <h1>🏭 DBL Kaizen Tracker</h1>
       <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
     </div>
     <div class="teams-grid" id="teamsGrid">
@@ -269,17 +303,17 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <span>নতুন টিম তৈরি করুন</span>
       </div>
     </div>
+  </div>
 
-    <!-- APPROVED KAIZEN HOME TABLE -->
-    <div class="approved-section">
-      <div class="section-hdr">
-        <div class="section-title">✅ Approved Kaizen List — সব টিম</div>
-        <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 দেখুন</button>
-      </div>
-      <div id="approvedTableWrap" style="display:none">
-        <div class="tbl-card">
-          <div id="approvedTblBody"></div>
-        </div>
+  <!-- APPROVED KAIZEN — TEAM WISE -->
+  <div class="approved-home" id="approvedHomeSection">
+    <div class="section-hdr">
+      <div class="section-title">✅ Approved Kaizen — টিম অনুযায়ী</div>
+      <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 দেখুন</button>
+    </div>
+    <div id="approvedHomeWrap" style="display:none">
+      <div id="teamKaizenBlocks">
+        <div class="empty"><div class="eico">✅</div><p>লোড হচ্ছে...</p></div>
       </div>
     </div>
   </div>
@@ -290,11 +324,15 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="team-bar" id="teamBar">
     <div class="team-bar-inner">
       <div class="team-bar-left">
-        <div class="team-avatar" id="teamAvatarDisp">🏭</div>
+        <div class="team-avatar-bar" id="teamAvatarDisp">🏭</div>
         <div>
           <div class="team-bar-name" id="teamNameDisp">Team</div>
+          <div class="team-bar-leader" id="teamLeaderDisp"></div>
           <div class="team-bar-sub" id="teamSubDisp">Kaizen Tracker</div>
         </div>
+      </div>
+      <div style="flex:1">
+        <div class="members-row" id="teamMembersDisp"></div>
       </div>
       <div class="team-bar-right">
         <span class="pending-badge" id="pendingBadgeDisp" style="display:none">⏳ 0 Pending</span>
@@ -336,7 +374,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 
 <!-- NEW TEAM MODAL -->
 <div class="overlay" id="newTeamOvl">
-<div class="modal" style="max-width:480px">
+<div class="modal" style="max-width:560px">
   <div class="modal-hdr">
     <div class="modal-title">➕ নতুন টিম তৈরি করুন</div>
     <button class="cls-btn" id="closeNewTeam">✕</button>
@@ -344,6 +382,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="modal-body">
     <div class="info-box">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। Admin পরে পাসওয়ার্ড দেখতে পারবে।</div>
     <div class="fg" style="grid-template-columns:1fr">
+      <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
       <div class="f-group">
         <label class="f-lbl">টিমের নাম <span>*</span></label>
         <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
@@ -359,6 +398,28 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">পাসওয়ার্ড নিশ্চিত করুন <span>*</span></label>
         <input class="f-input" id="ntPass2" type="password" placeholder="আবার পাসওয়ার্ড লিখুন"/>
+      </div>
+
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👤 টিম লিডার</div>
+      <div class="f-group">
+        <label class="f-lbl">লিডারের নাম <span>*</span></label>
+        <input class="f-input" id="ntLeaderName" placeholder="টিম লিডারের নাম"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">লিডারের ছবি</label>
+        <div class="upload-area" id="ntLeaderArea" style="min-height:70px">
+          <input type="file" accept="image/*" id="ntLeaderFile"/>
+          <div class="u-ico" style="font-size:18px">📷</div>
+          <div class="u-lbl">ছবি আপলোড</div>
+        </div>
+        <div class="prev-wrap" id="ntLeaderPrev"><img id="ntLeaderImg" src="" alt=""/><button class="rm-btn" id="rmLeader">✕</button></div>
+        <div class="up-status" id="ntLeaderStat"></div>
+      </div>
+
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 টিম সদস্য</div>
+      <div style="grid-column:1/-1">
+        <div class="member-list-edit" id="ntMemberList"></div>
+        <button class="btn btn-ghost btn-sm" id="addMemberBtn" style="margin-top:8px;width:100%">➕ সদস্য যোগ করুন</button>
       </div>
     </div>
   </div>
@@ -532,7 +593,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
-  onSnapshot, query, orderBy, serverTimestamp, setDoc, getDoc, where, getDocs }
+  onSnapshot, query, orderBy, serverTimestamp, where }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const CLOUD_NAME   = "dhdllytiv";
@@ -541,9 +602,9 @@ const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload
 
 const app = initializeApp({
   apiKey:"AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
-  authDomain:" -kaizen.firebaseapp.com",
-  projectId:" -kaizen",
-  storageBucket:" -kaizen.firebasestorage.app",
+  authDomain:"dbl-kaizen.firebaseapp.com",
+  projectId:"dbl-kaizen",
+  storageBucket:"dbl-kaizen.firebasestorage.app",
   messagingSenderId:"447302057753",
   appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
 });
@@ -560,44 +621,54 @@ let editId       = null;
 let bFileObj=null, aFileObj=null, bUrl="", aUrl="";
 let pendingTeamId= null;
 let unsubTeam    = null;
+// New team form state
+let ntLeaderFileObj=null, ntLeaderUrl="";
+let ntMembers=[]; // [{name, fileObj, url, previewSrc}]
 
-function showPage(id) {
+function showPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  document.getElementById("homeBtn").style.display = id==="teamPage" ? "flex" : "none";
+  document.getElementById("homeBtn").style.display = id==="teamPage"?"flex":"none";
 }
-
 function openModal(id){document.getElementById(id).classList.add("on");}
 function closeModal(id){document.getElementById(id).classList.remove("on");}
 ["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl"].forEach(id=>{
   document.getElementById(id).addEventListener("click",e=>{if(e.target.id===id)closeModal(id);});
 });
-
 function showToast(msg){
   const t=document.getElementById("toast");
-  t.textContent=msg; t.classList.add("show");
+  t.textContent=msg;t.classList.add("show");
   setTimeout(()=>t.classList.remove("show"),3200);
 }
 function openLB(src){document.getElementById("lbImg").src=src;document.getElementById("lightbox").classList.add("on");}
 window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
 
-async function uploadImg(file, type){
+async function uploadImg(file,type){
   const el=document.getElementById(type+"Stat");
-  el.className="up-status uploading"; el.textContent="⏳ আপলোড হচ্ছে...";
+  if(el){el.className="up-status uploading";el.textContent="⏳ আপলোড হচ্ছে...";}
   try{
     const fd=new FormData();
-    fd.append("file",file); fd.append("upload_preset",CLOUD_PRESET); fd.append("folder","kaizen_ ");
+    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
-      el.className="up-status done"; el.textContent="✅ সম্পন্ন!";
-      setTimeout(()=>{el.className="up-status";},2500);
+      if(el){el.className="up-status done";el.textContent="✅ সম্পন্ন!";setTimeout(()=>{el.className="up-status";},2500);}
       return j.secure_url;
     }
     throw new Error(j.error?.message||"Upload failed");
   }catch(e){
-    el.className="up-status error"; el.textContent="❌ "+e.message; throw e;
+    if(el){el.className="up-status error";el.textContent="❌ "+e.message;}
+    throw e;
   }
+}
+
+async function uploadImgDirect(file){
+  const fd=new FormData();
+  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
+  const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
+  const j=await r.json();
+  if(j.secure_url) return j.secure_url;
+  throw new Error(j.error?.message||"Upload failed");
 }
 
 function showPrev(t,src){
@@ -613,73 +684,142 @@ function resetPrev(t){
   if(t==="b"){bFileObj=null;bUrl="";}else{aFileObj=null;aUrl="";}
 }
 document.getElementById("bFile").addEventListener("change",e=>{
-  const f=e.target.files[0]; if(!f) return; bFileObj=f;
-  const r=new FileReader(); r.onload=ev=>showPrev("b",ev.target.result); r.readAsDataURL(f);
+  const f=e.target.files[0];if(!f)return;bFileObj=f;
+  const r=new FileReader();r.onload=ev=>showPrev("b",ev.target.result);r.readAsDataURL(f);
 });
 document.getElementById("aFile").addEventListener("change",e=>{
-  const f=e.target.files[0]; if(!f) return; aFileObj=f;
-  const r=new FileReader(); r.onload=ev=>showPrev("a",ev.target.result); r.readAsDataURL(f);
+  const f=e.target.files[0];if(!f)return;aFileObj=f;
+  const r=new FileReader();r.onload=ev=>showPrev("a",ev.target.result);r.readAsDataURL(f);
 });
 document.getElementById("rmB").addEventListener("click",()=>resetPrev("b"));
 document.getElementById("rmA").addEventListener("click",()=>resetPrev("a"));
 
-// ── LIVE DATE & TIME ────────────────────────────────────────────────
+// ── LIVE CLOCK ──────────────────────────────────────────────────────
 const BN_DAYS=["রবিবার","সোমবার","মঙ্গলবার","বুধবার","বৃহস্পতিবার","শুক্রবার","শনিবার"];
 const BN_MONTHS=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
 function updateLiveClock(){
-  const now=new Date();
-  const pad=n=>String(n).padStart(2,"0");
-  let h=now.getHours();
-  const ampm=h>=12?"PM":"AM";
-  h=h%12; if(h===0)h=12;
-  const dateEl=document.getElementById("lcDate");
-  const timeEl=document.getElementById("lcTime");
-  if(dateEl) dateEl.textContent=`${BN_DAYS[now.getDay()]}, ${now.getDate()} ${BN_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
-  if(timeEl) timeEl.textContent=`${pad(h)}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${ampm}`;
+  const now=new Date(),pad=n=>String(n).padStart(2,"0");
+  let h=now.getHours();const ampm=h>=12?"PM":"AM";h=h%12;if(h===0)h=12;
+  const de=document.getElementById("lcDate"),te=document.getElementById("lcTime");
+  if(de)de.textContent=`${BN_DAYS[now.getDay()]}, ${now.getDate()} ${BN_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  if(te)te.textContent=`${pad(h)}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${ampm}`;
 }
-updateLiveClock();
-setInterval(updateLiveClock,1000);
+updateLiveClock();setInterval(updateLiveClock,1000);
 
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
-onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")), snap=>{
-  allTeams = snap.docs.map(d=>({id:d.id,...d.data()}));
+onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
+  allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
   renderTeamCards();
+  renderApprovedHome();
   renderAdminPassList();
   populateAdminTeamSelect();
   document.getElementById("loadingCover").style.display="none";
 });
 
-// APPROVED KAIZEN — all teams
+// APPROVED KAIZEN — all teams realtime
 onSnapshot(
   query(collection(db,"kaizen_entries"),where("approved","==",true),orderBy("createdAt","desc")),
-  snap=>{ allApproved=snap.docs.map(d=>({id:d.id,...d.data()})); renderApprovedTable(); }
+  snap=>{allApproved=snap.docs.map(d=>({id:d.id,...d.data()}));renderApprovedHome();}
 );
 
+// ── RENDER TEAM CARDS ──────────────────────────────────────────────
 function renderTeamCards(){
   const grid=document.getElementById("teamsGrid");
   let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>নতুন টিম তৈরি করুন</span></div>`;
   allTeams.forEach(t=>{
-    const col=t.color||"#2E86C1";
+    const members=t.members||[];
+    const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
+    const avHtml=t.leaderUrl
+      ?`<img src="${t.leaderUrl}" alt="${t.leaderName||''}" loading="lazy"/>`
+      :`🏭`;
     h+=`<div class="team-card" data-tid="${t.id}">
-      <div class="tc-icon">${t.icon||"🏭"}</div>
+      <div class="tc-avatar">${avHtml}</div>
       <div class="tc-name">${t.name}</div>
       <div class="tc-meta">${t.division||""}</div>
-      <span class="badge b-blue tc-badge">👥 টিম</span>
+      ${t.leaderName?`<div class="tc-leader">👤 ${t.leaderName}</div>`:""}
+      ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
+      <span class="badge b-blue tc-badge">📋 টিম</span>
     </div>`;
   });
   grid.innerHTML=h;
-  document.getElementById("addTeamCard").addEventListener("click",()=>openModal("newTeamOvl"));
+  document.getElementById("addTeamCard").addEventListener("click",()=>{
+    resetNewTeamForm();openModal("newTeamOvl");
+  });
   grid.querySelectorAll(".team-card").forEach(c=>{
     c.addEventListener("click",()=>handleTeamClick(c.dataset.tid));
   });
 }
 
+// ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
+function renderApprovedHome(){
+  const wrap=document.getElementById("teamKaizenBlocks");
+  if(!allApproved.length){
+    wrap.innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
+    return;
+  }
+  // group by teamId
+  const grouped={};
+  allApproved.forEach(e=>{
+    const tid=e.teamId||"unknown";
+    if(!grouped[tid])grouped[tid]=[];
+    grouped[tid].push(e);
+  });
+  let h="";
+  Object.keys(grouped).forEach(tid=>{
+    const items=grouped[tid];
+    const team=allTeams.find(t=>t.id===tid);
+    const tname=team?.name||items[0]?.teamName||"Unknown Team";
+    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"🏭";
+    h+=`<div class="team-kaizen-block">
+      <div class="tkb-hdr" onclick="toggleTKB(this)">
+        <div class="tkb-avatar">${avHtml}</div>
+        <div class="tkb-name">${tname}</div>
+        <span class="tkb-count">${items.length} টি</span>
+        <span class="tkb-arrow">▼</span>
+      </div>
+      <div class="tkb-body">
+        <table><thead><tr>
+          <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+        </tr></thead><tbody>
+        ${items.map((e,i)=>{
+          const hp=!!(e.bUrl||e.aUrl);
+          return `<tr>
+            <td class="td-no">${i+1}</td>
+            <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,55)+"..."):""}</small></td>
+            <td>${stBadge(e.status)}</td>
+            <td style="font-size:12px">${stars(e.impact)}</td>
+            <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+            <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
+          </tr>`;
+        }).join("")}
+        </tbody></table>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=h;
+  wrap.querySelectorAll("[data-ahid]").forEach(b=>{
+    b.addEventListener("click",()=>viewPhotos(b.dataset.ahid,allApproved));
+  });
+}
+window.toggleTKB=function(hdr){
+  const body=hdr.nextElementSibling;
+  const arrow=hdr.querySelector(".tkb-arrow");
+  body.classList.toggle("open");
+  arrow.classList.toggle("open");
+};
+
+document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
+  const w=document.getElementById("approvedHomeWrap");
+  const btn=document.getElementById("toggleApprovedBtn");
+  if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 লুকান";}
+  else{w.style.display="none";btn.textContent="📋 দেখুন";}
+});
+
+// ── TEAM LOGIN ──────────────────────────────────────────────────────
 function handleTeamClick(tid){
-  const team=allTeams.find(t=>t.id===tid);
-  if(!team) return;
-  if(isAdmin){
-    enterTeam(team);
-  } else {
+  const team=allTeams.find(t=>t.id===tid);if(!team)return;
+  if(isAdmin){enterTeam(team);}
+  else{
     pendingTeamId=tid;
     document.getElementById("teamLoginTitle").textContent=`🔒 ${team.name}`;
     document.getElementById("teamPassIn").value="";
@@ -687,38 +827,49 @@ function handleTeamClick(tid){
     openModal("teamLoginOvl");
   }
 }
-
 function enterTeam(team){
-  currentTeam=team; currentTeamId=team.id;
+  currentTeam=team;currentTeamId=team.id;
   document.getElementById("teamNameDisp").textContent=team.name;
   document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
+  // leader
+  const ld=document.getElementById("teamLeaderDisp");
+  ld.textContent=team.leaderName?`👑 লিডার: ${team.leaderName}`:"";
+  // avatar
+  const av=document.getElementById("teamAvatarDisp");
+  if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
+  else{av.textContent="🏭";}
+  // members
+  renderTeamMembersBar(team.members||[]);
   document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — কাইজেন তালিকা`;
   showPage("teamPage");
   subscribeTeamEntries(team.id);
 }
-
+function renderTeamMembersBar(members){
+  const row=document.getElementById("teamMembersDisp");
+  if(!members.length){row.innerHTML="";return;}
+  row.innerHTML=members.map(m=>{
+    const avHtml=m.url?`<img src="${m.url}" alt="" loading="lazy"/>`:`👤`;
+    return `<div class="member-chip">
+      <div class="member-chip-av">${avHtml}</div>
+      <span class="member-chip-name">${m.name}</span>
+    </div>`;
+  }).join("");
+}
 function subscribeTeamEntries(tid){
-  if(unsubTeam) unsubTeam();
+  if(unsubTeam)unsubTeam();
   unsubTeam=onSnapshot(
     query(collection(db,"kaizen_entries"),where("teamId","==",tid),orderBy("createdAt","desc")),
-    snap=>{
-      teamEntries=snap.docs.map(d=>({id:d.id,...d.data()}));
-      renderTeamTable(); updateStats();
-    }
+    snap=>{teamEntries=snap.docs.map(d=>({id:d.id,...d.data()}));renderTeamTable();updateStats();}
   );
 }
-
-// ── TEAM LOGIN ──────────────────────────────────────────────────────
 document.getElementById("doTeamLoginBtn").addEventListener("click",doTeamLogin);
 document.getElementById("teamPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doTeamLogin();});
 function doTeamLogin(){
-  const team=allTeams.find(t=>t.id===pendingTeamId);
-  if(!team) return;
+  const team=allTeams.find(t=>t.id===pendingTeamId);if(!team)return;
   if(document.getElementById("teamPassIn").value===team.password){
     document.getElementById("teamPassErr").style.display="none";
-    closeModal("teamLoginOvl");
-    enterTeam(team);
-  } else {
+    closeModal("teamLoginOvl");enterTeam(team);
+  }else{
     document.getElementById("teamPassErr").style.display="block";
     document.getElementById("teamPassIn").value="";
   }
@@ -726,28 +877,104 @@ function doTeamLogin(){
 document.getElementById("closeTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
 document.getElementById("cancelTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
 
-// ── NEW TEAM ────────────────────────────────────────────────────────
-document.getElementById("saveNewTeamBtn").addEventListener("click", async()=>{
+// ── NEW TEAM FORM ────────────────────────────────────────────────────
+function resetNewTeamForm(){
+  ["ntName","ntDiv","ntPass","ntPass2","ntLeaderName"].forEach(id=>document.getElementById(id).value="");
+  ntLeaderFileObj=null;ntLeaderUrl="";ntMembers=[];
+  document.getElementById("ntLeaderArea").style.display="flex";
+  document.getElementById("ntLeaderPrev").style.display="none";
+  document.getElementById("ntLeaderImg").src="";
+  document.getElementById("ntLeaderStat").className="up-status";
+  renderMemberListEdit();
+}
+document.getElementById("ntLeaderFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;
+  ntLeaderFileObj=f;
+  const r=new FileReader();r.onload=ev=>{
+    document.getElementById("ntLeaderArea").style.display="none";
+    document.getElementById("ntLeaderPrev").style.display="block";
+    document.getElementById("ntLeaderImg").src=ev.target.result;
+  };r.readAsDataURL(f);
+});
+document.getElementById("rmLeader").addEventListener("click",()=>{
+  ntLeaderFileObj=null;ntLeaderUrl="";
+  document.getElementById("ntLeaderArea").style.display="flex";
+  document.getElementById("ntLeaderPrev").style.display="none";
+  document.getElementById("ntLeaderImg").src="";
+});
+document.getElementById("addMemberBtn").addEventListener("click",()=>{
+  ntMembers.push({name:"",fileObj:null,url:"",previewSrc:""});
+  renderMemberListEdit();
+});
+function renderMemberListEdit(){
+  const list=document.getElementById("ntMemberList");
+  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">কোনো সদস্য যোগ করা হয়নি</div>`;return;}
+  list.innerHTML=ntMembers.map((m,i)=>`
+    <div class="member-item" data-mi="${i}">
+      <div class="member-av-wrap" title="ছবি যোগ করুন">
+        ${m.previewSrc?`<img src="${m.previewSrc}" alt=""/>`:`👤`}
+        <input type="file" accept="image/*" class="member-file-in" data-mi="${i}"/>
+      </div>
+      <input class="member-name-in" placeholder="সদস্যের নাম..." value="${m.name}" data-mi="${i}"/>
+      <button class="member-del-btn" data-mi="${i}">✕</button>
+    </div>
+  `).join("");
+  list.querySelectorAll(".member-name-in").forEach(inp=>{
+    inp.addEventListener("input",e=>{ntMembers[+e.target.dataset.mi].name=e.target.value;});
+  });
+  list.querySelectorAll(".member-file-in").forEach(inp=>{
+    inp.addEventListener("change",e=>{
+      const f=e.target.files[0];if(!f)return;
+      const idx=+e.target.dataset.mi;
+      ntMembers[idx].fileObj=f;
+      const r=new FileReader();r.onload=ev=>{ntMembers[idx].previewSrc=ev.target.result;renderMemberListEdit();};
+      r.readAsDataURL(f);
+    });
+  });
+  list.querySelectorAll(".member-del-btn").forEach(btn=>{
+    btn.addEventListener("click",e=>{ntMembers.splice(+e.target.dataset.mi,1);renderMemberListEdit();});
+  });
+}
+
+document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const name=document.getElementById("ntName").value.trim();
   const div=document.getElementById("ntDiv").value.trim();
   const p1=document.getElementById("ntPass").value;
   const p2=document.getElementById("ntPass2").value;
+  const leaderName=document.getElementById("ntLeaderName").value.trim();
   if(!name){showToast("⚠️ টিমের নাম লিখুন");return;}
+  if(!leaderName){showToast("⚠️ লিডারের নাম লিখুন");return;}
   if(!p1){showToast("⚠️ পাসওয়ার্ড দিন");return;}
   if(p1!==p2){showToast("❌ পাসওয়ার্ড মিলছে না!");return;}
   const btn=document.getElementById("saveNewTeamBtn");
-  btn.disabled=true; btn.textContent="⏳ তৈরি হচ্ছে...";
+  btn.disabled=true;btn.textContent="⏳ তৈরি হচ্ছে...";
   try{
+    // upload leader photo
+    let leaderUrl="";
+    if(ntLeaderFileObj){
+      showToast("⏳ লিডারের ছবি আপলোড হচ্ছে...");
+      leaderUrl=await uploadImgDirect(ntLeaderFileObj);
+    }
+    // upload member photos
+    const membersData=[];
+    for(const m of ntMembers){
+      if(!m.name.trim())continue;
+      let mUrl="";
+      if(m.fileObj){mUrl=await uploadImgDirect(m.fileObj);}
+      membersData.push({name:m.name.trim(),url:mUrl});
+    }
     await addDoc(collection(db,"kaizen_teams"),{
-      name, division:div, password:p1,
-      icon:"🏭", color:"#2E86C1",
+      name,division:div,password:p1,
+      icon:"🏭",color:"#2E86C1",
+      leaderName,leaderUrl,
+      members:membersData,
       createdAt:serverTimestamp()
     });
     showToast("✅ নতুন টিম তৈরি হয়েছে!");
     closeModal("newTeamOvl");
-    ["ntName","ntDiv","ntPass","ntPass2"].forEach(id=>document.getElementById(id).value="");
+    resetNewTeamForm();
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false; btn.textContent="✅ টিম তৈরি করুন";
+  btn.disabled=false;btn.textContent="✅ টিম তৈরি করুন";
 });
 document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
@@ -759,7 +986,7 @@ document.getElementById("cancelEntry").addEventListener("click",()=>closeModal("
 document.getElementById("closeEntry").addEventListener("click",()=>closeModal("entryOvl"));
 
 function openNewEntry(){
-  editId=null; bFileObj=null; aFileObj=null; bUrl=""; aUrl="";
+  editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
   document.getElementById("entryTitle").textContent="নতুন কাইজেন এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
@@ -767,8 +994,8 @@ function openNewEntry(){
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
-  document.getElementById("adminTeamSelectRow").style.display = isAdmin ? "flex" : "none";
-  resetPrev("b"); resetPrev("a");
+  document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
+  resetPrev("b");resetPrev("a");
   openModal("entryOvl");
 }
 
@@ -776,15 +1003,13 @@ async function doSave(){
   const title=document.getElementById("fTitle").value.trim();
   if(!title){showToast("⚠️ শিরোনাম লিখুন");return;}
   const btn=document.getElementById("saveBtn");
-  btn.disabled=true; btn.textContent="⏳ সংরক্ষণ হচ্ছে...";
+  btn.disabled=true;btn.textContent="⏳ সংরক্ষণ হচ্ছে...";
   try{
-    let finalB=bUrl, finalA=aUrl;
-    if(bFileObj) finalB=await uploadImg(bFileObj,"b");
-    if(aFileObj) finalA=await uploadImg(aFileObj,"a");
-    const tid = isAdmin
-      ? (document.getElementById("fAdminTeam").value || currentTeamId)
-      : currentTeamId;
-    const teamObj = allTeams.find(t=>t.id===tid);
+    let finalB=bUrl,finalA=aUrl;
+    if(bFileObj)finalB=await uploadImg(bFileObj,"b");
+    if(aFileObj)finalA=await uploadImg(aFileObj,"a");
+    const tid=isAdmin?(document.getElementById("fAdminTeam").value||currentTeamId):currentTeamId;
+    const teamObj=allTeams.find(t=>t.id===tid);
     const data={
       title,
       date:document.getElementById("fDate").value,
@@ -795,24 +1020,24 @@ async function doSave(){
       benefit:document.getElementById("fBen").value.trim(),
       bCap:document.getElementById("bCap").value.trim(),
       aCap:document.getElementById("aCap").value.trim(),
-      bUrl:finalB, aUrl:finalA,
+      bUrl:finalB,aUrl:finalA,
       teamId:tid,
       teamName:teamObj?.name||"",
-      approved:false,
+      approved:isAdmin?true:false, // admin এর এন্ট্রি সরাসরি approved
     };
     if(editId){
       await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
       showToast("✅ আপডেট হয়েছে!");
-    } else {
+    }else{
       await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
-      showToast("✅ এন্ট্রি যোগ হয়েছে! Admin approval এর জন্য অপেক্ষা করুন।");
+      showToast(isAdmin?"✅ কাইজেন যোগ হয়েছে!":"✅ এন্ট্রি যোগ হয়েছে! Admin approval এর জন্য অপেক্ষা করুন।");
     }
     closeModal("entryOvl");
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false; btn.textContent="💾 সংরক্ষণ করুন";
+  btn.disabled=false;btn.textContent="💾 সংরক্ষণ করুন";
 }
 
-// ── RENDER TEAM TABLE ────────────────────────────────────────────────
+// ── RENDER TEAM TABLE ─────────────────────────────────────────────
 function renderTeamTable(){
   const srch=document.getElementById("srch").value.toLowerCase();
   const fs=document.getElementById("fStatus").value;
@@ -844,7 +1069,7 @@ function renderTeamTable(){
       <td>${approvalBadge}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
       ${isAdmin?`<td><div class="act-btns">
-        ${!e.approved?`<button class="ico-btn approve" data-approve="${e.id}" title="Approve">✅</button>`:""}
+        ${!e.approved?`<button class="approve-btn" data-approve="${e.id}">✅ Approve</button>`:`<span style="font-size:11px;color:var(--green)">✔</span>`}
         <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
         <button class="ico-btn del" data-did="${e.id}" title="ডিলিট">🗑️</button>
       </div></td>`:""}
@@ -856,7 +1081,6 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
   document.getElementById("tblWrap").querySelectorAll("[data-approve]").forEach(b=>b.addEventListener("click",()=>approveKaizen(b.dataset.approve)));
-
   const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
   if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
@@ -875,21 +1099,21 @@ async function approveKaizen(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
-    showToast("✅ Kaizen Approved!");
+    showToast("✅ Kaizen Approved! হোম পেজে দেখা যাবে।");
   }catch(e){showToast("❌ "+e.message);}
 }
 
-// ── DELETE / EDIT ────────────────────────────────────────────────────
+// ── DELETE / EDIT ─────────────────────────────────────────────────
 async function doDelete(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
-  if(!confirm("মুছে ফেলবেন?")) return;
+  if(!confirm("মুছে ফেলবেন?"))return;
   try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
   catch(e){showToast("❌ "+e.message);}
 }
 function doEdit(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
-  const e=teamEntries.find(x=>x.id===id); if(!e) return;
-  editId=id; bFileObj=null; aFileObj=null; bUrl=e.bUrl||""; aUrl=e.aUrl||"";
+  const e=teamEntries.find(x=>x.id===id);if(!e)return;
+  editId=id;bFileObj=null;aFileObj=null;bUrl=e.bUrl||"";aUrl=e.aUrl||"";
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
@@ -901,18 +1125,18 @@ function doEdit(id){
   document.getElementById("bCap").value=e.bCap||"";
   document.getElementById("aCap").value=e.aCap||"";
   document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
-  if(isAdmin) document.getElementById("fAdminTeam").value=e.teamId||"";
-  if(e.bUrl) showPrev("b",e.bUrl); else resetPrev("b");
-  if(e.aUrl) showPrev("a",e.aUrl); else resetPrev("a");
+  if(isAdmin)document.getElementById("fAdminTeam").value=e.teamId||"";
+  if(e.bUrl)showPrev("b",e.bUrl);else resetPrev("b");
+  if(e.aUrl)showPrev("a",e.aUrl);else resetPrev("a");
   openModal("entryOvl");
 }
 
 // ── PHOTO VIEW ───────────────────────────────────────────────────────
 function viewPhotos(id,list){
-  const e=list.find(x=>x.id===id); if(!e) return;
+  const e=list.find(x=>x.id===id);if(!e)return;
   document.getElementById("photoTitle").textContent=e.title||"Photos";
   const mkI=(url,lb)=>url
-    ?`<img src="${url}" alt="${lb}" style="width:100%;height:260px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" onclick="openLB('${url}')">`
+    ?`<img src="${url}" alt="${lb}" style="width:100%;height:240px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" onclick="openLB('${url}')">`
     :`<div class="no-img"><span style="font-size:32px">${lb==="Before"?"📷":"✨"}</span><span>ছবি নেই</span></div>`;
   document.getElementById("pBefore").innerHTML=mkI(e.bUrl,"Before");
   document.getElementById("pAfter").innerHTML=mkI(e.aUrl,"After");
@@ -933,47 +1157,10 @@ function viewPhotos(id,list){
 }
 function dr(k,v){return`<div class="det-row"><div class="det-k">${k}</div><div style="font-size:13px;color:var(--text)">${v}</div></div>`;}
 window.openLB=openLB;
-
 document.getElementById("closePhoto").addEventListener("click",()=>closeModal("photoOvl"));
 document.getElementById("closePhoto2").addEventListener("click",()=>closeModal("photoOvl"));
 
-// ── APPROVED TABLE (HOME) ─────────────────────────────────────────────
-document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
-  const w=document.getElementById("approvedTableWrap");
-  const btn=document.getElementById("toggleApprovedBtn");
-  if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 লুকান";}
-  else{w.style.display="none";btn.textContent="📋 দেখুন";}
-});
-
-function renderApprovedTable(){
-  if(!allApproved.length){
-    document.getElementById("approvedTblBody").innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
-    return;
-  }
-  let h=`<table><thead><tr>
-    <th>No.</th><th>Team</th><th>Kaizen Point</th>
-    <th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
-  </tr></thead><tbody>`;
-  allApproved.forEach((e,i)=>{
-    const hp=!!(e.bUrl||e.aUrl);
-    h+=`<tr>
-      <td class="td-no">${i+1}</td>
-      <td><span class="badge b-purple">${e.teamName||"-"}</span></td>
-      <td class="td-title">${e.title||"-"}</td>
-      <td>${stBadge(e.status)}</td>
-      <td style="font-size:12px">${stars(e.impact)}</td>
-      <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-apid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
-    </tr>`;
-  });
-  h+="</tbody></table>";
-  document.getElementById("approvedTblBody").innerHTML=h;
-  document.getElementById("approvedTblBody").querySelectorAll("[data-apid]").forEach(b=>{
-    b.addEventListener("click",()=>viewPhotos(b.dataset.apid,allApproved));
-  });
-}
-
-// ── ADMIN ─────────────────────────────────────────────────────────────
+// ── ADMIN ─────────────────────────────────────────────────────────
 function renderAdminPassList(){
   const list=document.getElementById("teamPassList");
   if(!allTeams.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted)">কোনো টিম নেই</div>`;return;}
@@ -987,12 +1174,10 @@ function renderAdminPassList(){
     </div>
   `).join("");
 }
-
 function populateAdminTeamSelect(){
   const sel=document.getElementById("fAdminTeam");
   sel.innerHTML=allTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
 }
-
 document.getElementById("adminBtn").addEventListener("click",()=>{
   document.getElementById("adminPassIn").value="";
   document.getElementById("adminPassErr").style.display="none";
@@ -1000,7 +1185,7 @@ document.getElementById("adminBtn").addEventListener("click",()=>{
     document.getElementById("adminLoginSec").style.display="none";
     document.getElementById("adminLoggedSec").style.display="block";
     document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
-  } else {
+  }else{
     document.getElementById("adminLoginSec").style.display="block";
     document.getElementById("adminLoggedSec").style.display="none";
     document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
@@ -1008,10 +1193,9 @@ document.getElementById("adminBtn").addEventListener("click",()=>{
   openModal("adminOvl");
 });
 document.getElementById("adminActBtn").addEventListener("click",()=>{
-  if(isAdmin) saveAdminSettings(); else doAdminLogin();
+  if(isAdmin)saveAdminSettings();else doAdminLogin();
 });
 document.getElementById("adminPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doAdminLogin();});
-
 function doAdminLogin(){
   if(document.getElementById("adminPassIn").value===adminPass){
     isAdmin=true;
@@ -1022,20 +1206,17 @@ function doAdminLogin(){
     document.getElementById("adminBadge").style.display="flex";
     document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
     renderAdminPassList();
-    if(currentTeam) renderTeamTable();
-  } else {
+    if(currentTeam)renderTeamTable();
+  }else{
     document.getElementById("adminPassErr").style.display="block";
     document.getElementById("adminPassIn").value="";
   }
 }
-
 function saveAdminSettings(){
   const p=document.getElementById("newAdminPass").value;
   if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
-  showToast("✅ সেটিং সেভ হয়েছে");
-  closeModal("adminOvl");
+  showToast("✅ সেটিং সেভ হয়েছে");closeModal("adminOvl");
 }
-
 document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   isAdmin=false;
   document.getElementById("adminBadge").style.display="none";
@@ -1043,36 +1224,35 @@ document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   document.getElementById("adminLoginSec").style.display="block";
   document.getElementById("adminLoggedSec").style.display="none";
   document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
-  if(currentTeam) renderTeamTable();
-  closeModal("adminOvl");
-  showToast("🔒 Logout হয়েছে");
+  if(currentTeam)renderTeamTable();
+  closeModal("adminOvl");showToast("🔒 Logout হয়েছে");
 });
 document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 
-// ── EXPORT ────────────────────────────────────────────────────────────
+// ── EXPORT ────────────────────────────────────────────────────────
 document.getElementById("teamExportBtn").addEventListener("click",()=>{
   const rows=[["No.","Team","Title","Date","Status","Impact","Problem","Solution","Benefit","Approved"]];
   teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`; a.click();
+  a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
   showToast("✅ Export সম্পন্ন!");
 });
 
-// ── HOME BTN ──────────────────────────────────────────────────────────
+// ── HOME BTN ──────────────────────────────────────────────────────
 document.getElementById("homeBtn").addEventListener("click",()=>{
   if(unsubTeam){unsubTeam();unsubTeam=null;}
-  currentTeam=null; currentTeamId=null; teamEntries=[];
+  currentTeam=null;currentTeamId=null;teamEntries=[];
   showPage("homePage");
 });
 
-// ── SEARCH / FILTER ───────────────────────────────────────────────────
+// ── SEARCH / FILTER ───────────────────────────────────────────────
 document.getElementById("srch").addEventListener("input",renderTeamTable);
 document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
-// ── HELPERS ───────────────────────────────────────────────────────────
+// ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
   const m={"Implemented":["b-green","✅ সম্পন্ন"],"In Progress":["b-orange","⏳ চলমান"],"Planned":["b-blue","📅 পরিকল্পিত"]};
   const [cls,lbl]=m[s]||["b-gray",s];
