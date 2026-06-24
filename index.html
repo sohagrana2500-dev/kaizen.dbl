@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DBL Group — Kaizen Tracker</title>
+<title>DBL Kaizen — Multi Team System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -14,6 +14,7 @@
   --orange:#D35400;--orange-lt:#FDEBD0;
   --gold:#B7950B;--gold-lt:#FEF9E7;
   --red:#922B21;--red-lt:#FADBD8;
+  --purple:#6C3483;--purple-lt:#F5EEF8;
   --bg:#F0F4F8;--card:#fff;--border:#DDE3EA;
   --text:#1A202C;--muted:#64748B;
   --radius:12px;
@@ -21,166 +22,205 @@
   --shadow-lg:0 8px 32px rgba(13,27,42,.14);
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
 .hdr{background:linear-gradient(135deg,var(--navy),var(--blue));padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.3)}
 .hdr-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
 .logo-area{display:flex;align-items:center;gap:12px}
-.logo-box{width:42px;height:42px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.25);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);font-size:20px}
-.logo-box img{width:100%;height:100%;object-fit:cover;display:none}
 .brand{color:#fff}
-.brand-name{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.brand-name{font-size:18px;font-weight:700}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.55)}
 .hdr-right{display:flex;align-items:center;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.18s;font-family:inherit;white-space:nowrap}
 .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:#1f6fa0}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#176038}
 .btn-outline{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}.btn-outline:hover{background:rgba(255,255,255,.22)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg)}
 .btn-sm{padding:6px 12px;font-size:12px}
 .btn-danger{background:var(--red-lt);color:var(--red)}.btn-danger:hover{background:#f5c6c6}
+.btn-gold{background:var(--gold-lt);color:var(--gold);border:1px solid var(--gold)}.btn-gold:hover{background:#fef3c7}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
 .main{max-width:1300px;margin:0 auto;padding:24px}
 
-/* TEAM SECTION */
-.team-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;overflow:hidden}
-.team-hdr{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
-.team-hdr-title{font-size:15px;font-weight:700;color:#fff}
-.team-hdr-sub{font-size:11px;color:rgba(255,255,255,.6)}
-.team-body{padding:20px 24px}
-.leader-row{display:flex;align-items:center;gap:20px;padding:16px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border-radius:12px;margin-bottom:20px;border:1px solid #BFDBFE}
-.leader-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);flex-shrink:0;background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;overflow:hidden}
-.leader-avatar img{width:100%;height:100%;object-fit:cover;display:none}
-.leader-info{}
-.leader-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:var(--gold-lt);color:var(--gold);border-radius:20px;font-size:10px;font-weight:700;margin-bottom:4px}
-.leader-name{font-size:16px;font-weight:700;color:var(--navy)}
-.leader-role{font-size:12px;color:var(--muted)}
-.members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
-.member-card{background:#F8FAFC;border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;transition:.15s}
-.member-card:hover{border-color:var(--accent);background:#EFF6FF}
-.member-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 8px;border:2px solid var(--border);background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;overflow:hidden}
-.member-avatar img{width:100%;height:100%;object-fit:cover;display:none}
-.member-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
-.member-role{font-size:10px;color:var(--muted)}
-.add-member-btn{background:#F8FAFC;border:2px dashed var(--border);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:100px}
-.add-member-btn:hover{border-color:var(--accent);background:#EFF6FF}
-.add-member-btn .add-ico{font-size:24px}
-.add-member-btn span{font-size:11px;color:var(--muted);font-weight:500}
+/* HOME PAGE — TEAM SELECTOR */
+.home-hero{text-align:center;padding:48px 24px 32px}
+.home-hero h1{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.home-hero p{font-size:14px;color:var(--muted);margin-bottom:32px}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto 32px}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s;box-shadow:var(--shadow)}
+.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.15);transform:translateY(-2px)}
+.team-card .tc-icon{font-size:36px;margin-bottom:10px}
+.team-card .tc-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.team-card .tc-meta{font-size:11px;color:var(--muted)}
+.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:8px}
+.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s}
+.add-team-card:hover{border-color:var(--accent);background:#F0F7FF}
+.add-team-card .atc-ico{font-size:32px;margin-bottom:8px}
+.add-team-card span{font-size:13px;color:var(--muted);font-weight:500}
 
+/* APPROVED KAIZEN HOME TABLE */
+.approved-section{max-width:1100px;margin:0 auto;padding:0 24px 32px}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:16px;font-weight:700;color:var(--navy)}
+
+/* STATS */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
 .stat{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:14px}
 .stat-ico{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
 .stat-val{font-size:26px;font-weight:700;line-height:1.1}
+
+/* TOOLBAR */
 .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
 .search-wrap{flex:1;min-width:180px;position:relative}
 .search-wrap input{width:100%;padding:9px 14px 9px 38px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;transition:.18s}
 .search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.13)}
 .search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
 .flt{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;cursor:pointer;color:var(--text)}
-.admin-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--gold-lt);color:var(--gold);border-radius:20px;font-size:11px;font-weight:700}
+
+/* TABLE */
 .tbl-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}
-.tbl-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tbl-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .tbl-title{font-size:15px;font-weight:600}
 .tbl-count{font-size:12px;color:var(--muted)}
 table{width:100%;border-collapse:collapse}
-thead th{background:#F8FAFC;padding:11px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+thead th{background:#F8FAFC;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--border);transition:.12s}
 tbody tr:hover{background:#FAFBFD}
 tbody tr:last-child{border-bottom:none}
-td{padding:12px 14px;font-size:13px;vertical-align:middle}
-.td-no{font-weight:700;color:var(--accent);width:46px}
-.td-title{font-weight:600;max-width:220px}
-.td-title small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+td{padding:11px 14px;font-size:13px;vertical-align:middle}
+.td-no{font-weight:700;color:var(--accent);width:40px}
+.td-title{font-weight:600;max-width:200px}
+.td-title small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
 .b-green{background:var(--green-lt);color:var(--green)}
 .b-orange{background:var(--orange-lt);color:var(--orange)}
 .b-blue{background:#DBEAFE;color:#1E40AF}
-.pic-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s}
+.b-gold{background:var(--gold-lt);color:var(--gold)}
+.b-red{background:var(--red-lt);color:var(--red)}
+.b-purple{background:var(--purple-lt);color:var(--purple)}
+.b-gray{background:#F1F5F9;color:var(--muted)}
+.pic-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s}
 .pic-btn.no-pic{background:#F1F5F9;color:var(--muted)}
 .pic-btn.has-pic{background:var(--green-lt);color:var(--green)}
-.act-btns{display:flex;gap:6px}
-.ico-btn{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:14px;transition:.15s;background:transparent}
+.act-btns{display:flex;gap:4px}
+.ico-btn{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:13px;transition:.15s;background:transparent}
 .ico-btn.edit{color:var(--accent)}.ico-btn.edit:hover{background:#EFF6FF}
 .ico-btn.del{color:var(--red)}.ico-btn.del:hover{background:var(--red-lt)}
-.empty{text-align:center;padding:64px 20px;color:var(--muted)}
-.empty .eico{font-size:48px;margin-bottom:12px}
+.ico-btn.approve{color:var(--green)}.ico-btn.approve:hover{background:var(--green-lt)}
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty .eico{font-size:44px;margin-bottom:10px}
+
+/* TEAM HEADER BAR */
+.team-bar{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 24px;margin-bottom:24px;border-radius:var(--radius)}
+.team-bar-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.team-bar-left{display:flex;align-items:center;gap:12px}
+.team-avatar{width:48px;height:48px;border-radius:12px;border:2px solid rgba(255,255,255,.3);overflow:hidden;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px}
+.team-avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.team-bar-name{font-size:18px;font-weight:700;color:#fff}
+.team-bar-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.team-bar-right{display:flex;gap:8px;align-items:center}
+.pending-badge{background:rgba(255,200,0,.2);color:#FFD700;border:1px solid rgba(255,200,0,.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700}
+
+/* OVERLAY + MODAL */
 .overlay{position:fixed;inset:0;background:rgba(13,27,42,.52);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:.2s}
 .overlay.on{opacity:1;pointer-events:all}
-.modal{background:var(--card);border-radius:16px;width:100%;max-width:720px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(14px);transition:.22s}
+.modal{background:var(--card);border-radius:16px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(14px);transition:.22s}
 .overlay.on .modal{transform:translateY(0)}
-.modal-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1}
-.modal-title{font-size:17px;font-weight:700}
-.cls-btn{width:32px;height:32px;border-radius:8px;border:none;background:var(--bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.15s}
+.modal-hdr{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1}
+.modal-title{font-size:16px;font-weight:700}
+.cls-btn{width:30px;height:30px;border-radius:8px;border:none;background:var(--bg);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .cls-btn:hover{background:var(--border)}
 .modal-body{padding:20px 24px}
-.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--card)}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.f-group{display:flex;flex-direction:column;gap:6px}
+.modal-foot{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--card)}
+
+/* FORM */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-group{display:flex;flex-direction:column;gap:5px}
 .f-group.full{grid-column:1/-1}
 .f-lbl{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px}
 .f-lbl span{color:var(--red)}
 .f-input,.f-select,.f-textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);background:var(--card);outline:none;transition:.18s;resize:vertical}
 .f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.11)}
-.f-textarea{min-height:78px}
-.sec-lbl{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;padding:10px 0 6px;border-bottom:2px solid var(--accent);margin-bottom:2px;grid-column:1/-1}
-.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;grid-column:1/-1}
-.img-type-tag{display:block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:8px;text-align:center}
+.f-textarea{min-height:70px}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;padding:8px 0 5px;border-bottom:2px solid var(--accent);margin-bottom:2px;grid-column:1/-1}
+
+/* IMAGE UPLOAD */
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;grid-column:1/-1}
+.img-type-tag{display:block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:7px;text-align:center}
 .before-tag{background:var(--red-lt);color:var(--red)}
 .after-tag{background:var(--green-lt);color:var(--green)}
-.upload-area{border:2px dashed var(--border);border-radius:11px;padding:22px 16px;text-align:center;cursor:pointer;transition:.18s;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative}
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px 14px;text-align:center;cursor:pointer;transition:.18s;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;position:relative}
 .upload-area:hover{border-color:var(--accent);background:#F0F7FF}
 .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.u-ico{font-size:30px;pointer-events:none}
-.u-lbl{font-size:13px;font-weight:600;color:var(--text);pointer-events:none}
-.u-sub{font-size:11px;color:var(--muted);pointer-events:none}
+.u-ico{font-size:26px;pointer-events:none}
+.u-lbl{font-size:12px;font-weight:600;color:var(--text);pointer-events:none}
 .prev-wrap{position:relative;display:none}
-.prev-wrap img{width:100%;height:155px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:block}
-.rm-btn{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;font-family:inherit;z-index:2}
-.cap-input{margin-top:8px;width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none;color:var(--text)}
+.prev-wrap img{width:100%;height:140px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:block}
+.rm-btn{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;z-index:2}
+.cap-input{margin-top:7px;width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none;color:var(--text)}
 .cap-input:focus{border-color:var(--accent)}
-.up-status{margin-top:6px;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;text-align:center;display:none}
+.up-status{margin-top:5px;padding:6px 10px;border-radius:7px;font-size:11px;font-weight:600;text-align:center;display:none}
 .up-status.uploading{display:block;background:var(--gold-lt);color:var(--gold)}
 .up-status.done{display:block;background:var(--green-lt);color:var(--green)}
 .up-status.error{display:block;background:var(--red-lt);color:var(--red)}
-.photo-modal{max-width:920px}
-.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:4px}
-.pcard{border-radius:11px;overflow:hidden;border:1px solid var(--border)}
-.pcard-hdr{padding:9px 14px;font-size:12px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.5px}
+
+/* PHOTO VIEW */
+.photo-modal{max-width:900px}
+.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:4px}
+.pcard{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.pcard-hdr{padding:8px 12px;font-size:11px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.5px}
 .pcard-hdr.before{background:var(--red-lt);color:var(--red)}
 .pcard-hdr.after{background:var(--green-lt);color:var(--green)}
-.pcard img{width:100%;height:270px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in}
-.pcard .no-img{height:270px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);background:#F8FAFC;font-size:13px}
-.pcard-cap{padding:10px 14px;font-size:12px;color:var(--muted);background:#FAFBFC;border-top:1px solid var(--border);min-height:38px}
-.det-rows{margin-top:20px;display:flex;flex-direction:column;gap:8px}
-.det-row{display:grid;grid-template-columns:130px 1fr;gap:8px;font-size:13px}
-.det-k{font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding-top:2px}
-.loading-cover{position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
-.spinner{width:38px;height:38px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+.pcard img{width:100%;height:260px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in}
+.pcard .no-img{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);background:#F8FAFC;font-size:13px}
+.pcard-cap{padding:9px 12px;font-size:12px;color:var(--muted);background:#FAFBFC;border-top:1px solid var(--border);min-height:36px}
+.det-rows{margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.det-row{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px}
+.det-k{font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding-top:1px}
+
+/* LOADING */
+.loading-cover{position:fixed;inset:0;background:rgba(255,255,255,.9);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spinner{width:36px;height:36px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.tbl-loading{display:flex;align-items:center;justify-content:center;padding:52px;color:var(--muted);gap:12px;font-size:13px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 22px;border-radius:9px;font-size:13px;font-weight:500;z-index:1000;opacity:0;transition:.28s;pointer-events:none;white-space:nowrap}
+.tbl-loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--muted);gap:10px;font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:500;z-index:1000;opacity:0;transition:.28s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:none;align-items:center;justify-content:center}
 .lightbox.on{display:flex}
 .lightbox img{max-width:94vw;max-height:94vh;border-radius:8px;object-fit:contain}
-.lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:32px;cursor:pointer;background:none;border:none;font-family:inherit;line-height:1}
-.admin-sm{max-width:420px}
-.pass-err{color:var(--red);font-size:12px;font-weight:600;margin-top:6px;display:none}
-.member-modal{max-width:440px}
+.lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:30px;cursor:pointer;background:none;border:none;font-family:inherit}
+.admin-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--gold-lt);color:var(--gold);border-radius:20px;font-size:11px;font-weight:700}
+.pass-err{color:var(--red);font-size:12px;font-weight:600;margin-top:5px;display:none}
+.info-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:12px;color:#1E40AF;margin-bottom:14px}
+.warn-box{background:var(--gold-lt);border:1px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--gold);margin-bottom:14px}
+
+/* PENDING SECTION */
+.pending-section{background:var(--orange-lt);border:1px solid var(--orange);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.pending-section .ps-title{font-size:14px;font-weight:700;color:var(--orange);margin-bottom:12px}
+
 @media(max-width:768px){
   .stats{grid-template-columns:1fr 1fr}
   .fg{grid-template-columns:1fr}
   .img-grid{grid-template-columns:1fr}
   .photo-pair{grid-template-columns:1fr}
   .main{padding:14px}
+  .teams-grid{grid-template-columns:1fr 1fr}
   .hdr-right .btn span{display:none}
-  .members-grid{grid-template-columns:repeat(3,1fr)}
 }
-@media(max-width:480px){.stats{grid-template-columns:1fr}}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+  .teams-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <div class="loading-cover" id="loadingCover">
   <div class="spinner"></div>
-  <div style="font-size:13px;color:var(--muted)">ডেটা লোড হচ্ছে...</div>
+  <div style="font-size:13px;color:var(--muted)">লোড হচ্ছে...</div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="lightbox" id="lightbox" onclick="closeLB()">
@@ -191,96 +231,163 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
 <header class="hdr">
   <div class="hdr-inner">
     <div class="logo-area">
-      <div class="logo-box" id="logoBox" title="লোগো পরিবর্তন">
-        <span id="logoEmoji">🏭</span>
-        <img id="logoImg" src="" alt=""/>
-      </div>
       <div class="brand">
-        <div class="brand-name" id="brandName">DBL Group</div>
-        <div class="brand-sub">Kaizen Tracker — Continuous Improvement</div>
+        <div class="brand-name">🏭 DBL Kaizen</div>
+        <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
     <div class="hdr-right">
+      <div id="adminBadge" style="display:none" class="admin-badge">🔓 Admin</div>
       <button class="btn btn-outline btn-sm" id="adminBtn">🔒 <span>Admin</span></button>
-      <button class="btn btn-outline btn-sm" id="exportBtn">⬇ <span>Export</span></button>
-      <button class="btn btn-primary" id="newBtn">+ <span>নতুন কাইজেন</span></button>
+      <button class="btn btn-outline btn-sm" id="homeBtn" style="display:none">🏠 <span>Home</span></button>
     </div>
   </div>
 </header>
 
-<main class="main">
-
-  <div class="team-section">
-    <div class="team-hdr">
-      <div>
-        <div class="team-hdr-title">👥 Kaizen Team </div>
-        <div class="team-hdr-sub">| DBL Group</div>
+<!-- ══ HOME PAGE ══ -->
+<div class="page active" id="homePage">
+  <div class="main">
+    <div class="home-hero">
+      <h1>🏭 DBL Kaizen Tracker</h1>
+      <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
+    </div>
+    <div class="teams-grid" id="teamsGrid">
+      <div class="add-team-card" id="addTeamCard">
+        <div class="atc-ico">➕</div>
+        <span>নতুন টিম তৈরি করুন</span>
       </div>
     </div>
-    <div class="team-body">
-      <div class="leader-row" id="leaderRow">
-        <div class="leader-avatar" id="leaderAvatarBox" title="ছবি পরিবর্তন করুন">
-          <span id="leaderEmoji">👤</span>
-          <img id="leaderImg" src="" alt="Leader"/>
-        </div>
-        <div class="leader-info">
-          <div class="leader-badge">⭐ Group Leader</div>
-          <div class="leader-name" id="leaderName">Group Leader এর নাম</div>
-          <div class="leader-role" id="leaderRole">Designation / পদবী</div>
-        </div>
-        <div style="margin-left:auto" id="leaderEditArea" class="admin-only" style="display:none">
-          <button class="btn btn-ghost btn-sm" id="editLeaderBtn">✏️ Edit</button>
-        </div>
+
+    <!-- APPROVED KAIZEN HOME TABLE -->
+    <div class="approved-section">
+      <div class="section-hdr">
+        <div class="section-title">✅ Approved Kaizen List — সব টিম</div>
+        <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 দেখুন</button>
       </div>
-      <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">সদস্যগণ</div>
-      <div class="members-grid" id="membersGrid">
-        <div class="add-member-btn admin-only" id="addMemberBtn" style="display:none">
-          <div class="add-ico">➕</div>
-          <span>সদস্য যোগ করুন</span>
+      <div id="approvedTableWrap" style="display:none">
+        <div class="tbl-card">
+          <div id="approvedTblBody"></div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">মোট কাইজেন</div><div class="stat-val" id="sTotal">0</div></div></div>
-    <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">সম্পন্ন</div><div class="stat-val" id="sDone">0</div></div></div>
-    <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">চলমান</div><div class="stat-val" id="sProgress">0</div></div></div>
-    <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">ছবিসহ</div><div class="stat-val" id="sPic">0</div></div></div>
-  </div>
-
-  <div class="toolbar">
-    <div class="search-wrap">
-      <span class="search-ico">🔍</span>
-      <input type="text" id="srch" placeholder="কাইজেন পয়েন্ট খুঁজুন..."/>
+<!-- ══ TEAM PAGE ══ -->
+<div class="page" id="teamPage">
+  <div class="team-bar" id="teamBar">
+    <div class="team-bar-inner">
+      <div class="team-bar-left">
+        <div class="team-avatar" id="teamAvatarDisp">🏭</div>
+        <div>
+          <div class="team-bar-name" id="teamNameDisp">Team</div>
+          <div class="team-bar-sub" id="teamSubDisp">Kaizen Tracker</div>
+        </div>
+      </div>
+      <div class="team-bar-right">
+        <span class="pending-badge" id="pendingBadgeDisp" style="display:none">⏳ 0 Pending</span>
+        <button class="btn btn-outline btn-sm" id="teamExportBtn">⬇ Export</button>
+        <button class="btn btn-primary" id="newKaizenBtn">+ নতুন কাইজেন</button>
+      </div>
     </div>
-    <select class="flt" id="fStatus">
-      <option value="">সব স্ট্যাটাস</option>
-      <option value="Implemented">✅ সম্পন্ন</option>
-      <option value="In Progress">⏳ চলমান</option>
-      <option value="Planned">📅 পরিকল্পিত</option>
-    </select>
-    <select class="flt" id="fCat">
-      <option value="">সব ক্যাটাগরি</option>
-      <option value="Reporting">📊 Reporting</option>
-      <option value="Automation">🤖 Automation</option>
-      <option value="Security">🛡 Security</option>
-      <option value="Monitoring">📈 Monitoring</option>
-      <option value="Data Mgmt">🗂 Data Mgmt</option>
-      <option value="Efficiency">⚡ Efficiency</option>
-    </select>
-    <div id="adminBadge" style="display:none" class="admin-badge">🔓 Admin Mode</div>
   </div>
-
-  <div class="tbl-card">
-    <div class="tbl-hdr">
-      <div class="tbl-title">📋 কাইজেন তালিকা</div>
-      <div class="tbl-count" id="tblCount">লোড হচ্ছে...</div>
+  <div class="main">
+    <div class="stats">
+      <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">মোট কাইজেন</div><div class="stat-val" id="sTotal">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Approved</div><div class="stat-val" id="sDone">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">Pending</div><div class="stat-val" id="sPending">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">ছবিসহ</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
-    <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:22px;height:22px;border-width:3px"></div> লোড হচ্ছে...</div></div>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-ico">🔍</span>
+        <input type="text" id="srch" placeholder="কাইজেন পয়েন্ট খুঁজুন..."/>
+      </div>
+      <select class="flt" id="fStatus">
+        <option value="">সব স্ট্যাটাস</option>
+        <option value="Implemented">✅ Implemented</option>
+        <option value="In Progress">⏳ In Progress</option>
+        <option value="Planned">📅 Planned</option>
+      </select>
+      <select class="flt" id="fCat">
+        <option value="">সব ক্যাটাগরি</option>
+        <option value="Reporting">📊 Reporting</option>
+        <option value="Automation">🤖 Automation</option>
+        <option value="Security">🛡 Security</option>
+        <option value="Monitoring">📈 Monitoring</option>
+        <option value="Data Mgmt">🗂 Data Mgmt</option>
+        <option value="Efficiency">⚡ Efficiency</option>
+      </select>
+    </div>
+    <div class="tbl-card">
+      <div class="tbl-hdr">
+        <div class="tbl-title" id="teamTblTitle">📋 কাইজেন তালিকা</div>
+        <div class="tbl-count" id="tblCount">লোড হচ্ছে...</div>
+      </div>
+      <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:20px;height:20px;border-width:3px"></div> লোড হচ্ছে...</div></div>
+    </div>
   </div>
-</main>
+</div>
 
+<!-- ══ MODALS ══ -->
+
+<!-- NEW TEAM MODAL -->
+<div class="overlay" id="newTeamOvl">
+<div class="modal" style="max-width:480px">
+  <div class="modal-hdr">
+    <div class="modal-title">➕ নতুন টিম তৈরি করুন</div>
+    <button class="cls-btn" id="closeNewTeam">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="info-box">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। Admin পরে পাসওয়ার্ড দেখতে পারবে।</div>
+    <div class="fg" style="grid-template-columns:1fr">
+      <div class="f-group">
+        <label class="f-lbl">টিমের নাম <span>*</span></label>
+        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">বিভাগ / Division</label>
+        <input class="f-input" id="ntDiv" placeholder="যেমন: Warehouse Division"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">টিম পাসওয়ার্ড <span>*</span></label>
+        <input class="f-input" id="ntPass" type="password" placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">পাসওয়ার্ড নিশ্চিত করুন <span>*</span></label>
+        <input class="f-input" id="ntPass2" type="password" placeholder="আবার পাসওয়ার্ড লিখুন"/>
+      </div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelNewTeam">বাতিল</button>
+    <button class="btn btn-primary" id="saveNewTeamBtn">✅ টিম তৈরি করুন</button>
+  </div>
+</div>
+</div>
+
+<!-- TEAM LOGIN MODAL -->
+<div class="overlay" id="teamLoginOvl">
+<div class="modal" style="max-width:400px">
+  <div class="modal-hdr">
+    <div class="modal-title" id="teamLoginTitle">🔒 টিম Login</div>
+    <button class="cls-btn" id="closeTeamLogin">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="f-group">
+      <label class="f-lbl">পাসওয়ার্ড</label>
+      <input class="f-input" id="teamPassIn" type="password" placeholder="টিমের পাসওয়ার্ড দিন..."/>
+      <div class="pass-err" id="teamPassErr">❌ ভুল পাসওয়ার্ড!</div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelTeamLogin">বাতিল</button>
+    <button class="btn btn-primary" id="doTeamLoginBtn">প্রবেশ করুন</button>
+  </div>
+</div>
+</div>
+
+<!-- KAIZEN ENTRY MODAL -->
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
@@ -326,6 +433,10 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
           <option value="2">⭐⭐ Low</option>
         </select>
       </div>
+      <div id="adminTeamSelectRow" class="f-group" style="display:none">
+        <label class="f-lbl">টিম (Admin)</label>
+        <select class="f-select" id="fAdminTeam"></select>
+      </div>
       <div class="sec-lbl">🔍 বিস্তারিত</div>
       <div class="f-group full">
         <label class="f-lbl">বর্তমান সমস্যা</label>
@@ -346,13 +457,9 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
           <div class="upload-area" id="bArea">
             <input type="file" accept="image/*" id="bFile"/>
             <div class="u-ico">📷</div>
-            <div class="u-lbl">Before ছবি বেছে নিন</div>
-            <div class="u-sub">ক্লিক করুন</div>
+            <div class="u-lbl">Before ছবি</div>
           </div>
-          <div class="prev-wrap" id="bPrev">
-            <img id="bImg" src="" alt="Before"/>
-            <button class="rm-btn" id="rmB">✕</button>
-          </div>
+          <div class="prev-wrap" id="bPrev"><img id="bImg" src="" alt=""/><button class="rm-btn" id="rmB">✕</button></div>
           <div class="up-status" id="bStat"></div>
           <input class="cap-input" id="bCap" placeholder="Before বিবরণ..."/>
         </div>
@@ -361,13 +468,9 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
           <div class="upload-area" id="aArea">
             <input type="file" accept="image/*" id="aFile"/>
             <div class="u-ico">✨</div>
-            <div class="u-lbl">After ছবি বেছে নিন</div>
-            <div class="u-sub">ক্লিক করুন</div>
+            <div class="u-lbl">After ছবি</div>
           </div>
-          <div class="prev-wrap" id="aPrev">
-            <img id="aImg" src="" alt="After"/>
-            <button class="rm-btn" id="rmA">✕</button>
-          </div>
+          <div class="prev-wrap" id="aPrev"><img id="aImg" src="" alt=""/><button class="rm-btn" id="rmA">✕</button></div>
           <div class="up-status" id="aStat"></div>
           <input class="cap-input" id="aCap" placeholder="After বিবরণ..."/>
         </div>
@@ -381,6 +484,7 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
+<!-- PHOTO VIEW MODAL -->
 <div class="overlay" id="photoOvl">
 <div class="modal photo-modal">
   <div class="modal-hdr">
@@ -400,32 +504,30 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
+<!-- ADMIN MODAL -->
 <div class="overlay" id="adminOvl">
-<div class="modal admin-sm">
+<div class="modal" style="max-width:500px">
   <div class="modal-hdr">
-    <div class="modal-title">🔒 Admin Access</div>
+    <div class="modal-title">🔒 Admin Panel</div>
     <button class="cls-btn" id="closeAdmin">✕</button>
   </div>
   <div class="modal-body">
-    <div id="loginSec">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">এডিট ও ডিলিট করতে পাসওয়ার্ড দিন।</p>
+    <div id="adminLoginSec">
       <div class="f-group">
-        <label class="f-lbl">পাসওয়ার্ড</label>
-        <input class="f-input" id="passIn" type="password" placeholder="পাসওয়ার্ড লিখুন..."/>
-        <div class="pass-err" id="passErr">❌ ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</div>
+        <label class="f-lbl">Admin পাসওয়ার্ড</label>
+        <input class="f-input" id="adminPassIn" type="password" placeholder="পাসওয়ার্ড লিখুন..."/>
+        <div class="pass-err" id="adminPassErr">❌ ভুল পাসওয়ার্ড!</div>
       </div>
     </div>
-    <div id="loggedSec" style="display:none">
-      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">✅ Admin mode চালু আছে</p>
+    <div id="adminLoggedSec" style="display:none">
+      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">✅ Admin mode চালু</p>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের পাসওয়ার্ড:</div>
+      <div id="teamPassList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto"></div>
       <div class="f-group" style="margin-bottom:12px">
-        <label class="f-lbl">কোম্পানির নাম</label>
-        <input class="f-input" id="coName" value="DBL Group"/>
+        <label class="f-lbl">Admin পাসওয়ার্ড পরিবর্তন</label>
+        <input class="f-input" id="newAdminPass" type="password" placeholder="নতুন পাসওয়ার্ড (খালি = পরিবর্তন নেই)"/>
       </div>
-      <div class="f-group" style="margin-bottom:16px">
-        <label class="f-lbl">নতুন পাসওয়ার্ড (ঐচ্ছিক)</label>
-        <input class="f-input" id="newPass" type="password" placeholder="খালি রাখলে পরিবর্তন হবে না"/>
-      </div>
-      <button class="btn btn-danger btn-sm" id="logoutBtn">🔒 Logout</button>
+      <button class="btn btn-danger btn-sm" id="adminLogoutBtn">🔒 Logout</button>
     </div>
   </div>
   <div class="modal-foot">
@@ -435,71 +537,10 @@ td{padding:12px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
-<div class="overlay" id="leaderOvl">
-<div class="modal member-modal">
-  <div class="modal-hdr">
-    <div class="modal-title">⭐ Group Leader তথ্য</div>
-    <button class="cls-btn" id="closeLeader">✕</button>
-  </div>
-  <div class="modal-body">
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:90px;height:90px;border-radius:50%;margin:0 auto 12px;border:3px solid var(--accent);overflow:hidden;background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;position:relative" id="leaderPickBox">
-        <span id="leaderPickEmoji">👤</span>
-        <img id="leaderPickImg" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none"/>
-        <input type="file" accept="image/*" id="leaderPicFile" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%"/>
-      </div>
-      <div style="font-size:11px;color:var(--muted)">ছবিতে ক্লিক করে পরিবর্তন করুন</div>
-    </div>
-    <div class="f-group" style="margin-bottom:12px">
-      <label class="f-lbl">নাম <span>*</span></label>
-      <input class="f-input" id="lNameIn" placeholder="Group Leader এর নাম..."/>
-    </div>
-    <div class="f-group">
-      <label class="f-lbl">পদবী / Designation</label>
-      <input class="f-input" id="lRoleIn" placeholder="যেমন: Warehouse Manager"/>
-    </div>
-  </div>
-  <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelLeader">বাতিল</button>
-    <button class="btn btn-primary" id="saveLeaderBtn">💾 সেভ করুন</button>
-  </div>
-</div>
-</div>
-
-<div class="overlay" id="memberOvl">
-<div class="modal member-modal">
-  <div class="modal-hdr">
-    <div class="modal-title" id="memberModalTitle">নতুন সদস্য যোগ করুন</div>
-    <button class="cls-btn" id="closeMember">✕</button>
-  </div>
-  <div class="modal-body">
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 12px;border:2px solid var(--border);overflow:hidden;background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;position:relative" id="memberPickBox">
-        <span id="memberPickEmoji">👤</span>
-        <img id="memberPickImg" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none"/>
-        <input type="file" accept="image/*" id="memberPicFile" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%"/>
-      </div>
-      <div style="font-size:11px;color:var(--muted)">ছবিতে ক্লিক করে যোগ করুন</div>
-    </div>
-    <div class="f-group" style="margin-bottom:12px">
-      <label class="f-lbl">নাম <span>*</span></label>
-      <input class="f-input" id="mNameIn" placeholder="সদস্যের নাম..."/>
-    </div>
-    <div class="f-group">
-      <label class="f-lbl">পদবী / Designation</label>
-      <input class="f-input" id="mRoleIn" placeholder="যেমন: Warehouse Staff"/>
-    </div>
-  </div>
-  <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelMember">বাতিল</button>
-    <button class="btn btn-primary" id="saveMemberBtn">💾 সেভ করুন</button>
-  </div>
-</div>
-</div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, setDoc, getDoc }
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, query, orderBy, serverTimestamp, setDoc, getDoc, where, getDocs }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const CLOUD_NAME   = "dhdllytiv";
@@ -516,390 +557,56 @@ const app = initializeApp({
 });
 const db = getFirestore(app);
 
-let entries   = [];
-let isAdmin   = false;
-let adminPass = "sr007203ccl280830707";
-let editId    = null;
-let bFileObj  = null;
-let aFileObj  = null;
-let bUrl      = "";
-let aUrl      = "";
-let members   = [];
-let editMemberIdx = -1;
-let leaderPicData = "";
-let memberPicData = "";
+let isAdmin      = false;
+let adminPass    = "sr007203ccl280830707";
+let currentTeam  = null;
+let currentTeamId= null;
+let allTeams     = [];
+let teamEntries  = [];
+let allApproved  = [];
+let editId       = null;
+let bFileObj=null, aFileObj=null, bUrl="", aUrl="";
+let pendingTeamId= null;
+let unsubTeam    = null;
 
-// LOAD TEAM DATA
-async function loadTeam() {
-  const snap = await getDoc(doc(db,"team_config","team08"));
-  if (snap.exists()) {
-    const d = snap.data();
-    if (d.leaderName) document.getElementById("leaderName").textContent = d.leaderName;
-    if (d.leaderRole) document.getElementById("leaderRole").textContent = d.leaderRole;
-    if (d.leaderImg) {
-      document.getElementById("leaderEmoji").style.display = "none";
-      const li = document.getElementById("leaderImg");
-      li.src = d.leaderImg; li.style.display = "block";
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("homeBtn").style.display = id==="teamPage" ? "flex" : "none";
+}
+
+function openModal(id){document.getElementById(id).classList.add("on");}
+function closeModal(id){document.getElementById(id).classList.remove("on");}
+["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl"].forEach(id=>{
+  document.getElementById(id).addEventListener("click",e=>{if(e.target.id===id)closeModal(id);});
+});
+
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),3200);
+}
+function openLB(src){document.getElementById("lbImg").src=src;document.getElementById("lightbox").classList.add("on");}
+window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
+
+async function uploadImg(file, type){
+  const el=document.getElementById(type+"Stat");
+  el.className="up-status uploading"; el.textContent="⏳ আপলোড হচ্ছে...";
+  try{
+    const fd=new FormData();
+    fd.append("file",file); fd.append("upload_preset",CLOUD_PRESET); fd.append("folder","kaizen_dbl");
+    const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
+    const j=await r.json();
+    if(j.secure_url){
+      el.className="up-status done"; el.textContent="✅ সম্পন্ন!";
+      setTimeout(()=>{el.className="up-status";},2500);
+      return j.secure_url;
     }
-    members = d.members || [];
-    renderMembers();
+    throw new Error(j.error?.message||"Upload failed");
+  }catch(e){
+    el.className="up-status error"; el.textContent="❌ "+e.message; throw e;
   }
 }
-
-function renderMembers() {
-  const grid = document.getElementById("membersGrid");
-  let h = "";
-  members.forEach((m, i) => {
-    const hasImg = !!m.img;
-    h += `<div class="member-card" style="position:relative">
-      <div class="member-avatar">
-        ${hasImg ? `<img src="${m.img}" alt="${m.name}" style="display:block"/>` : `<span>👤</span>`}
-      </div>
-      <div class="member-name">${m.name}</div>
-      <div class="member-role">${m.role||""}</div>
-      ${isAdmin ? `<div style="display:flex;gap:4px;justify-content:center;margin-top:6px">
-        <button class="ico-btn edit" data-mi="${i}" title="এডিট" style="width:24px;height:24px;font-size:11px">✏️</button>
-        <button class="ico-btn del" data-mdi="${i}" title="মুছুন" style="width:24px;height:24px;font-size:11px">🗑️</button>
-      </div>` : ""}
-    </div>`;
-  });
-  if (isAdmin) {
-    h += `<div class="add-member-btn" id="addMemberBtn">
-      <div class="add-ico">➕</div>
-      <span>সদস্য যোগ করুন</span>
-    </div>`;
-  }
-  grid.innerHTML = h;
-  grid.querySelectorAll("[data-mi]").forEach(b => b.addEventListener("click", () => openEditMember(parseInt(b.dataset.mi))));
-  grid.querySelectorAll("[data-mdi]").forEach(b => b.addEventListener("click", () => deleteMember(parseInt(b.dataset.mdi))));
-  const addBtn = document.getElementById("addMemberBtn");
-  if (addBtn) addBtn.addEventListener("click", openAddMember);
-
-  if (isAdmin) {
-    document.getElementById("leaderAvatarBox").addEventListener("click", () => openLeaderModal());
-  }
-}
-
-async function saveTeam() {
-  await setDoc(doc(db,"team_config","team08"), {
-    leaderName: document.getElementById("leaderName").textContent,
-    leaderRole: document.getElementById("leaderRole").textContent,
-    leaderImg:  document.getElementById("leaderImg").src || "",
-    members
-  });
-}
-
-// LEADER MODAL
-function openLeaderModal() {
-  document.getElementById("lNameIn").value = document.getElementById("leaderName").textContent;
-  document.getElementById("lRoleIn").value = document.getElementById("leaderRole").textContent;
-  leaderPicData = "";
-  const li = document.getElementById("leaderImg");
-  if (li.style.display !== "none") {
-    document.getElementById("leaderPickImg").src = li.src;
-    document.getElementById("leaderPickImg").style.display = "block";
-    document.getElementById("leaderPickEmoji").style.display = "none";
-  } else {
-    document.getElementById("leaderPickImg").style.display = "none";
-    document.getElementById("leaderPickEmoji").style.display = "block";
-  }
-  openModal("leaderOvl");
-}
-
-document.getElementById("leaderPicFile").addEventListener("change", e => {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    leaderPicData = ev.target.result;
-    document.getElementById("leaderPickImg").src = leaderPicData;
-    document.getElementById("leaderPickImg").style.display = "block";
-    document.getElementById("leaderPickEmoji").style.display = "none";
-  };
-  r.readAsDataURL(f);
-});
-
-document.getElementById("saveLeaderBtn").addEventListener("click", async () => {
-  const name = document.getElementById("lNameIn").value.trim();
-  if (!name) { showToast("⚠️ নাম লিখুন"); return; }
-  document.getElementById("saveLeaderBtn").textContent = "⏳ সেভ হচ্ছে...";
-  let imgUrl = document.getElementById("leaderImg").src || "";
-  if (leaderPicData) {
-    try {
-      const fd = new FormData();
-      fd.append("file", leaderPicData);
-      fd.append("upload_preset", CLOUD_PRESET);
-      fd.append("folder","kaizen_team");
-      const res = await fetch(CLOUD_URL,{method:"POST",body:fd});
-      const j = await res.json();
-      if (j.secure_url) imgUrl = j.secure_url;
-    } catch(e) {}
-  }
-  document.getElementById("leaderName").textContent = name;
-  document.getElementById("leaderRole").textContent = document.getElementById("lRoleIn").value.trim() || "Group Leader";
-  if (imgUrl) {
-    document.getElementById("leaderEmoji").style.display = "none";
-    const li = document.getElementById("leaderImg");
-    li.src = imgUrl; li.style.display = "block";
-  }
-  await saveTeam();
-  closeModal("leaderOvl");
-  showToast("✅ Leader তথ্য সেভ হয়েছে!");
-  document.getElementById("saveLeaderBtn").textContent = "💾 সেভ করুন";
-});
-
-// MEMBER MODAL
-function openAddMember() {
-  editMemberIdx = -1;
-  memberPicData = "";
-  document.getElementById("memberModalTitle").textContent = "নতুন সদস্য যোগ করুন";
-  document.getElementById("mNameIn").value = "";
-  document.getElementById("mRoleIn").value = "";
-  document.getElementById("memberPickImg").style.display = "none";
-  document.getElementById("memberPickEmoji").style.display = "block";
-  openModal("memberOvl");
-}
-
-function openEditMember(idx) {
-  editMemberIdx = idx;
-  memberPicData = "";
-  const m = members[idx];
-  document.getElementById("memberModalTitle").textContent = "সদস্য এডিট করুন";
-  document.getElementById("mNameIn").value = m.name || "";
-  document.getElementById("mRoleIn").value = m.role || "";
-  if (m.img) {
-    document.getElementById("memberPickImg").src = m.img;
-    document.getElementById("memberPickImg").style.display = "block";
-    document.getElementById("memberPickEmoji").style.display = "none";
-  } else {
-    document.getElementById("memberPickImg").style.display = "none";
-    document.getElementById("memberPickEmoji").style.display = "block";
-  }
-  openModal("memberOvl");
-}
-
-async function deleteMember(idx) {
-  if (!confirm("এই সদস্য মুছে ফেলবেন?")) return;
-  members.splice(idx, 1);
-  await saveTeam();
-  renderMembers();
-  showToast("🗑 সদস্য মুছে ফেলা হয়েছে");
-}
-
-document.getElementById("memberPicFile").addEventListener("change", e => {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    memberPicData = ev.target.result;
-    document.getElementById("memberPickImg").src = memberPicData;
-    document.getElementById("memberPickImg").style.display = "block";
-    document.getElementById("memberPickEmoji").style.display = "none";
-  };
-  r.readAsDataURL(f);
-});
-
-document.getElementById("saveMemberBtn").addEventListener("click", async () => {
-  const name = document.getElementById("mNameIn").value.trim();
-  if (!name) { showToast("⚠️ নাম লিখুন"); return; }
-  document.getElementById("saveMemberBtn").textContent = "⏳ সেভ হচ্ছে...";
-  let imgUrl = editMemberIdx >= 0 ? (members[editMemberIdx].img || "") : "";
-  if (memberPicData) {
-    try {
-      const fd = new FormData();
-      fd.append("file", memberPicData);
-      fd.append("upload_preset", CLOUD_PRESET);
-      fd.append("folder","kaizen_team");
-      const res = await fetch(CLOUD_URL,{method:"POST",body:fd});
-      const j = await res.json();
-      if (j.secure_url) imgUrl = j.secure_url;
-    } catch(e) {}
-  }
-  const member = { name, role: document.getElementById("mRoleIn").value.trim(), img: imgUrl };
-  if (editMemberIdx >= 0) members[editMemberIdx] = member;
-  else members.push(member);
-  await saveTeam();
-  renderMembers();
-  closeModal("memberOvl");
-  showToast("✅ সদস্য সেভ হয়েছে!");
-  document.getElementById("saveMemberBtn").textContent = "💾 সেভ করুন";
-});
-
-// REAL-TIME KAIZEN
-const q = query(collection(db,"kaizen_entries"), orderBy("createdAt","desc"));
-onSnapshot(q, snap => {
-  entries = snap.docs.map(d => ({id:d.id,...d.data()}));
-  render();
-  updateStats();
-  document.getElementById("loadingCover").style.display = "none";
-}, err => {
-  showToast("❌ "+err.message);
-  document.getElementById("loadingCover").style.display = "none";
-});
-
-// CLOUDINARY UPLOAD
-async function uploadImg(file, type) {
-  const statEl = document.getElementById(type+"Stat");
-  statEl.className = "up-status uploading";
-  statEl.textContent = "⏳ আপলোড হচ্ছে...";
-  try {
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("upload_preset", CLOUD_PRESET);
-    fd.append("folder","kaizen_dbl");
-    const res  = await fetch(CLOUD_URL, {method:"POST", body:fd});
-    const json = await res.json();
-    if (json.secure_url) {
-      statEl.className = "up-status done";
-      statEl.textContent = "✅ আপলোড সম্পন্ন!";
-      setTimeout(() => { statEl.className = "up-status"; }, 2500);
-      return json.secure_url;
-    }
-    throw new Error(json.error?.message || "Upload failed");
-  } catch(e) {
-    statEl.className = "up-status error";
-    statEl.textContent = "❌ আপলোড ব্যর্থ: "+e.message;
-    throw e;
-  }
-}
-
-async function doSave() {
-  const title = document.getElementById("fTitle").value.trim();
-  if (!title) { showToast("⚠️ শিরোনাম লিখুন"); return; }
-  const btn = document.getElementById("saveBtn");
-  btn.disabled = true; btn.textContent = "⏳ সংরক্ষণ হচ্ছে...";
-  try {
-    let finalB = bUrl, finalA = aUrl;
-    if (bFileObj) finalB = await uploadImg(bFileObj, "b");
-    if (aFileObj) finalA = await uploadImg(aFileObj, "a");
-    const data = {
-      title,
-      date:document.getElementById("fDate").value,
-      category:document.getElementById("fCatI").value,
-      status:document.getElementById("fStatus2").value,
-      impact:document.getElementById("fImpact").value,
-      problem:document.getElementById("fProb").value.trim(),
-      solution:document.getElementById("fSol").value.trim(),
-      benefit:document.getElementById("fBen").value.trim(),
-      bCap:document.getElementById("bCap").value.trim(),
-      aCap:document.getElementById("aCap").value.trim(),
-      bUrl:finalB, aUrl:finalA,
-    };
-    if (editId) {
-      await updateDoc(doc(db,"kaizen_entries",editId), {...data, updatedAt:serverTimestamp()});
-      showToast("✅ আপডেট সম্পন্ন!");
-    } else {
-      await addDoc(collection(db,"kaizen_entries"), {...data, createdAt:serverTimestamp()});
-      showToast("✅ নতুন এন্ট্রি যোগ হয়েছে!");
-    }
-    closeModal("entryOvl");
-  } catch(e) { showToast("❌ "+e.message); }
-  btn.disabled = false; btn.textContent = "💾 সংরক্ষণ করুন";
-}
-
-async function doDelete(id) {
-  if (!isAdmin) { showToast("⚠️ Admin mode চালু করুন"); return; }
-  if (!confirm("এই এন্ট্রি মুছে ফেলবেন?")) return;
-  try { await deleteDoc(doc(db,"kaizen_entries",id)); showToast("🗑 মুছে ফেলা হয়েছে"); }
-  catch(e) { showToast("❌ "+e.message); }
-}
-
-function doEdit(id) {
-  if (!isAdmin) { showToast("⚠️ Admin mode চালু করুন"); return; }
-  const e = entries.find(x => x.id === id); if (!e) return;
-  editId=id; bFileObj=null; aFileObj=null; bUrl=e.bUrl||""; aUrl=e.aUrl||"";
-  document.getElementById("entryTitle").textContent = "✏️ এন্ট্রি এডিট করুন";
-  document.getElementById("fTitle").value=e.title||"";
-  document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fCatI").value=e.category||"Reporting";
-  document.getElementById("fStatus2").value=e.status||"Implemented";
-  document.getElementById("fImpact").value=e.impact||"3";
-  document.getElementById("fProb").value=e.problem||"";
-  document.getElementById("fSol").value=e.solution||"";
-  document.getElementById("fBen").value=e.benefit||"";
-  document.getElementById("bCap").value=e.bCap||"";
-  document.getElementById("aCap").value=e.aCap||"";
-  if(e.bUrl) showPrev("b",e.bUrl); else resetPrev("b");
-  if(e.aUrl) showPrev("a",e.aUrl); else resetPrev("a");
-  openModal("entryOvl");
-}
-
-function viewPhotos(id) {
-  const e = entries.find(x => x.id === id); if (!e) return;
-  document.getElementById("photoTitle").textContent = e.title||"Photos";
-  const mkImg = (url,lb) => url
-    ? `<img src="${url}" alt="${lb}" style="width:100%;height:270px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" data-lbsrc="${url}">`
-    : `<div class="no-img"><span style="font-size:36px">${lb==="Before"?"📷":"✨"}</span><span>ছবি নেই</span></div>`;
-  document.getElementById("pBefore").innerHTML = mkImg(e.bUrl,"Before");
-  document.getElementById("pAfter").innerHTML  = mkImg(e.aUrl,"After");
-  document.getElementById("pBCap").textContent = e.bCap||"কোনো বিবরণ নেই";
-  document.getElementById("pACap").textContent = e.aCap||"কোনো বিবরণ নেই";
-  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
-  const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
-  document.getElementById("detRows").innerHTML=`
-    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:8px">বিস্তারিত তথ্য</div>
-    ${dr("তারিখ",e.date||"-")}
-    ${dr("Category",(ci[e.category]||"")+" "+(e.category||"-"))}
-    ${dr("Status",stBadge(e.status))}
-    ${dr("Impact",is[e.impact]||"-")}
-    ${e.problem?dr("সমস্যা",e.problem):""}
-    ${e.solution?dr("সমাধান",e.solution):""}
-    ${e.benefit?dr("সুফল",e.benefit):""}
-  `;
-  document.querySelectorAll("#pBefore img, #pAfter img").forEach(img=>{
-    img.onclick = () => openLB(img.dataset.lbsrc||img.src);
-  });
-  openModal("photoOvl");
-}
-function dr(k,v){return`<div class="det-row"><div class="det-k">${k}</div><div style="font-size:13px;color:var(--text)">${v}</div></div>`;}
-
-function render() {
-  const srch=document.getElementById("srch").value.toLowerCase();
-  const fs=document.getElementById("fStatus").value;
-  const fc=document.getElementById("fCat").value;
-  const list=entries.filter(e=>{
-    const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
-    const mst=!fs||e.status===fs;
-    const mc=!fc||e.category===fc;
-    return ms&&mst&&mc;
-  });
-  document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
-  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
-  if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>"নতুন কাইজেন" বাটনে ক্লিক করুন</p></div>`;
-    return;
-  }
-  let h=`<table><thead><tr><th>No.</th><th>Kaizen Point</th><th>Category</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>${isAdmin?"<th>Action</th>":""}</tr></thead><tbody>`;
-  list.forEach((e,i)=>{
-    const hp=!!(e.bUrl||e.aUrl);
-    h+=`<tr>
-      <td class="td-no">${i+1}</td>
-      <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,55)+"..."):""}</small></td>
-      <td><span class="badge b-blue">${ci[e.category]||""} ${e.category||"-"}</span></td>
-      <td>${stBadge(e.status)}</td>
-      <td style="font-size:12px">${stars(e.impact)}</td>
-      <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
-      ${isAdmin?`<td><div class="act-btns"><button class="ico-btn edit" data-eid="${e.id}">✏️</button><button class="ico-btn del" data-did="${e.id}">🗑️</button></div></td>`:""}
-    </tr>`;
-  });
-  h+="</tbody></table>";
-  document.getElementById("tblWrap").innerHTML=h;
-  document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid)));
-  document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
-  document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
-}
-
-function updateStats(){
-  document.getElementById("sTotal").textContent=entries.length;
-  document.getElementById("sDone").textContent=entries.filter(x=>x.status==="Implemented").length;
-  document.getElementById("sProgress").textContent=entries.filter(x=>x.status==="In Progress").length;
-  document.getElementById("sPic").textContent=entries.filter(x=>x.bUrl||x.aUrl).length;
-}
-function stBadge(s){
-  const m={"Implemented":["b-green","✅ সম্পন্ন"],"In Progress":["b-orange","⏳ চলমান"],"Planned":["b-blue","📅 পরিকল্পিত"]};
-  const [cls,lbl]=m[s]||["b-blue",s];
-  return `<span class="badge ${cls}">${lbl}</span>`;
-}
-function stars(v){return{5:"⭐⭐⭐⭐⭐",4:"⭐⭐⭐⭐",3:"⭐⭐⭐",2:"⭐⭐",1:"⭐"}[v]||"-";}
 
 function showPrev(t,src){
   document.getElementById(t+"Area").style.display="none";
@@ -913,25 +620,137 @@ function resetPrev(t){
   document.getElementById(t+"Stat").className="up-status";
   if(t==="b"){bFileObj=null;bUrl="";}else{aFileObj=null;aUrl="";}
 }
-
 document.getElementById("bFile").addEventListener("change",e=>{
-  const f=e.target.files[0]; if(!f) return;
-  bFileObj=f;
+  const f=e.target.files[0]; if(!f) return; bFileObj=f;
   const r=new FileReader(); r.onload=ev=>showPrev("b",ev.target.result); r.readAsDataURL(f);
 });
 document.getElementById("aFile").addEventListener("change",e=>{
-  const f=e.target.files[0]; if(!f) return;
-  aFileObj=f;
+  const f=e.target.files[0]; if(!f) return; aFileObj=f;
   const r=new FileReader(); r.onload=ev=>showPrev("a",ev.target.result); r.readAsDataURL(f);
 });
 document.getElementById("rmB").addEventListener("click",()=>resetPrev("b"));
 document.getElementById("rmA").addEventListener("click",()=>resetPrev("a"));
 
-function openModal(id){document.getElementById(id).classList.add("on");}
-function closeModal(id){document.getElementById(id).classList.remove("on");}
+// ── LOAD TEAMS ──────────────────────────────────────────────────────
+onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")), snap=>{
+  allTeams = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderTeamCards();
+  renderAdminPassList();
+  populateAdminTeamSelect();
+  document.getElementById("loadingCover").style.display="none";
+});
 
-function openNew(){
-  editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
+// APPROVED KAIZEN — all teams
+onSnapshot(
+  query(collection(db,"kaizen_entries"),where("approved","==",true),orderBy("createdAt","desc")),
+  snap=>{ allApproved=snap.docs.map(d=>({id:d.id,...d.data()})); renderApprovedTable(); }
+);
+
+function renderTeamCards(){
+  const grid=document.getElementById("teamsGrid");
+  let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>নতুন টিম তৈরি করুন</span></div>`;
+  allTeams.forEach(t=>{
+    const col=t.color||"#2E86C1";
+    h+=`<div class="team-card" data-tid="${t.id}">
+      <div class="tc-icon">${t.icon||"🏭"}</div>
+      <div class="tc-name">${t.name}</div>
+      <div class="tc-meta">${t.division||""}</div>
+      <span class="badge b-blue tc-badge">👥 টিম</span>
+    </div>`;
+  });
+  grid.innerHTML=h;
+  document.getElementById("addTeamCard").addEventListener("click",()=>openModal("newTeamOvl"));
+  grid.querySelectorAll(".team-card").forEach(c=>{
+    c.addEventListener("click",()=>handleTeamClick(c.dataset.tid));
+  });
+}
+
+function handleTeamClick(tid){
+  const team=allTeams.find(t=>t.id===tid);
+  if(!team) return;
+  if(isAdmin){
+    enterTeam(team);
+  } else {
+    pendingTeamId=tid;
+    document.getElementById("teamLoginTitle").textContent=`🔒 ${team.name}`;
+    document.getElementById("teamPassIn").value="";
+    document.getElementById("teamPassErr").style.display="none";
+    openModal("teamLoginOvl");
+  }
+}
+
+function enterTeam(team){
+  currentTeam=team; currentTeamId=team.id;
+  document.getElementById("teamNameDisp").textContent=team.name;
+  document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
+  document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — কাইজেন তালিকা`;
+  showPage("teamPage");
+  subscribeTeamEntries(team.id);
+}
+
+function subscribeTeamEntries(tid){
+  if(unsubTeam) unsubTeam();
+  unsubTeam=onSnapshot(
+    query(collection(db,"kaizen_entries"),where("teamId","==",tid),orderBy("createdAt","desc")),
+    snap=>{
+      teamEntries=snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderTeamTable(); updateStats();
+    }
+  );
+}
+
+// ── TEAM LOGIN ──────────────────────────────────────────────────────
+document.getElementById("doTeamLoginBtn").addEventListener("click",doTeamLogin);
+document.getElementById("teamPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doTeamLogin();});
+function doTeamLogin(){
+  const team=allTeams.find(t=>t.id===pendingTeamId);
+  if(!team) return;
+  if(document.getElementById("teamPassIn").value===team.password){
+    document.getElementById("teamPassErr").style.display="none";
+    closeModal("teamLoginOvl");
+    enterTeam(team);
+  } else {
+    document.getElementById("teamPassErr").style.display="block";
+    document.getElementById("teamPassIn").value="";
+  }
+}
+document.getElementById("closeTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
+document.getElementById("cancelTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
+
+// ── NEW TEAM ────────────────────────────────────────────────────────
+document.getElementById("saveNewTeamBtn").addEventListener("click", async()=>{
+  const name=document.getElementById("ntName").value.trim();
+  const div=document.getElementById("ntDiv").value.trim();
+  const p1=document.getElementById("ntPass").value;
+  const p2=document.getElementById("ntPass2").value;
+  if(!name){showToast("⚠️ টিমের নাম লিখুন");return;}
+  if(!p1){showToast("⚠️ পাসওয়ার্ড দিন");return;}
+  if(p1!==p2){showToast("❌ পাসওয়ার্ড মিলছে না!");return;}
+  const btn=document.getElementById("saveNewTeamBtn");
+  btn.disabled=true; btn.textContent="⏳ তৈরি হচ্ছে...";
+  try{
+    await addDoc(collection(db,"kaizen_teams"),{
+      name, division:div, password:p1,
+      icon:"🏭", color:"#2E86C1",
+      createdAt:serverTimestamp()
+    });
+    showToast("✅ নতুন টিম তৈরি হয়েছে!");
+    closeModal("newTeamOvl");
+    ["ntName","ntDiv","ntPass","ntPass2"].forEach(id=>document.getElementById(id).value="");
+  }catch(e){showToast("❌ "+e.message);}
+  btn.disabled=false; btn.textContent="✅ টিম তৈরি করুন";
+});
+document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
+document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
+
+// ── KAIZEN SAVE ──────────────────────────────────────────────────────
+document.getElementById("newKaizenBtn").addEventListener("click",openNewEntry);
+document.getElementById("saveBtn").addEventListener("click",doSave);
+document.getElementById("cancelEntry").addEventListener("click",()=>closeModal("entryOvl"));
+document.getElementById("closeEntry").addEventListener("click",()=>closeModal("entryOvl"));
+
+function openNewEntry(){
+  editId=null; bFileObj=null; aFileObj=null; bUrl=""; aUrl="";
   document.getElementById("entryTitle").textContent="নতুন কাইজেন এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
@@ -940,144 +759,328 @@ function openNew(){
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
+  document.getElementById("adminTeamSelectRow").style.display = isAdmin ? "flex" : "none";
   resetPrev("b"); resetPrev("a");
   openModal("entryOvl");
 }
 
-function doLogin(){
-  const entered=document.getElementById("passIn").value;
-  const errEl=document.getElementById("passErr");
-  if(entered===adminPass){
-    isAdmin=true; errEl.style.display="none";
-    document.getElementById("loginSec").style.display="none";
-    document.getElementById("loggedSec").style.display="block";
-    document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
-    document.getElementById("adminBadge").style.display="flex";
-    document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
-    document.getElementById("leaderAvatarBox").style.cursor="pointer";
-    renderMembers();
-    render();
-  } else {
-    errEl.style.display="block";
-    document.getElementById("passIn").value="";
-    document.getElementById("passIn").focus();
+async function doSave(){
+  const title=document.getElementById("fTitle").value.trim();
+  if(!title){showToast("⚠️ শিরোনাম লিখুন");return;}
+  const btn=document.getElementById("saveBtn");
+  btn.disabled=true; btn.textContent="⏳ সংরক্ষণ হচ্ছে...";
+  try{
+    let finalB=bUrl, finalA=aUrl;
+    if(bFileObj) finalB=await uploadImg(bFileObj,"b");
+    if(aFileObj) finalA=await uploadImg(aFileObj,"a");
+    const tid = isAdmin
+      ? (document.getElementById("fAdminTeam").value || currentTeamId)
+      : currentTeamId;
+    const teamObj = allTeams.find(t=>t.id===tid);
+    const data={
+      title,
+      date:document.getElementById("fDate").value,
+      category:document.getElementById("fCatI").value,
+      status:document.getElementById("fStatus2").value,
+      impact:document.getElementById("fImpact").value,
+      problem:document.getElementById("fProb").value.trim(),
+      solution:document.getElementById("fSol").value.trim(),
+      benefit:document.getElementById("fBen").value.trim(),
+      bCap:document.getElementById("bCap").value.trim(),
+      aCap:document.getElementById("aCap").value.trim(),
+      bUrl:finalB, aUrl:finalA,
+      teamId:tid,
+      teamName:teamObj?.name||"",
+      approved:false,
+    };
+    if(editId){
+      await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
+      showToast("✅ আপডেট হয়েছে!");
+    } else {
+      await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
+      showToast("✅ এন্ট্রি যোগ হয়েছে! Admin approval এর জন্য অপেক্ষা করুন।");
+    }
+    closeModal("entryOvl");
+  }catch(e){showToast("❌ "+e.message);}
+  btn.disabled=false; btn.textContent="💾 সংরক্ষণ করুন";
+}
+
+// ── RENDER TEAM TABLE ────────────────────────────────────────────────
+function renderTeamTable(){
+  const srch=document.getElementById("srch").value.toLowerCase();
+  const fs=document.getElementById("fStatus").value;
+  const fc=document.getElementById("fCat").value;
+  const list=teamEntries.filter(e=>{
+    const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
+    return ms&&(!fs||e.status===fs)&&(!fc||e.category===fc);
+  });
+  document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
+  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
+  if(!list.length){
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>+ নতুন কাইজেন বাটনে ক্লিক করুন</p></div>`;
+    return;
   }
+  let h=`<table><thead><tr>
+    <th>No.</th><th>Kaizen Point</th><th>Category</th><th>Status</th><th>Impact</th>
+    <th>তারিখ</th><th>Approval</th><th>ছবি</th>
+    ${isAdmin?"<th>Action</th>":""}
+  </tr></thead><tbody>`;
+  list.forEach((e,i)=>{
+    const hp=!!(e.bUrl||e.aUrl);
+    const approvalBadge=e.approved
+      ?`<span class="badge b-green">✅ Approved</span>`
+      :`<span class="badge b-orange">⏳ Pending</span>`;
+    h+=`<tr>
+      <td class="td-no">${i+1}</td>
+      <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
+      <td><span class="badge b-blue">${ci[e.category]||""} ${e.category||"-"}</span></td>
+      <td>${stBadge(e.status)}</td>
+      <td style="font-size:12px">${stars(e.impact)}</td>
+      <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+      <td>${approvalBadge}</td>
+      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
+      ${isAdmin?`<td><div class="act-btns">
+        ${!e.approved?`<button class="ico-btn approve" data-approve="${e.id}" title="Approve">✅</button>`:""}
+        <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
+        <button class="ico-btn del" data-did="${e.id}" title="ডিলিট">🗑️</button>
+      </div></td>`:""}
+    </tr>`;
+  });
+  h+="</tbody></table>";
+  document.getElementById("tblWrap").innerHTML=h;
+  document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
+  document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
+  document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
+  document.getElementById("tblWrap").querySelectorAll("[data-approve]").forEach(b=>b.addEventListener("click",()=>approveKaizen(b.dataset.approve)));
+
+  const pending=teamEntries.filter(e=>!e.approved).length;
+  const pb=document.getElementById("pendingBadgeDisp");
+  if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
+  else pb.style.display="none";
 }
 
-function saveSettings(){
-  const n=document.getElementById("coName").value.trim();
-  const p=document.getElementById("newPass").value;
-  if(n) document.getElementById("brandName").textContent=n;
-  if(p){adminPass=p;document.getElementById("newPass").value="";}
-  showToast("✅ সেটিং সেভ হয়েছে");
-  closeModal("adminOvl");
+function updateStats(){
+  document.getElementById("sTotal").textContent=teamEntries.length;
+  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.approved).length;
+  document.getElementById("sPending").textContent=teamEntries.filter(x=>!x.approved).length;
+  document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
 
-function doLogout(){
-  isAdmin=false;
-  document.getElementById("adminBadge").style.display="none";
-  document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
-  document.getElementById("loginSec").style.display="block";
-  document.getElementById("loggedSec").style.display="none";
-  document.getElementById("passIn").value="";
-  document.getElementById("passErr").style.display="none";
-  document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
-  renderMembers(); render(); closeModal("adminOvl");
-  showToast("🔒 Logout হয়েছে");
+// ── APPROVE ─────────────────────────────────────────────────────────
+async function approveKaizen(id){
+  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
+    showToast("✅ Kaizen Approved!");
+  }catch(e){showToast("❌ "+e.message);}
 }
 
-function doExport(){
-  const rows=[["No.","Title","Date","Category","Status","Impact","Problem","Solution","Benefit","Before URL","After URL"]];
-  entries.forEach((e,i)=>rows.push([i+1,e.title||"",e.date||"",e.category||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.bUrl||"",e.aUrl||""]));
-  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download="Kaizen_Export.csv"; a.click();
-  showToast("✅ Export সম্পন্ন!");
+// ── DELETE / EDIT ────────────────────────────────────────────────────
+async function doDelete(id){
+  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  if(!confirm("মুছে ফেলবেন?")) return;
+  try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
+  catch(e){showToast("❌ "+e.message);}
+}
+function doEdit(id){
+  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  const e=teamEntries.find(x=>x.id===id); if(!e) return;
+  editId=id; bFileObj=null; aFileObj=null; bUrl=e.bUrl||""; aUrl=e.aUrl||"";
+  document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
+  document.getElementById("fTitle").value=e.title||"";
+  document.getElementById("fDate").value=e.date||"";
+  document.getElementById("fCatI").value=e.category||"Reporting";
+  document.getElementById("fStatus2").value=e.status||"Implemented";
+  document.getElementById("fImpact").value=e.impact||"3";
+  document.getElementById("fProb").value=e.problem||"";
+  document.getElementById("fSol").value=e.solution||"";
+  document.getElementById("fBen").value=e.benefit||"";
+  document.getElementById("bCap").value=e.bCap||"";
+  document.getElementById("aCap").value=e.aCap||"";
+  document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
+  if(isAdmin) document.getElementById("fAdminTeam").value=e.teamId||"";
+  if(e.bUrl) showPrev("b",e.bUrl); else resetPrev("b");
+  if(e.aUrl) showPrev("a",e.aUrl); else resetPrev("a");
+  openModal("entryOvl");
 }
 
-function openLB(src){document.getElementById("lbImg").src=src;document.getElementById("lightbox").classList.add("on");}
-window.closeLB=function(){document.getElementById("lightbox").classList.remove("on");};
-
-function showToast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),3200);
+// ── PHOTO VIEW ───────────────────────────────────────────────────────
+function viewPhotos(id,list){
+  const e=list.find(x=>x.id===id); if(!e) return;
+  document.getElementById("photoTitle").textContent=e.title||"Photos";
+  const mkI=(url,lb)=>url
+    ?`<img src="${url}" alt="${lb}" style="width:100%;height:260px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" onclick="openLB('${url}')">`
+    :`<div class="no-img"><span style="font-size:32px">${lb==="Before"?"📷":"✨"}</span><span>ছবি নেই</span></div>`;
+  document.getElementById("pBefore").innerHTML=mkI(e.bUrl,"Before");
+  document.getElementById("pAfter").innerHTML=mkI(e.aUrl,"After");
+  document.getElementById("pBCap").textContent=e.bCap||"কোনো বিবরণ নেই";
+  document.getElementById("pACap").textContent=e.aCap||"কোনো বিবরণ নেই";
+  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
+  const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
+  document.getElementById("detRows").innerHTML=`
+    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">বিস্তারিত</div>
+    ${dr("টিম",e.teamName||"-")}
+    ${dr("তারিখ",e.date||"-")}
+    ${dr("Category",(ci[e.category]||"")+" "+(e.category||"-"))}
+    ${dr("Status",stBadge(e.status))}
+    ${dr("Impact",is[e.impact]||"-")}
+    ${e.problem?dr("সমস্যা",e.problem):""}
+    ${e.solution?dr("সমাধান",e.solution):""}
+    ${e.benefit?dr("সুফল",e.benefit):""}
+  `;
+  openModal("photoOvl");
 }
+function dr(k,v){return`<div class="det-row"><div class="det-k">${k}</div><div style="font-size:13px;color:var(--text)">${v}</div></div>`;}
+window.openLB=openLB;
 
-document.getElementById("newBtn").addEventListener("click",openNew);
-document.getElementById("saveBtn").addEventListener("click",doSave);
-document.getElementById("cancelEntry").addEventListener("click",()=>closeModal("entryOvl"));
-document.getElementById("closeEntry").addEventListener("click",()=>closeModal("entryOvl"));
 document.getElementById("closePhoto").addEventListener("click",()=>closeModal("photoOvl"));
 document.getElementById("closePhoto2").addEventListener("click",()=>closeModal("photoOvl"));
-document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
-document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
-document.getElementById("closeLeader").addEventListener("click",()=>closeModal("leaderOvl"));
-document.getElementById("cancelLeader").addEventListener("click",()=>closeModal("leaderOvl"));
-document.getElementById("closeMember").addEventListener("click",()=>closeModal("memberOvl"));
-document.getElementById("cancelMember").addEventListener("click",()=>closeModal("memberOvl"));
-document.getElementById("logoutBtn").addEventListener("click",doLogout);
-document.getElementById("exportBtn").addEventListener("click",doExport);
-document.getElementById("srch").addEventListener("input",render);
-document.getElementById("fStatus").addEventListener("change",render);
-document.getElementById("fCat").addEventListener("change",render);
 
-document.getElementById("leaderAvatarBox").addEventListener("click",()=>{
-  if(isAdmin) openLeaderModal();
+// ── APPROVED TABLE (HOME) ─────────────────────────────────────────────
+document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
+  const w=document.getElementById("approvedTableWrap");
+  const btn=document.getElementById("toggleApprovedBtn");
+  if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 লুকান";}
+  else{w.style.display="none";btn.textContent="📋 দেখুন";}
 });
 
+function renderApprovedTable(){
+  const ci={Reporting:"📊",Automation:"🤖",Security:"🛡",Monitoring:"📈","Data Mgmt":"🗂",Efficiency:"⚡"};
+  if(!allApproved.length){
+    document.getElementById("approvedTblBody").innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
+    return;
+  }
+  let h=`<table><thead><tr>
+    <th>No.</th><th>Team</th><th>Kaizen Point</th><th>Category</th>
+    <th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+  </tr></thead><tbody>`;
+  allApproved.forEach((e,i)=>{
+    const hp=!!(e.bUrl||e.aUrl);
+    h+=`<tr>
+      <td class="td-no">${i+1}</td>
+      <td><span class="badge b-purple">${e.teamName||"-"}</span></td>
+      <td class="td-title">${e.title||"-"}</td>
+      <td><span class="badge b-blue">${ci[e.category]||""} ${e.category||"-"}</span></td>
+      <td>${stBadge(e.status)}</td>
+      <td style="font-size:12px">${stars(e.impact)}</td>
+      <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-apid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
+    </tr>`;
+  });
+  h+="</tbody></table>";
+  document.getElementById("approvedTblBody").innerHTML=h;
+  document.getElementById("approvedTblBody").querySelectorAll("[data-apid]").forEach(b=>{
+    b.addEventListener("click",()=>viewPhotos(b.dataset.apid,allApproved));
+  });
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────────
+function renderAdminPassList(){
+  const list=document.getElementById("teamPassList");
+  if(!allTeams.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted)">কোনো টিম নেই</div>`;return;}
+  list.innerHTML=allTeams.map(t=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border)">
+      <div>
+        <div style="font-size:13px;font-weight:600">${t.name}</div>
+        <div style="font-size:11px;color:var(--muted)">${t.division||""}</div>
+      </div>
+      <code style="font-size:12px;background:var(--gold-lt);color:var(--gold);padding:3px 8px;border-radius:6px">${t.password}</code>
+    </div>
+  `).join("");
+}
+
+function populateAdminTeamSelect(){
+  const sel=document.getElementById("fAdminTeam");
+  sel.innerHTML=allTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
+}
+
 document.getElementById("adminBtn").addEventListener("click",()=>{
-  document.getElementById("passIn").value="";
-  document.getElementById("passErr").style.display="none";
+  document.getElementById("adminPassIn").value="";
+  document.getElementById("adminPassErr").style.display="none";
   if(isAdmin){
-    document.getElementById("loginSec").style.display="none";
-    document.getElementById("loggedSec").style.display="block";
+    document.getElementById("adminLoginSec").style.display="none";
+    document.getElementById("adminLoggedSec").style.display="block";
     document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
   } else {
-    document.getElementById("loginSec").style.display="block";
-    document.getElementById("loggedSec").style.display="none";
+    document.getElementById("adminLoginSec").style.display="block";
+    document.getElementById("adminLoggedSec").style.display="none";
     document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
   }
   openModal("adminOvl");
 });
-
 document.getElementById("adminActBtn").addEventListener("click",()=>{
-  if(isAdmin) saveSettings(); else doLogin();
+  if(isAdmin) saveAdminSettings(); else doAdminLogin();
 });
-document.getElementById("passIn").addEventListener("keydown",e=>{
-  if(e.key==="Enter") doLogin();
-});
+document.getElementById("adminPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doAdminLogin();});
 
-["entryOvl","photoOvl","adminOvl","leaderOvl","memberOvl"].forEach(id=>{
-  document.getElementById(id).addEventListener("click",e=>{
-    if(e.target.id===id) closeModal(id);
-  });
-});
-
-document.getElementById("logoBox").addEventListener("click",()=>{
-  const inp=document.createElement("input");
-  inp.type="file"; inp.accept="image/*";
-  inp.onchange=e=>{
-    const f=e.target.files[0]; if(!f) return;
-    const r=new FileReader();
-    r.onload=ev=>{
-      document.getElementById("logoEmoji").style.display="none";
-      const li=document.getElementById("logoImg");
-      li.src=ev.target.result; li.style.display="block";
-      localStorage.setItem("kz_logo",ev.target.result);
-    };
-    r.readAsDataURL(f);
-  };
-  inp.click();
-});
-const sl=localStorage.getItem("kz_logo");
-if(sl){
-  document.getElementById("logoEmoji").style.display="none";
-  const li=document.getElementById("logoImg"); li.src=sl; li.style.display="block";
+function doAdminLogin(){
+  if(document.getElementById("adminPassIn").value===adminPass){
+    isAdmin=true;
+    document.getElementById("adminPassErr").style.display="none";
+    document.getElementById("adminLoginSec").style.display="none";
+    document.getElementById("adminLoggedSec").style.display="block";
+    document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
+    document.getElementById("adminBadge").style.display="flex";
+    document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
+    renderAdminPassList();
+    if(currentTeam) renderTeamTable();
+  } else {
+    document.getElementById("adminPassErr").style.display="block";
+    document.getElementById("adminPassIn").value="";
+  }
 }
 
-loadTeam();
+function saveAdminSettings(){
+  const p=document.getElementById("newAdminPass").value;
+  if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
+  showToast("✅ সেটিং সেভ হয়েছে");
+  closeModal("adminOvl");
+}
+
+document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
+  isAdmin=false;
+  document.getElementById("adminBadge").style.display="none";
+  document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+  document.getElementById("adminLoginSec").style.display="block";
+  document.getElementById("adminLoggedSec").style.display="none";
+  document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
+  if(currentTeam) renderTeamTable();
+  closeModal("adminOvl");
+  showToast("🔒 Logout হয়েছে");
+});
+document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
+document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
+
+// ── EXPORT ────────────────────────────────────────────────────────────
+document.getElementById("teamExportBtn").addEventListener("click",()=>{
+  const rows=[["No.","Team","Title","Date","Category","Status","Impact","Problem","Solution","Benefit","Approved"]];
+  teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.category||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
+  a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`; a.click();
+  showToast("✅ Export সম্পন্ন!");
+});
+
+// ── HOME BTN ──────────────────────────────────────────────────────────
+document.getElementById("homeBtn").addEventListener("click",()=>{
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  currentTeam=null; currentTeamId=null; teamEntries=[];
+  showPage("homePage");
+});
+
+// ── SEARCH / FILTER ───────────────────────────────────────────────────
+document.getElementById("srch").addEventListener("input",renderTeamTable);
+document.getElementById("fStatus").addEventListener("change",renderTeamTable);
+document.getElementById("fCat").addEventListener("change",renderTeamTable);
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+function stBadge(s){
+  const m={"Implemented":["b-green","✅ সম্পন্ন"],"In Progress":["b-orange","⏳ চলমান"],"Planned":["b-blue","📅 পরিকল্পিত"]};
+  const [cls,lbl]=m[s]||["b-gray",s];
+  return `<span class="badge ${cls}">${lbl}</span>`;
+}
+function stars(v){return{5:"⭐⭐⭐⭐⭐",4:"⭐⭐⭐⭐",3:"⭐⭐⭐",2:"⭐⭐",1:"⭐"}[v]||"-";}
 </script>
 </body>
 </html>
