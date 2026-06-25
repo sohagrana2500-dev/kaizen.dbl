@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -348,9 +347,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="stats">
       <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Approved</div><div class="stat-val" id="sDone">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">Pending</div><div class="stat-val" id="sPending">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">Photos</div><div class="stat-val" id="sPic">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Implemented</div><div class="stat-val" id="sDone">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
     <div class="toolbar">
       <div class="search-wrap">
@@ -359,9 +358,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       </div>
       <select class="flt" id="fStatus">
         <option value="">All statuses</option>
-        <option value="Planned">📅 Planned</option>
+        <option value="Planned">✅ Planned</option>
         <option value="In Progress">⏳ In Progress</option>
-        <option value="Complete">✅ Complete</option>
+        <option value="Complete">📅 Complete</option>
       </select>
     </div>
     <div class="tbl-card">
@@ -389,7 +388,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
       <div class="f-group">
         <label class="f-lbl">টিমের নাম <span>*</span></label>
-        <input class="f-input" id="ntName" placeholder="যেমন: Finishing Team 01"/>
+        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
       </div>
 
       <div class="f-group">
@@ -473,9 +472,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">Status</label>
         <select class="f-select" id="fStatus2">
-          <option value="Planned">📅 Planned</option>
+          <option value="Implemented">✅ Implemented</option>
           <option value="In Progress">⏳ In Progress</option>
-          <option value="Complete">✅ Complete</option>
+          <option value="Planned">📅 Planned</option>
         </select>
       </div>
       <div class="f-group">
@@ -1126,7 +1125,7 @@ function openNewEntry(){
   document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
-  document.getElementById("fStatus2").value="Planned";
+  document.getElementById("fStatus2").value="Implemented";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
@@ -1168,14 +1167,14 @@ async function doSave(){
       teamId:tid,
       teamName:teamObj?.name||"",
       proposedBy:document.getElementById("fProposedBy").value||"",
-      approved:isAdmin?true:false, // admin এর এন্ট্রি সরাসরি approved
+      approved:true,
     };
     if(editId){
       await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
       showToast("✅ আপডেট হয়েছে!");
     }else{
       await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
-      showToast(isAdmin?"✅ কাইজেন যোগ হয়েছে!":"✅ এন্ট্রি যোগ হয়েছে! Admin approval এর জন্য অপেক্ষা করুন।");
+      showToast(isAdmin?"✅ Kaizen added!":"✅ Entry added!");
     }
     closeModal("entryOvl");
   }catch(e){showToast("❌ "+e.message);}
@@ -1197,14 +1196,11 @@ function renderTeamTable(){
   }
   let h=`<table><thead><tr>
     <th>No.</th><th>Kaizen Point</th><th>Proposed By</th><th>Status</th><th>Impact</th>
-    <th>Date</th><th>Approval</th><th>Photos</th>
+    <th>Date</th><th>Photos</th>
     ${isAdmin?"<th>Action</th>":""}
   </tr></thead><tbody>`;
   list.forEach((e,i)=>{
     const hp=!!(e.bUrl||e.aUrl);
-    const approvalBadge=e.approved
-      ?`<span class="badge b-green">✅ Approved</span>`
-      :`<span class="badge b-orange">⏳ Pending</span>`;
     h+=`<tr>
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
@@ -1212,12 +1208,10 @@ function renderTeamTable(){
       <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-      <td>${approvalBadge}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
       ${isAdmin?`<td><div class="act-btns">
-        ${!e.approved?`<button class="approve-btn" data-approve="${e.id}">✅ Approve</button>`:`<span style="font-size:11px;color:var(--green)">✔</span>`}
-        <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
-        <button class="ico-btn del" data-did="${e.id}" title="ডিলিট">🗑️</button>
+        <button class="ico-btn edit" data-eid="${e.id}" title="Edit">✏️</button>
+        <button class="ico-btn del" data-did="${e.id}" title="Delete">🗑️</button>
       </div></td>`:""}
     </tr>`;
   });
@@ -1226,7 +1220,6 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
-  document.getElementById("tblWrap").querySelectorAll("[data-approve]").forEach(b=>b.addEventListener("click",()=>approveKaizen(b.dataset.approve)));
   const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
   if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
@@ -1235,8 +1228,8 @@ function renderTeamTable(){
 
 function updateStats(){
   document.getElementById("sTotal").textContent=teamEntries.length;
-  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.approved).length;
-  document.getElementById("sPending").textContent=teamEntries.filter(x=>!x.approved).length;
+  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Implemented").length;
+  document.getElementById("sPending").textContent=teamEntries.filter(x=>x.status==="In Progress").length;
   document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
 
@@ -1263,7 +1256,7 @@ function doEdit(id){
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fStatus2").value=e.status||"Planned";
+  document.getElementById("fStatus2").value=e.status||"Implemented";
   document.getElementById("fImpact").value=e.impact||"3";
   document.getElementById("fProb").value=e.problem||"";
   document.getElementById("fSol").value=e.solution||"";
@@ -1420,7 +1413,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","Complete"]};
+  const m={"Implemented":["b-green","✅ Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
