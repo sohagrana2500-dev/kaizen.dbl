@@ -5,10 +5,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DBL Kaizen — Multi Team System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preconnect" href="https://www.gstatic.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -25,7 +22,7 @@
   --shadow:0 2px 12px rgba(13,27,42,.09);
   --shadow-lg:0 8px 32px rgba(13,27,42,.14);
 }
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* HEADER */
 .hdr{background:linear-gradient(120deg,var(--navy) 0%,var(--blue) 60%,#1B4F72 100%);padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.35);border-bottom:2px solid var(--hdr-line)}
@@ -92,7 +89,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 .ah-move-sel{padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:120px}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
 .stat{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:14px}
 .stat-ico{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
@@ -226,8 +223,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .det-k{font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding-top:1px}
 
 /* LOADING */
-.loading-cover{position:fixed;inset:0;background:#F0F4F8;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
-.spinner{width:32px;height:32px;border:3px solid #DDE3EA;border-top-color:#2E86C1;border-radius:50%;animation:spin .6s linear infinite}
+.loading-cover{position:fixed;inset:0;background:rgba(255,255,255,.9);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spinner{width:36px;height:36px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .tbl-loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--muted);gap:10px;font-size:13px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:500;z-index:1000;opacity:0;transition:.28s;pointer-events:none;white-space:nowrap}
@@ -248,7 +245,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .approve-btn:hover{background:#a7f3d0;color:#065f46}
 
 @media(max-width:768px){
-  .stats{grid-template-columns:1fr 1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
   .fg{grid-template-columns:1fr}
   .img-grid{grid-template-columns:1fr}
   .photo-pair{grid-template-columns:1fr}
@@ -317,11 +314,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <!-- APPROVED KAIZEN — TEAM WISE -->
   <div class="approved-home" id="approvedHomeSection">
     <div class="section-hdr">
-      <div class="section-title">✅ Complete Kaizen — টিম অনুযায়ী</div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-sm" id="homeExcelBtn" style="background:var(--green-lt);color:var(--green);border:1px solid var(--green)">📊 Excel Export</button>
-        <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 View</button>
-      </div>
+      <div class="section-title">📅 Approved Kaizen — টিম অনুযায়ী</div>
+      <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
     </div>
     <div id="approvedHomeWrap" style="display:none">
       <div id="teamKaizenBlocks">
@@ -356,10 +350,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="stats">
       <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--gold-lt)">📅</div><div><div class="stat-lbl">Planned</div><div class="stat-val" id="sDone">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Planned</div><div class="stat-val" id="sDone">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Complete</div><div class="stat-val" id="sComplete">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
     <div class="toolbar">
       <div class="search-wrap">
@@ -479,8 +472,14 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <label class="f-lbl">Date</label>
         <input class="f-input" id="fDate" type="date"/>
       </div>
-      <!-- Status removed from form — changed inline in list -->
-      <input type="hidden" id="fStatus2" value="Planned"/>
+      <div class="f-group">
+        <label class="f-lbl">Status</label>
+        <select class="f-select" id="fStatus2">
+          <option value="Planned">📅 Planned</option>
+          <option value="In Progress">⏳ In Progress</option>
+          <option value="Compled">✅ Complete</option>
+        </select>
+      </div>
       <div class="f-group">
         <label class="f-lbl">Impact</label>
         <select class="f-select" id="fImpact">
@@ -602,8 +601,6 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 </div>
 </div>
 
-<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"/>
-<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"/>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
@@ -623,9 +620,6 @@ const app = initializeApp({
   appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
 });
 const db = getFirestore(app);
-
-// Safety: hide loading after 6s max even if Firebase is slow
-setTimeout(()=>{ const lc=document.getElementById("loadingCover"); if(lc)lc.style.display="none"; },6000);
 
 let isAdmin      = false;
 let adminPass    = "eco@sr123";
@@ -725,9 +719,8 @@ function updateLiveClock(){
 updateLiveClock();setInterval(updateLiveClock,1000);
 
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
-onSnapshot(collection(db,"kaizen_teams"),snap=>{
+onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
   allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
-  allTeams.sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
   renderTeamCards();
   renderApprovedHome();
   renderAdminPassList();
@@ -745,7 +738,7 @@ onSnapshot(collection(db,"kaizen_teams"),snap=>{
 // এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
 // সব entry home page এ দেখাবে — approved condition নেই
 onSnapshot(
-  query(collection(db,"kaizen_entries"),where("status","==","Complete")),
+  collection(db,"kaizen_entries"),
   snap=>{
     allApproved=snap.docs.map(d=>({id:d.id,...d.data()}));
     allApproved.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
@@ -829,14 +822,10 @@ function renderApprovedHome(){
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
     const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
     const otherTeams=allTeams.filter(t=>t.id!==tid);
-    const teamLeader=team?.leaderName||"";
     h+=`<div class="team-kaizen-block">
       <div class="tkb-hdr" onclick="toggleTKB(this)">
         <div class="tkb-avatar">${avHtml}</div>
-        <div style="flex:1">
-          <div class="tkb-name">${tname}</div>
-          ${teamLeader?`<div style="font-size:10px;color:rgba(255,215,0,.85);font-weight:600;margin-top:1px">👑 ${teamLeader}</div>`:""}
-        </div>
+        <div class="tkb-name">${tname}</div>
         <span class="tkb-count">${items.length} টি</span>
         ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
         <span class="tkb-arrow">▼</span>
@@ -922,7 +911,7 @@ function enterTeam(team){
   ld.textContent=team.leaderName?`👑 Leader : ${team.leaderName}`:"";
   // avatar
   const av=document.getElementById("teamAvatarDisp");
-  if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" loading="lazy">`;}
+  if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
   else{av.textContent="";}
   // members
   renderTeamMembersBar(team.members||[]);
@@ -1151,17 +1140,13 @@ function openNewEntry(){
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
   document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
-  // populate Proposed By — auto-select leader
+  // populate Proposed By dropdown with current team members
   const pbSel=document.getElementById("fProposedBy");
   pbSel.innerHTML=`<option value="">— Select Member —</option>`;
   if(currentTeam){
     const members=currentTeam.members||[];
-    if(currentTeam.leaderName){
-      pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
-    }
+    if(currentTeam.leaderName) pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
     members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
-    // Auto-select leader
-    if(currentTeam.leaderName) pbSel.value=currentTeam.leaderName;
   }
   resetPrev("b");resetPrev("a");
   openModal("entryOvl");
@@ -1226,19 +1211,11 @@ function renderTeamTable(){
   </tr></thead><tbody>`;
   list.forEach((e,i)=>{
     const hp=!!(e.bUrl||e.aUrl);
-    const stColor={"Planned":"#B7950B","In Progress":"#D35400","Complete":"#1E8449"};
-    const stBg={"Planned":"#FEF9E7","In Progress":"#FDEBD0","Complete":"#D5F5E3"};
     h+=`<tr>
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
       <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
-      <td>
-        <select class="status-dd" data-stid="${e.id}" style="padding:4px 8px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid ${stColor[e.status]||'#ccc'};background:${stBg[e.status]||'#f8f8f8'};color:${stColor[e.status]||'#333'};cursor:pointer;font-family:inherit">
-          <option value="Planned" ${e.status==="Planned"?"selected":""}>📅 Planned</option>
-          <option value="In Progress" ${e.status==="In Progress"?"selected":""}>⏳ In Progress</option>
-          <option value="Complete" ${e.status==="Complete"?"selected":""}>✅ Complete</option>
-        </select>
-      </td>
+      <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
@@ -1253,16 +1230,6 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
-  document.getElementById("tblWrap").querySelectorAll(".status-dd").forEach(sel=>{
-    sel.addEventListener("change",async()=>{
-      const newSt=sel.value;
-      const eid=sel.dataset.stid;
-      try{
-        await updateDoc(doc(db,"kaizen_entries",eid),{status:newSt,updatedAt:serverTimestamp()});
-        showToast(newSt==="Complete"?"✅ Complete! হোম পেজে দেখা যাবে।":"✅ Status পরিবর্তন হয়েছে");
-      }catch(e){showToast("❌ "+e.message);}
-    });
-  });
   const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
   if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
@@ -1273,7 +1240,6 @@ function updateStats(){
   document.getElementById("sTotal").textContent=teamEntries.length;
   document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Planned").length;
   document.getElementById("sPending").textContent=teamEntries.filter(x=>x.status==="In Progress").length;
-  document.getElementById("sComplete").textContent=teamEntries.filter(x=>x.status==="Complete").length;
   document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
 
@@ -1470,35 +1436,7 @@ document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
 document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 
-// ── HOME EXCEL EXPORT (Complete Kaizen — all teams) ──────────────
-document.getElementById("homeExcelBtn").addEventListener("click",()=>{
-  if(!allApproved.length){showToast("⚠️ কোনো Complete Kaizen নেই");return;}
-  const rows=[["No.","Team","Leader","Kaizen Point","Proposed By","Impact","Date","Problem","Solution","Benefit"]];
-  allApproved.forEach((e,i)=>{
-    const team=allTeams.find(t=>t.id===e.teamId);
-    rows.push([
-      i+1,
-      e.teamName||"",
-      team?.leaderName||"",
-      e.title||"",
-      e.proposedBy||"",
-      {5:"Critical",4:"High",3:"Medium",2:"Low"}[e.impact]||e.impact||"",
-      e.date||"",
-      e.problem||"",
-      e.solution||"",
-      e.benefit||""
-    ]);
-  });
-  const csv=rows.map(r=>r.map(cell=>`"${String(cell).replace(/"/g,'""')}"`).join(",")).join("
-");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download=`Kaizen_Complete_All_Teams_${new Date().toISOString().split("T")[0]}.csv`;
-  a.click();
-  showToast("✅ Excel Export সম্পন্ন!");
-});
-
-// ── TEAM EXPORT ────────────────────────────────────────────────────────
+// ── EXPORT ────────────────────────────────────────────────────────
 document.getElementById("teamExportBtn").addEventListener("click",()=>{
   const rows=[["No.","Team","Title","Date","Status","Impact","Problem","Solution","Benefit","Approved"]];
   teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
