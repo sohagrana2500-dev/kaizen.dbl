@@ -473,9 +473,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">Status</label>
         <select class="f-select" id="fStatus2">
-          <option value="Implemented">✅ Implemented</option>
-          <option value="In Progress">⏳ In Progress</option>
           <option value="Planned">📅 Planned</option>
+          <option value="In Progress">⏳ In Progress</option>
+          <option value="Complete">✅ Complete</option>
         </select>
       </div>
       <div class="f-group">
@@ -1126,7 +1126,7 @@ function openNewEntry(){
   document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
-  document.getElementById("fStatus2").value="Implemented";
+  document.getElementById("fStatus2").value="Planned";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
@@ -1263,7 +1263,7 @@ function doEdit(id){
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fStatus2").value=e.status||"Implemented";
+  document.getElementById("fStatus2").value=e.status||"Planned";
   document.getElementById("fImpact").value=e.impact||"3";
   document.getElementById("fProb").value=e.problem||"";
   document.getElementById("fSol").value=e.solution||"";
@@ -1420,7 +1420,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Implemented":["b-green","✅ Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
+  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","Complete"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
