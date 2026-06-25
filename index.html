@@ -349,7 +349,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="stats">
       <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Implemented</div><div class="stat-val" id="sDone">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Planned</div><div class="stat-val" id="sDone">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
@@ -474,9 +474,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">Status</label>
         <select class="f-select" id="fStatus2">
-          <option value="Implemented">📅 Implemented</option>
-          <option value="In Progress">⏳ In Progress</option>
           <option value="Planned">📅 Planned</option>
+          <option value="In Progress">⏳ In Progress</option>
+          <option value="Compled">✅ Complete</option>
         </select>
       </div>
       <div class="f-group">
@@ -1134,7 +1134,7 @@ function openNewEntry(){
   document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
-  document.getElementById("fStatus2").value="Implemented";
+  document.getElementById("fStatus2").value="Planned";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
@@ -1237,7 +1237,7 @@ function renderTeamTable(){
 
 function updateStats(){
   document.getElementById("sTotal").textContent=teamEntries.length;
-  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Implemented").length;
+  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Planned").length;
   document.getElementById("sPending").textContent=teamEntries.filter(x=>x.status==="In Progress").length;
   document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
@@ -1300,7 +1300,7 @@ function doEdit(id){
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fStatus2").value=e.status||"Implemented";
+  document.getElementById("fStatus2").value=e.status||"Planned";
   document.getElementById("fImpact").value=e.impact||"3";
   document.getElementById("fProb").value=e.problem||"";
   document.getElementById("fSol").value=e.solution||"";
@@ -1459,7 +1459,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Implemented":["b-green","📅 Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
+  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","✅ Complete"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
