@@ -801,9 +801,11 @@ function renderTeamCards(){
 }
 
 // ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
+let homeKaizenViewTeamId=null; // null = টিম লিস্ট দেখাচ্ছে, কোনো টিমের id হলে সেই টিমের ডিটেইল দেখাচ্ছে
 function renderApprovedHome(){
   const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
+    homeKaizenViewTeamId=null;
     wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>এখনো কোনো Complete কাইজেন নেই</p></div>`;
     return;
   }
@@ -814,54 +816,85 @@ function renderApprovedHome(){
     if(!grouped[tid])grouped[tid]=[];
     grouped[tid].push(e);
   });
-  let h="";
+  if(homeKaizenViewTeamId&&grouped[homeKaizenViewTeamId]){
+    renderHomeTeamDetail(wrap,homeKaizenViewTeamId,grouped[homeKaizenViewTeamId]);
+  }else{
+    homeKaizenViewTeamId=null;
+    renderHomeTeamList(wrap,grouped);
+  }
+}
+function renderHomeTeamList(wrap,grouped){
+  let h=`<div class="home-team-list">`;
   Object.keys(grouped).forEach(tid=>{
     const items=grouped[tid];
     const team=allTeams.find(t=>t.id===tid);
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
     const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
-    const otherTeams=allTeams.filter(t=>t.id!==tid);
-    h+=`<div class="team-kaizen-block">
-      <div class="tkb-hdr" onclick="toggleTKB(this)">
-        <div class="tkb-avatar">${avHtml}</div>
-        <div class="tkb-name">${tname}</div>
-        <span class="tkb-count">${items.length} টি</span>
-        ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
-        <span class="tkb-arrow">▼</span>
-      </div>
-      <div class="tkb-body">
-        <table><thead><tr>
-          <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
-          ${isAdmin?"<th>Action</th>":""}
-        </tr></thead><tbody>
-        ${items.map((e,i)=>{
-          const hp=!!(e.bUrl||e.aUrl);
-          return `<tr>
-            <td class="td-no">${i+1}</td>
-            <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,55)+"..."):""}</small></td>
-            <td>${stBadge(e.status)}</td>
-            <td style="font-size:12px">${stars(e.impact)}</td>
-            <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-            <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 নেই"}</button></td>
-            ${isAdmin?`<td><div style="display:flex;align-items:center;gap:4px">
-              <select class="ah-move-sel" data-ahmove="${e.id}">
-                <option value="">↔ মুভ</option>
-                ${otherTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("")}
-              </select>
-              <button class="ico-btn del" data-ahdel="${e.id}" title="ডিলিট">🗑️</button>
-            </div></td>`:""}
-          </tr>`;
-        }).join("")}
-        </tbody></table>
-      </div>
+    h+=`<div class="tkb-hdr" style="border-radius:10px;margin-bottom:8px;cursor:pointer" data-hometid="${tid}">
+      <div class="tkb-avatar">${avHtml}</div>
+      <div class="tkb-name">${tname}</div>
+      <span class="tkb-count">${items.length} টি Complete</span>
+      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
+      <span class="tkb-arrow">›</span>
     </div>`;
   });
+  h+=`</div>`;
   wrap.innerHTML=h;
+  wrap.querySelectorAll("[data-hometid]").forEach(row=>{
+    row.addEventListener("click",()=>{homeKaizenViewTeamId=row.dataset.hometid;renderApprovedHome();});
+  });
+  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
+    b.addEventListener("click",()=>deleteAllTeamKaizen(b.dataset.ahdelall));
+  });
+}
+function renderHomeTeamDetail(wrap,tid,items){
+  const team=allTeams.find(t=>t.id===tid);
+  const tname=team?.name||items[0]?.teamName||"Unknown Team";
+  const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
+  const otherTeams=allTeams.filter(t=>t.id!==tid);
+  let h=`<div class="tkb-hdr" style="border-radius:10px 10px 0 0;margin-bottom:0">
+      <button class="btn btn-outline btn-sm" id="homeTeamBackBtn" style="flex-shrink:0">← Back</button>
+      <div class="tkb-avatar">${avHtml}</div>
+      <div class="tkb-name">${tname}</div>
+      <span class="tkb-count">${items.length} টি Complete</span>
+      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}">🗑 সব ডিলিট</button>`:""}
+    </div>
+    <div class="tkb-body open" style="border-radius:0 0 10px 10px">
+      <table><thead><tr>
+        <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+        ${isAdmin?"<th>Action</th>":""}
+      </tr></thead><tbody>
+      ${items.map((e,i)=>{
+        const hp=!!(e.bUrl||e.aUrl);
+        return `<tr>
+          <td class="td-no">${i+1}</td>
+          <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,55)+"..."):""}</small></td>
+          <td style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap">${e.leaderName?`👑 ${e.leaderName}`:"-"}</td>
+          <td>${stBadge(getStatus(e))}</td>
+          <td style="font-size:12px">${stars(e.impact)}</td>
+          <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+          <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 নেই"}</button></td>
+          ${isAdmin?`<td><div style="display:flex;align-items:center;gap:4px">
+            <select class="ah-move-sel" data-ahmove="${e.id}">
+              <option value="">↔ মুভ</option>
+              ${otherTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("")}
+            </select>
+            <button class="ico-btn del" data-ahdel="${e.id}" title="ডিলিট">🗑️</button>
+          </div></td>`:""}
+        </tr>`;
+      }).join("")}
+      </tbody></table>
+    </div>`;
+  wrap.innerHTML=h;
+  document.getElementById("homeTeamBackBtn").addEventListener("click",()=>{homeKaizenViewTeamId=null;renderApprovedHome();});
   wrap.querySelectorAll("[data-ahid]").forEach(b=>{
     b.addEventListener("click",()=>viewPhotos(b.dataset.ahid,allApproved));
   });
   wrap.querySelectorAll("[data-ahdel]").forEach(b=>{
     b.addEventListener("click",()=>doDelete(b.dataset.ahdel));
+  });
+  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
+    b.addEventListener("click",()=>{homeKaizenViewTeamId=null;deleteAllTeamKaizen(b.dataset.ahdelall);});
   });
   wrap.querySelectorAll("[data-ahmove]").forEach(sel=>{
     sel.addEventListener("click",e=>e.stopPropagation());
@@ -871,16 +904,7 @@ function renderApprovedHome(){
       sel.value="";
     });
   });
-  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
-    b.addEventListener("click",()=>deleteAllTeamKaizen(b.dataset.ahdelall));
-  });
 }
-window.toggleTKB=function(hdr){
-  const body=hdr.nextElementSibling;
-  const arrow=hdr.querySelector(".tkb-arrow");
-  body.classList.toggle("open");
-  arrow.classList.toggle("open");
-};
 
 document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
   const w=document.getElementById("approvedHomeWrap");
@@ -1170,7 +1194,7 @@ async function doSave(){
     const data={
       title,
       date:document.getElementById("fDate").value,
-      status:existing?.status||"Planned",
+      status:existing?getStatus(existing):"Planned",
       leaderName,
       impact:document.getElementById("fImpact").value,
       problem:document.getElementById("fProb").value.trim(),
@@ -1202,7 +1226,7 @@ function renderTeamTable(){
   const fs=document.getElementById("fStatus").value;
   const list=teamEntries.filter(e=>{
     const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
-    return ms&&(!fs||e.status===fs);
+    return ms&&(!fs||getStatus(e)===fs);
   });
   document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
   if(!list.length){
@@ -1210,21 +1234,23 @@ function renderTeamTable(){
     return;
   }
   let h=`<table><thead><tr>
-    <th>No.</th><th>Kaizen Point</th><th>Proposed By</th><th>Status</th><th>Impact</th>
+    <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Proposed By</th><th>Status</th><th>Impact</th>
     <th>Date</th><th>Photos</th>
     ${isAdmin?"<th>Action</th>":""}
   </tr></thead><tbody>`;
   list.forEach((e,i)=>{
     const hp=!!(e.bUrl||e.aUrl);
+    const st=getStatus(e);
     h+=`<tr>
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
+      <td style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap">${e.leaderName?`👑 ${e.leaderName}`:"-"}</td>
       <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
       <td>
         <select class="flt st-sel" data-stid="${e.id}" style="font-size:11px;padding:4px 6px">
-          <option value="Planned" ${e.status==="Planned"?"selected":""}>📅 Planned</option>
-          <option value="In Progress" ${e.status==="In Progress"?"selected":""}>⏳ In Progress</option>
-          <option value="Complete" ${e.status==="Complete"?"selected":""}>✅ Complete</option>
+          <option value="Planned" ${st==="Planned"?"selected":""}>📅 Planned</option>
+          <option value="In Progress" ${st==="In Progress"?"selected":""}>⏳ In Progress</option>
+          <option value="Complete" ${st==="Complete"?"selected":""}>✅ Complete</option>
         </select>
       </td>
       <td style="font-size:12px">${stars(e.impact)}</td>
@@ -1258,9 +1284,9 @@ async function updateEntryStatus(id,newStatus){
 }
 function updateStats(){
   document.getElementById("sTotal").textContent=teamEntries.length;
-  document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Planned").length;
-  document.getElementById("sPending").textContent=teamEntries.filter(x=>x.status==="In Progress").length;
-  document.getElementById("sCompleteTotal").textContent=teamEntries.filter(x=>x.status==="Complete").length;
+  document.getElementById("sDone").textContent=teamEntries.filter(x=>getStatus(x)==="Planned").length;
+  document.getElementById("sPending").textContent=teamEntries.filter(x=>getStatus(x)==="In Progress").length;
+  document.getElementById("sCompleteTotal").textContent=teamEntries.filter(x=>getStatus(x)==="Complete").length;
   document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
 
@@ -1362,7 +1388,7 @@ function viewPhotos(id,list){
     ${dr("Team",e.teamName||"-")}
     ${dr("Date",e.date||"-")}
     ${e.proposedBy?dr("Proposed By",`💡 ${e.proposedBy}`):""}
-    ${dr("Status",stBadge(e.status))}
+    ${dr("Status",stBadge(getStatus(e)))}
     ${dr("Impact",is[e.impact]||"-")}
     ${e.problem?dr("Problem",e.problem):""}
     ${e.solution?dr("Solution",e.solution):""}
@@ -1480,6 +1506,7 @@ document.getElementById("srch").addEventListener("input",renderTeamTable);
 document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
+function getStatus(e){return e.status||"Planned";}
 function stBadge(s){
   const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Complete":["b-blue","✅ Complete"]};
   const [cls,lbl]=m[s]||["b-gray",s];
