@@ -89,7 +89,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .ah-move-sel{padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:120px}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
 .stat{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:14px}
 .stat-ico{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
@@ -314,7 +316,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <!-- APPROVED KAIZEN — TEAM WISE -->
   <div class="approved-home" id="approvedHomeSection">
     <div class="section-hdr">
-      <div class="section-title">📅 Approved Kaizen — টিম অনুযায়ী</div>
+      <div class="section-title">✅ Complete Kaizen — টিম অনুযায়ী</div>
       <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
     </div>
     <div id="approvedHomeWrap" style="display:none">
@@ -352,6 +354,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Planned</div><div class="stat-val" id="sDone">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:#DBEAFE">✅</div><div><div class="stat-lbl">Total Complete</div><div class="stat-val" id="sCompleteTotal">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
     <div class="toolbar">
@@ -473,12 +476,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="fDate" type="date"/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">Status</label>
-        <select class="f-select" id="fStatus2">
-          <option value="Planned">📅 Planned</option>
-          <option value="In Progress">⏳ In Progress</option>
-          <option value="Compled">✅ Complete</option>
-        </select>
+        <label class="f-lbl">👑 টিম লিডারের নাম <span>*</span></label>
+        <input class="f-input" id="fLeaderName" placeholder="টিম লিডারের নাম"/>
       </div>
       <div class="f-group">
         <label class="f-lbl">Impact</label>
@@ -736,11 +735,11 @@ onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=
 // NOTE: শুধু where() ব্যবহার করা হয়েছে, orderBy() বাদ দেওয়া হয়েছে কারণ Firestore-এ
 // composite index না থাকলে where+orderBy একসাথে ব্যবহার করলে কোয়েরি silently fail করে
 // এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
-// সব entry home page এ দেখাবে — approved condition নেই
+// হোম পেজে শুধুমাত্র status === "Complete" এন্ট্রিগুলোই দেখানো হবে।
 onSnapshot(
   collection(db,"kaizen_entries"),
   snap=>{
-    allApproved=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allApproved=snap.docs.map(d=>({id:d.id,...d.data()})).filter(e=>e.status==="Complete");
     allApproved.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderApprovedHome();
   },
@@ -805,7 +804,7 @@ function renderTeamCards(){
 function renderApprovedHome(){
   const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
-    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
+    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>এখনো কোনো Complete কাইজেন নেই</p></div>`;
     return;
   }
   // group by teamId
@@ -1135,7 +1134,7 @@ function openNewEntry(){
   document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
-  document.getElementById("fStatus2").value="Planned";
+  document.getElementById("fLeaderName").value=currentTeam?.leaderName||"";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
@@ -1155,6 +1154,8 @@ function openNewEntry(){
 async function doSave(){
   const title=document.getElementById("fTitle").value.trim();
   if(!title){showToast("⚠️ শিরোনাম লিখুন");return;}
+  const leaderName=document.getElementById("fLeaderName").value.trim();
+  if(!leaderName){showToast("⚠️ টিম লিডারের নাম লিখুন");return;}
   const btn=document.getElementById("saveBtn");
   btn.disabled=true;btn.textContent="⏳ সংরক্ষণ হচ্ছে...";
   try{
@@ -1163,10 +1164,14 @@ async function doSave(){
     if(aFileObj)finalA=await uploadImg(aFileObj,"a");
     const tid=isAdmin?(document.getElementById("fAdminTeam").value||currentTeamId):currentTeamId;
     const teamObj=allTeams.find(t=>t.id===tid);
+    // এই ফর্মে Status নেই — নতুন এন্ট্রির ডিফল্ট স্ট্যাটাস "Planned", আর এডিট করলে আগের status অপরিবর্তিত থাকবে
+    // (status পরিবর্তন হয় টিমের Kaizen List-এর ড্রপডাউন থেকে, এই ফর্ম থেকে নয়)
+    const existing=editId?teamEntries.find(x=>x.id===editId):null;
     const data={
       title,
       date:document.getElementById("fDate").value,
-      status:document.getElementById("fStatus2").value,
+      status:existing?.status||"Planned",
+      leaderName,
       impact:document.getElementById("fImpact").value,
       problem:document.getElementById("fProb").value.trim(),
       solution:document.getElementById("fSol").value.trim(),
@@ -1215,7 +1220,13 @@ function renderTeamTable(){
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
       <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
-      <td>${stBadge(e.status)}</td>
+      <td>
+        <select class="flt st-sel" data-stid="${e.id}" style="font-size:11px;padding:4px 6px">
+          <option value="Planned" ${e.status==="Planned"?"selected":""}>📅 Planned</option>
+          <option value="In Progress" ${e.status==="In Progress"?"selected":""}>⏳ In Progress</option>
+          <option value="Complete" ${e.status==="Complete"?"selected":""}>✅ Complete</option>
+        </select>
+      </td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
@@ -1230,16 +1241,26 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
+  document.getElementById("tblWrap").querySelectorAll("[data-stid]").forEach(sel=>{
+    sel.addEventListener("change",()=>updateEntryStatus(sel.dataset.stid,sel.value));
+  });
   const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
   if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
   else pb.style.display="none";
 }
 
+async function updateEntryStatus(id,newStatus){
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{status:newStatus,updatedAt:serverTimestamp()});
+    showToast(`✅ Status আপডেট হয়েছে: ${newStatus}`);
+  }catch(e){showToast("❌ "+e.message);}
+}
 function updateStats(){
   document.getElementById("sTotal").textContent=teamEntries.length;
   document.getElementById("sDone").textContent=teamEntries.filter(x=>x.status==="Planned").length;
   document.getElementById("sPending").textContent=teamEntries.filter(x=>x.status==="In Progress").length;
+  document.getElementById("sCompleteTotal").textContent=teamEntries.filter(x=>x.status==="Complete").length;
   document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
 }
 
@@ -1301,7 +1322,7 @@ function doEdit(id){
   document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
-  document.getElementById("fStatus2").value=e.status||"Planned";
+  document.getElementById("fLeaderName").value=e.leaderName||currentTeam?.leaderName||"";
   document.getElementById("fImpact").value=e.impact||"3";
   document.getElementById("fProb").value=e.problem||"";
   document.getElementById("fSol").value=e.solution||"";
@@ -1460,7 +1481,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","✅ Complete"]};
+  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Complete":["b-blue","✅ Complete"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
