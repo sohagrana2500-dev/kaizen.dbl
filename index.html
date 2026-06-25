@@ -312,7 +312,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="approved-home" id="approvedHomeSection">
     <div class="section-hdr">
       <div class="section-title">✅ Approved Kaizen — টিম অনুযায়ী</div>
-      <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 দেখুন</button>
+      <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
     </div>
     <div id="approvedHomeWrap" style="display:none">
       <div id="teamKaizenBlocks">
@@ -340,16 +340,16 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="team-bar-right">
         <span class="pending-badge" id="pendingBadgeDisp" style="display:none">⏳ 0 Pending</span>
         <button class="btn btn-outline btn-sm" id="teamExportBtn">⬇ Export</button>
-        <button class="btn btn-primary" id="newKaizenBtn">+ নতুন কাইজেন</button>
+        <button class="btn btn-primary" id="newKaizenBtn">+ New Kaizen</button>
       </div>
     </div>
   </div>
   <div class="main">
     <div class="stats">
-      <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">মোট কাইজেন</div><div class="stat-val" id="sTotal">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Approved</div><div class="stat-val" id="sDone">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">Pending</div><div class="stat-val" id="sPending">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">ছবিসহ</div><div class="stat-val" id="sPic">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
     <div class="toolbar">
       <div class="search-wrap">
@@ -403,13 +403,13 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="ntPass2" type="password" placeholder="আবার পাসওয়ার্ড লিখুন"/>
       </div>
 
-      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👤 টিম লিডার</div>
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👤 Team Leader</div>
       <div class="f-group">
-        <label class="f-lbl">লিডারের নাম <span>*</span></label>
-        <input class="f-input" id="ntLeaderName" placeholder="টিম লিডারের নাম"/>
+        <label class="f-lbl">Leader Name <span>*</span></label>
+        <input class="f-input" id="ntLeaderName" placeholder="Team Leader Name"/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">লিডারের ছবি</label>
+        <label class="f-lbl">Leader's phot</label>
         <div class="upload-area" id="ntLeaderArea" style="min-height:70px">
           <input type="file" accept="image/*" id="ntLeaderFile"/>
           <div class="u-ico" style="font-size:18px">📷</div>
@@ -458,7 +458,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
-    <div class="modal-title" id="entryTitle">নতুন কাইজেন এন্ট্রি</div>
+    <div class="modal-title" id="entryTitle">New Kaizen এন্ট্রি</div>
     <button class="cls-btn" id="closeEntry">✕</button>
   </div>
   <div class="modal-body">
@@ -701,8 +701,8 @@ document.getElementById("rmB").addEventListener("click",()=>resetPrev("b"));
 document.getElementById("rmA").addEventListener("click",()=>resetPrev("a"));
 
 // ── LIVE CLOCK ──────────────────────────────────────────────────────
-const BN_DAYS=["রবিবার","সোমবার","মঙ্গলবার","বুধবার","বৃহস্পতিবার","শুক্রবার","শনিবার"];
-const BN_MONTHS=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
+const BN_DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const BN_MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 function updateLiveClock(){
   const now=new Date(),pad=n=>String(n).padStart(2,"0");
   let h=now.getHours();const ampm=h>=12?"PM":"AM";h=h%12;if(h===0)h=12;
@@ -851,7 +851,7 @@ function renderApprovedHome(){
             <td>${stBadge(e.status)}</td>
             <td style="font-size:12px">${stars(e.impact)}</td>
             <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-            <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
+            <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 নেই"}</button></td>
           </tr>`;
         }).join("")}
         </tbody></table>
@@ -874,7 +874,7 @@ document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
   const w=document.getElementById("approvedHomeWrap");
   const btn=document.getElementById("toggleApprovedBtn");
   if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 লুকান";}
-  else{w.style.display="none";btn.textContent="📋 দেখুন";}
+  else{w.style.display="none";btn.textContent="📋 ";}
 });
 
 // ── TEAM LOGIN ──────────────────────────────────────────────────────
@@ -895,7 +895,7 @@ function enterTeam(team){
   document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
   // leader
   const ld=document.getElementById("teamLeaderDisp");
-  ld.textContent=team.leaderName?`👑 লিডার: ${team.leaderName}`:"";
+  ld.textContent=team.leaderName?`👑 Leader : ${team.leaderName}`:"";
   // avatar
   const av=document.getElementById("teamAvatarDisp");
   if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
@@ -1065,7 +1065,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const p2=document.getElementById("ntPass2").value;
   const leaderName=document.getElementById("ntLeaderName").value.trim();
   if(!name){showToast("⚠️ টিমের নাম লিখুন");return;}
-  if(!leaderName){showToast("⚠️ লিডারের নাম লিখুন");return;}
+  if(!leaderName){showToast("⚠️ Enter the leader's name");return;}
   if(!editingTeamId && !p1){showToast("⚠️ পাসওয়ার্ড দিন");return;}
   if(p1!==p2){showToast("❌ পাসওয়ার্ড মিলছে না!");return;}
   const btn=document.getElementById("saveNewTeamBtn");
@@ -1092,7 +1092,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       showToast("✅ টিম আপডেট হয়েছে!");
       if(currentTeamId===editingTeamId){
         currentTeam={...currentTeam,...updateData};
-        document.getElementById("teamLeaderDisp").textContent=leaderName?`👑 লিডার: ${leaderName}`:"";
+        document.getElementById("teamLeaderDisp").textContent=leaderName?`👑 Leader: ${leaderName}`:"";
         renderTeamMembersBar(membersData);
       }
     }else{
@@ -1121,7 +1121,7 @@ document.getElementById("closeEntry").addEventListener("click",()=>closeModal("e
 
 function openNewEntry(){
   editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
-  document.getElementById("entryTitle").textContent="নতুন কাইজেন এন্ট্রি";
+  document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
   document.getElementById("fStatus2").value="Implemented";
@@ -1181,7 +1181,7 @@ function renderTeamTable(){
   });
   document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
   if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>+ নতুন কাইজেন বাটনে ক্লিক করুন</p></div>`;
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
@@ -1201,7 +1201,7 @@ function renderTeamTable(){
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
       <td>${approvalBadge}</td>
-      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 দেখুন":"📷 নেই"}</button></td>
+      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 নেই"}</button></td>
       ${isAdmin?`<td><div class="act-btns">
         ${!e.approved?`<button class="approve-btn" data-approve="${e.id}">✅ Approve</button>`:`<span style="font-size:11px;color:var(--green)">✔</span>`}
         <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
