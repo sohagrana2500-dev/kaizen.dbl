@@ -313,12 +313,12 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <!-- APPROVED KAIZEN — TEAM WISE -->
   <div class="approved-home" id="approvedHomeSection">
     <div class="section-hdr">
-      <div class="section-title">✅ Approved Kaizen — টিম অনুযায়ী</div>
+      <div class="section-title">📅 Approved Kaizen — টিম অনুযায়ী</div>
       <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
     </div>
     <div id="approvedHomeWrap" style="display:none">
       <div id="teamKaizenBlocks">
-        <div class="empty"><div class="eico">✅</div><p>লোড হচ্ছে...</p></div>
+        <div class="empty"><div class="eico">📅</div><p>লোড হচ্ছে...</p></div>
       </div>
     </div>
   </div>
@@ -349,7 +349,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="stats">
       <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">✅</div><div><div class="stat-lbl">Implemented</div><div class="stat-val" id="sDone">0</div></div></div>
+      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Implemented</div><div class="stat-val" id="sDone">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
       <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
     </div>
@@ -360,9 +360,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       </div>
       <select class="flt" id="fStatus">
         <option value="">All statuses</option>
-        <option value="Planned">✅ Planned</option>
+        <option value="Planned">📅 Planned</option>
         <option value="In Progress">⏳ In Progress</option>
-        <option value="Complete">📅 Complete</option>
+        <option value="Complete">✅ Complete</option>
       </select>
     </div>
     <div class="tbl-card">
@@ -427,7 +427,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   </div>
   <div class="modal-foot">
     <button class="btn btn-ghost" id="cancelNewTeam">বাতিল</button>
-    <button class="btn btn-primary" id="saveNewTeamBtn">✅ টিম তৈরি করুন</button>
+    <button class="btn btn-primary" id="saveNewTeamBtn">📅 টিম তৈরি করুন</button>
   </div>
 </div>
 </div>
@@ -474,7 +474,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="f-group">
         <label class="f-lbl">Status</label>
         <select class="f-select" id="fStatus2">
-          <option value="Implemented">✅ Implemented</option>
+          <option value="Implemented">📅 Implemented</option>
           <option value="In Progress">⏳ In Progress</option>
           <option value="Planned">📅 Planned</option>
         </select>
@@ -581,7 +581,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       </div>
     </div>
     <div id="adminLoggedSec" style="display:none">
-      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">✅ Admin mode চালু</p>
+      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">📅 Admin mode চালু</p>
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px" id="pendingApprovalTitle">⏳ অনুমোদনের অপেক্ষায় থাকা কাইজেন:</div>
       <div id="pendingApprovalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের পাসওয়ার্ড:</div>
@@ -663,7 +663,7 @@ async function uploadImg(file,type){
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
-      if(el){el.className="up-status done";el.textContent="✅ সম্পন্ন!";setTimeout(()=>{el.className="up-status";},2500);}
+      if(el){el.className="up-status done";el.textContent="📅 সম্পন্ন!";setTimeout(()=>{el.className="up-status";},2500);}
       return j.secure_url;
     }
     throw new Error(j.error?.message||"Upload failed");
@@ -804,7 +804,7 @@ function renderTeamCards(){
 function renderApprovedHome(){
   const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
-    wrap.innerHTML=`<div class="empty"><div class="eico">✅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
+    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>এখনো কোনো Approved Kaizen নেই</p></div>`;
     return;
   }
   // group by teamId
@@ -978,7 +978,7 @@ function resetNewTeamForm(){
   document.getElementById("ntPassLbl").innerHTML="টিম পাসওয়ার্ড <span>*</span>";
   document.getElementById("ntPass2Lbl").innerHTML="পাসওয়ার্ড নিশ্চিত করুন <span>*</span>";
   document.getElementById("ntPass").placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন";
-  document.getElementById("saveNewTeamBtn").textContent="✅ টিম তৈরি করুন";
+  document.getElementById("saveNewTeamBtn").textContent="📅 টিম তৈরি করুন";
   renderMemberListEdit();
 }
 function openEditTeam(tid){
@@ -1099,7 +1099,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       const updateData={name,leaderName,leaderUrl,members:membersData};
       if(p1)updateData.password=p1;
       await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
-      showToast("✅ টিম আপডেট হয়েছে!");
+      showToast("📅 টিম আপডেট হয়েছে!");
       if(currentTeamId===editingTeamId){
         currentTeam={...currentTeam,...updateData};
         document.getElementById("teamLeaderDisp").textContent=leaderName?`👑 Leader: ${leaderName}`:"";
@@ -1113,12 +1113,12 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
         members:membersData,
         createdAt:serverTimestamp()
       });
-      showToast("✅ নতুন টিম তৈরি হয়েছে!");
+      showToast("📅 নতুন টিম তৈরি হয়েছে!");
     }
     closeModal("newTeamOvl");
     resetNewTeamForm();
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false;btn.textContent=editingTeamId?"💾 পরিবর্তন সেভ করুন":"✅ টিম তৈরি করুন";
+  btn.disabled=false;btn.textContent=editingTeamId?"💾 পরিবর্তন সেভ করুন":"📅 টিম তৈরি করুন";
 });
 document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
@@ -1180,10 +1180,10 @@ async function doSave(){
     };
     if(editId){
       await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
-      showToast("✅ আপডেট হয়েছে!");
+      showToast("📅 আপডেট হয়েছে!");
     }else{
       await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
-      showToast(isAdmin?"✅ Kaizen added!":"✅ Entry added!");
+      showToast(isAdmin?"📅 Kaizen added!":"📅 Entry added!");
     }
     closeModal("entryOvl");
   }catch(e){showToast("❌ "+e.message);}
@@ -1247,7 +1247,7 @@ async function approveKaizen(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
-    showToast("✅ Kaizen Approved! হোম পেজে দেখা যাবে।");
+    showToast("📅 Kaizen Approved! হোম পেজে দেখা যাবে।");
   }catch(e){showToast("❌ "+e.message);}
 }
 
@@ -1267,7 +1267,7 @@ async function moveKaizenToTeam(id,newTeamId){
   if(!confirm(`এই কাইজেনটি "${team.name}" টিমে মুভ করবেন?`))return;
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{teamId:newTeamId,teamName:team.name});
-    showToast(`✅ "${team.name}" টিমে মুভ হয়েছে!`);
+    showToast(`📅 "${team.name}" টিমে মুভ হয়েছে!`);
   }catch(e){showToast("❌ "+e.message);}
 }
 
@@ -1417,7 +1417,7 @@ function doAdminLogin(){
 function saveAdminSettings(){
   const p=document.getElementById("newAdminPass").value;
   if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
-  showToast("✅ সেটিং সেভ হয়েছে");closeModal("adminOvl");
+  showToast("📅 সেটিং সেভ হয়েছে");closeModal("adminOvl");
 }
 document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   isAdmin=false;
@@ -1443,7 +1443,7 @@ document.getElementById("teamExportBtn").addEventListener("click",()=>{
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
   a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
-  showToast("✅ Export সম্পন্ন!");
+  showToast("📅 Export সম্পন্ন!");
 });
 
 // ── HOME BTN ──────────────────────────────────────────────────────
@@ -1459,7 +1459,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Implemented":["b-green","✅ Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
+  const m={"Implemented":["b-green","📅 Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
