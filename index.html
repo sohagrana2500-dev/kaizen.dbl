@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -733,54 +734,37 @@ onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=
 // NOTE: শুধু where() ব্যবহার করা হয়েছে, orderBy() বাদ দেওয়া হয়েছে কারণ Firestore-এ
 // composite index না থাকলে where+orderBy একসাথে ব্যবহার করলে কোয়েরি silently fail করে
 // এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
+// সব entry home page এ দেখাবে — approved condition নেই
 onSnapshot(
-  query(collection(db,"kaizen_entries"),where("approved","==",true)),
+  collection(db,"kaizen_entries"),
   snap=>{
     allApproved=snap.docs.map(d=>({id:d.id,...d.data()}));
     allApproved.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderApprovedHome();
   },
-  err=>{console.error("approved entries error:",err);showToast("❌ ডেটা লোড করতে সমস্যা: "+err.message);}
+  err=>{console.error("entries error:",err);showToast("❌ Data load error: "+err.message);}
 );
 
-// PENDING (অনুমোদনের অপেক্ষায়) KAIZEN — সব টিম, admin panel-এ দেখানোর জন্য
-let allPending=[];
-onSnapshot(
-  query(collection(db,"kaizen_entries"),where("approved","==",false)),
-  snap=>{
-    allPending=snap.docs.map(d=>({id:d.id,...d.data()}));
-    allPending.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-    renderPendingApprovalList();
-    updateAdminPendingDot();
-  },
-  err=>{console.error("pending entries error:",err);}
-);
+// pending listener removed — approval system no longer needed
 function updateAdminPendingDot(){
+  // pending dot removed — no approval system
   const dot=document.getElementById("adminPendingDot");
-  if(isAdmin&&allPending.length){dot.style.display="flex";dot.textContent=allPending.length>99?"99+":allPending.length;}
-  else dot.style.display="none";
+  if(dot) dot.style.display="none";
 }
+// One-time fix: পুরানো entries যেগুলোতে approved:false আছে সেগুলো update করো
+async function fixOldEntries(){
+  try{
+    const snap=await getDocs(query(collection(db,"kaizen_entries"),where("approved","==",false)));
+    if(snap.size>0){
+      const updates=snap.docs.map(d=>updateDoc(doc(db,"kaizen_entries",d.id),{approved:true}));
+      await Promise.all(updates);
+      console.log(`Fixed ${snap.size} old entries`);
+    }
+  }catch(e){console.log("Fix entries:",e.message);}
+}
+fixOldEntries();
 function renderPendingApprovalList(){
-  const list=document.getElementById("pendingApprovalList");
-  if(!list)return;
-  if(!allPending.length){
-    list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:10px">🎉 কোনো এন্ট্রি অনুমোদনের অপেক্ষায় নেই</div>`;
-    document.getElementById("pendingApprovalTitle").textContent="⏳ অনুমোদনের অপেক্ষায় থাকা কাইজেন:";
-    return;
-  }
-  document.getElementById("pendingApprovalTitle").textContent=`⏳ অনুমোদনের অপেক্ষায় থাকা কাইজেন (${allPending.length}):`;
-  list.innerHTML=allPending.map(e=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:var(--orange-lt);border-radius:8px;border:1px solid var(--orange)">
-      <div style="min-width:0">
-        <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px">${e.title||"-"}</div>
-        <div style="font-size:11px;color:var(--muted)">${e.teamName||""} · ${e.date||""}</div>
-      </div>
-      <button class="btn btn-green btn-sm" style="flex-shrink:0" data-papprove="${e.id}">✅ Approve</button>
-    </div>
-  `).join("");
-  list.querySelectorAll("[data-papprove]").forEach(b=>{
-    b.addEventListener("click",()=>approveKaizen(b.dataset.papprove));
-  });
+  // removed — no approval system
 }
 
 // ── RENDER TEAM CARDS ──────────────────────────────────────────────
