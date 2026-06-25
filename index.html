@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -85,6 +86,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .tkb-arrow.open{transform:rotate(180deg)}
 .tkb-body{display:none;overflow-x:auto}
 .tkb-body.open{display:block}
+.tkb-delall{background:rgba(255,255,255,.14);color:#FFD7D7;border:1px solid rgba(255,120,120,.5);padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+.tkb-delall:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ah-move-sel{padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:120px}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
@@ -819,16 +823,19 @@ function renderApprovedHome(){
     const team=allTeams.find(t=>t.id===tid);
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
     const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
+    const otherTeams=allTeams.filter(t=>t.id!==tid);
     h+=`<div class="team-kaizen-block">
       <div class="tkb-hdr" onclick="toggleTKB(this)">
         <div class="tkb-avatar">${avHtml}</div>
         <div class="tkb-name">${tname}</div>
         <span class="tkb-count">${items.length} টি</span>
+        ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
         <span class="tkb-arrow">▼</span>
       </div>
       <div class="tkb-body">
         <table><thead><tr>
           <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+          ${isAdmin?"<th>Action</th>":""}
         </tr></thead><tbody>
         ${items.map((e,i)=>{
           const hp=!!(e.bUrl||e.aUrl);
@@ -839,6 +846,13 @@ function renderApprovedHome(){
             <td style="font-size:12px">${stars(e.impact)}</td>
             <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
             <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 নেই"}</button></td>
+            ${isAdmin?`<td><div style="display:flex;align-items:center;gap:4px">
+              <select class="ah-move-sel" data-ahmove="${e.id}">
+                <option value="">↔ মুভ</option>
+                ${otherTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("")}
+              </select>
+              <button class="ico-btn del" data-ahdel="${e.id}" title="ডিলিট">🗑️</button>
+            </div></td>`:""}
           </tr>`;
         }).join("")}
         </tbody></table>
@@ -848,6 +862,20 @@ function renderApprovedHome(){
   wrap.innerHTML=h;
   wrap.querySelectorAll("[data-ahid]").forEach(b=>{
     b.addEventListener("click",()=>viewPhotos(b.dataset.ahid,allApproved));
+  });
+  wrap.querySelectorAll("[data-ahdel]").forEach(b=>{
+    b.addEventListener("click",()=>doDelete(b.dataset.ahdel));
+  });
+  wrap.querySelectorAll("[data-ahmove]").forEach(sel=>{
+    sel.addEventListener("click",e=>e.stopPropagation());
+    sel.addEventListener("change",()=>{
+      const newTid=sel.value;
+      if(newTid) moveKaizenToTeam(sel.dataset.ahmove,newTid);
+      sel.value="";
+    });
+  });
+  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
+    b.addEventListener("click",()=>deleteAllTeamKaizen(b.dataset.ahdelall));
   });
 }
 window.toggleTKB=function(hdr){
@@ -1232,6 +1260,41 @@ async function doDelete(id){
   if(!confirm("মুছে ফেলবেন?"))return;
   try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
   catch(e){showToast("❌ "+e.message);}
+}
+
+// ── MOVE KAIZEN TO ANOTHER TEAM (admin only, from home screen) ─────
+async function moveKaizenToTeam(id,newTeamId){
+  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  const team=allTeams.find(t=>t.id===newTeamId);
+  if(!team){showToast("❌ টিম পাওয়া যায়নি");return;}
+  if(!confirm(`এই কাইজেনটি "${team.name}" টিমে মুভ করবেন?`))return;
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{teamId:newTeamId,teamName:team.name});
+    showToast(`✅ "${team.name}" টিমে মুভ হয়েছে!`);
+  }catch(e){showToast("❌ "+e.message);}
+}
+
+// ── DELETE ALL KAIZEN OF A TEAM (or unassigned/unknown entries), admin only ─
+async function deleteAllTeamKaizen(tid){
+  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  const team=allTeams.find(t=>t.id===tid);
+  const tname=team?.name||"অজ্ঞাত টিম (Unknown Team)";
+  if(!confirm(`⚠️ "${tname}" এর সমস্ত কাইজেন এন্ট্রি স্থায়ীভাবে ডিলেট হয়ে যাবে। এটি ফিরিয়ে আনা যাবে না। নিশ্চিত?`))return;
+  try{
+    showToast("⏳ ডিলেট হচ্ছে...");
+    let targetDocs=[];
+    if(tid==="unknown"){
+      const validIds=new Set(allTeams.map(t=>t.id));
+      const all=await getDocs(collection(db,"kaizen_entries"));
+      targetDocs=all.docs.filter(d=>{const data=d.data();return !data.teamId||!validIds.has(data.teamId);});
+    }else{
+      const snap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
+      targetDocs=snap.docs;
+    }
+    await Promise.all(targetDocs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
+    showToast(`🗑 ${targetDocs.length} টি এন্ট্রি ডিলেট হয়েছে`);
+    if(currentTeamId===tid) renderTeamTable();
+  }catch(e){showToast("❌ ডিলেট করতে সমস্যা: "+e.message);}
 }
 function doEdit(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
