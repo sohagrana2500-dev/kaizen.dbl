@@ -461,7 +461,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
-    <div class="modal-title" id="entryTitle">New Kaizen এন্ট্রি</div>
+    <div class="modal-title" id="entryTitle">New Kaizen Entry</div>
     <button class="cls-btn" id="closeEntry">✕</button>
   </div>
   <div class="modal-body">
@@ -476,7 +476,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="fDate" type="date"/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">👑 টিম লিডারের নাম <span>*</span></label>
+        <label class="f-lbl">Team Leader's Name<span>*</span></label>
         <input class="f-input" id="fLeaderName" placeholder="টিম লিডারের নাম"/>
       </div>
       <div class="f-group">
@@ -788,7 +788,7 @@ function renderTeamCards(){
       <div class="tc-meta">${t.division||""}</div>
       ${t.leaderName?`<div class="tc-leader">👤 ${t.leaderName}</div>`:""}
       ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
-      <span class="badge b-blue tc-badge">📋 টিম</span>
+      <span class="badge b-blue tc-badge">📋 Team</span>
     </div>`;
   });
   grid.innerHTML=h;
@@ -1155,7 +1155,7 @@ document.getElementById("closeEntry").addEventListener("click",()=>closeModal("e
 
 function openNewEntry(){
   editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
-  document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
+  document.getElementById("entryTitle").textContent="New Kaizen Entry";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
   document.getElementById("fLeaderName").value=currentTeam?.leaderName||"";
