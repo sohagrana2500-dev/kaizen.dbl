@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -358,9 +359,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       </div>
       <select class="flt" id="fStatus">
         <option value="">All statuses</option>
-        <option value="Planned">✅ Planned</option>
+        <option value="Planned">📅 Planned</option>
         <option value="In Progress">⏳ In Progress</option>
-        <option value="Complete">📅 Complete</option>
+        <option value="Complete">✅ Complete</option>
       </select>
     </div>
     <div class="tbl-card">
@@ -388,12 +389,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
       <div class="f-group">
         <label class="f-lbl">টিমের নাম <span>*</span></label>
-        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
+        <input class="f-input" id="ntName" placeholder="যেমন: Finishing Team 01"/>
       </div>
-      <div class="f-group">
-        <label class="f-lbl">বিভাগ / Division</label>
-        <input class="f-input" id="ntDiv" placeholder="যেমন: Warehouse Division"/>
-      </div>
+
       <div class="f-group">
         <label class="f-lbl" id="ntPassLbl">টিম পাসওয়ার্ড <span>*</span></label>
         <input class="f-input" id="ntPass" type="password" placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন"/>
@@ -463,13 +461,13 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   </div>
   <div class="modal-body">
     <div class="fg">
-      <div class="sec-lbl">📝 মূল তথ্য</div>
+      <div class="sec-lbl">📝 Basic Info</div>
       <div class="f-group full">
         <label class="f-lbl">Kaizen Point <span>*</span></label>
-        <input class="f-input" id="fTitle" placeholder="কাইজেন পয়েন্টের শিরোনাম..."/>
+        <input class="f-input" id="fTitle" placeholder="Enter Kaizen point title..."/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">তারিখ</label>
+        <label class="f-lbl">Date</label>
         <input class="f-input" id="fDate" type="date"/>
       </div>
       <div class="f-group">
@@ -490,23 +488,29 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         </select>
       </div>
       <div id="adminTeamSelectRow" class="f-group" style="display:none">
-        <label class="f-lbl">টিম (Admin)</label>
+        <label class="f-lbl">Team (Admin)</label>
         <select class="f-select" id="fAdminTeam"></select>
       </div>
-      <div class="sec-lbl">🔍 বিস্তারিত</div>
+      <div class="f-group">
+        <label class="f-lbl">💡 Proposed By</label>
+        <select class="f-select" id="fProposedBy">
+          <option value="">— Select Member —</option>
+        </select>
+      </div>
+      <div class="sec-lbl">🔍 Details</div>
       <div class="f-group full">
-        <label class="f-lbl">বর্তমান সমস্যা</label>
-        <textarea class="f-textarea" id="fProb" placeholder="কী সমস্যা ছিল?"></textarea>
+        <label class="f-lbl">Current Problem</label>
+        <textarea class="f-textarea" id="fProb" placeholder="What was the problem?"></textarea>
       </div>
       <div class="f-group full">
-        <label class="f-lbl">প্রয়োগকৃত সমাধান</label>
-        <textarea class="f-textarea" id="fSol" placeholder="কীভাবে সমাধান করা হয়েছে?"></textarea>
+        <label class="f-lbl">Solution Applied</label>
+        <textarea class="f-textarea" id="fSol" placeholder="How was it solved?"></textarea>
       </div>
       <div class="f-group full">
-        <label class="f-lbl">প্রাপ্ত সুফল</label>
-        <textarea class="f-textarea" id="fBen" placeholder="কী উপকার পাওয়া গেছে?"></textarea>
+        <label class="f-lbl">Benefit Achieved</label>
+        <textarea class="f-textarea" id="fBen" placeholder="What benefit was achieved?"></textarea>
       </div>
-      <div class="sec-lbl">📸 Before / After ছবি</div>
+      <div class="sec-lbl">📸 Before / After Photos</div>
       <div class="img-grid">
         <div>
           <span class="img-type-tag before-tag">📷 BEFORE</span>
@@ -517,7 +521,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
           </div>
           <div class="prev-wrap" id="bPrev"><img id="bImg" src="" alt=""/><button class="rm-btn" id="rmB">✕</button></div>
           <div class="up-status" id="bStat"></div>
-          <input class="cap-input" id="bCap" placeholder="Before বিবরণ..."/>
+          <input class="cap-input" id="bCap" placeholder="Before description..."/>
         </div>
         <div>
           <span class="img-type-tag after-tag">✨ AFTER</span>
@@ -528,14 +532,14 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
           </div>
           <div class="prev-wrap" id="aPrev"><img id="aImg" src="" alt=""/><button class="rm-btn" id="rmA">✕</button></div>
           <div class="up-status" id="aStat"></div>
-          <input class="cap-input" id="aCap" placeholder="After বিবরণ..."/>
+          <input class="cap-input" id="aCap" placeholder="After description..."/>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelEntry">বাতিল</button>
-    <button class="btn btn-primary" id="saveBtn">💾 সংরক্ষণ করুন</button>
+    <button class="btn btn-ghost" id="cancelEntry">Cancel</button>
+    <button class="btn btn-primary" id="saveBtn">💾 Save</button>
   </div>
 </div>
 </div>
@@ -555,7 +559,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div class="det-rows" id="detRows"></div>
   </div>
   <div class="modal-foot">
-    <button class="btn btn-ghost" id="closePhoto2">বন্ধ করুন</button>
+    <button class="btn btn-ghost" id="closePhoto2">Close</button>
   </div>
 </div>
 </div>
@@ -955,7 +959,7 @@ document.getElementById("cancelTeamLogin").addEventListener("click",()=>closeMod
 // ── NEW TEAM FORM ────────────────────────────────────────────────────
 function resetNewTeamForm(){
   editingTeamId=null;
-  ["ntName","ntDiv","ntPass","ntPass2","ntLeaderName"].forEach(id=>document.getElementById(id).value="");
+  ["ntName","ntPass","ntPass2","ntLeaderName"].forEach(id=>document.getElementById(id).value="");
   ntLeaderFileObj=null;ntLeaderUrl="";ntMembers=[];
   document.getElementById("ntLeaderArea").style.display="flex";
   document.getElementById("ntLeaderPrev").style.display="none";
@@ -974,7 +978,6 @@ function openEditTeam(tid){
   resetNewTeamForm();
   editingTeamId=tid;
   document.getElementById("ntName").value=t.name||"";
-  document.getElementById("ntDiv").value=t.division||"";
   document.getElementById("ntLeaderName").value=t.leaderName||"";
   ntLeaderUrl=t.leaderUrl||"";
   if(ntLeaderUrl){
@@ -1060,7 +1063,6 @@ function renderMemberListEdit(){
 
 document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const name=document.getElementById("ntName").value.trim();
-  const div=document.getElementById("ntDiv").value.trim();
   const p1=document.getElementById("ntPass").value;
   const p2=document.getElementById("ntPass2").value;
   const leaderName=document.getElementById("ntLeaderName").value.trim();
@@ -1086,7 +1088,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       membersData.push({name:m.name.trim(),url:mUrl});
     }
     if(editingTeamId){
-      const updateData={name,division:div,leaderName,leaderUrl,members:membersData};
+      const updateData={name,leaderName,leaderUrl,members:membersData};
       if(p1)updateData.password=p1;
       await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
       showToast("✅ টিম আপডেট হয়েছে!");
@@ -1097,7 +1099,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       }
     }else{
       await addDoc(collection(db,"kaizen_teams"),{
-        name,division:div,password:p1,
+        name,password:p1,
         icon:"",color:"#2E86C1",
         leaderName,leaderUrl,
         members:membersData,
@@ -1129,6 +1131,14 @@ function openNewEntry(){
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
   document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
+  // populate Proposed By dropdown with current team members
+  const pbSel=document.getElementById("fProposedBy");
+  pbSel.innerHTML=`<option value="">— Select Member —</option>`;
+  if(currentTeam){
+    const members=currentTeam.members||[];
+    if(currentTeam.leaderName) pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
+    members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
+  }
   resetPrev("b");resetPrev("a");
   openModal("entryOvl");
 }
@@ -1157,6 +1167,7 @@ async function doSave(){
       bUrl:finalB,aUrl:finalA,
       teamId:tid,
       teamName:teamObj?.name||"",
+      proposedBy:document.getElementById("fProposedBy").value||"",
       approved:isAdmin?true:false, // admin এর এন্ট্রি সরাসরি approved
     };
     if(editId){
@@ -1185,8 +1196,8 @@ function renderTeamTable(){
     return;
   }
   let h=`<table><thead><tr>
-    <th>No.</th><th>Kaizen Point</th><th>Status</th><th>Impact</th>
-    <th>তারিখ</th><th>Approval</th><th>ছবি</th>
+    <th>No.</th><th>Kaizen Point</th><th>Proposed By</th><th>Status</th><th>Impact</th>
+    <th>Date</th><th>Approval</th><th>Photos</th>
     ${isAdmin?"<th>Action</th>":""}
   </tr></thead><tbody>`;
   list.forEach((e,i)=>{
@@ -1197,11 +1208,12 @@ function renderTeamTable(){
     h+=`<tr>
       <td class="td-no">${i+1}</td>
       <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
+      <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
       <td>${stBadge(e.status)}</td>
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
       <td>${approvalBadge}</td>
-      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 নেই"}</button></td>
+      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
       ${isAdmin?`<td><div class="act-btns">
         ${!e.approved?`<button class="approve-btn" data-approve="${e.id}">✅ Approve</button>`:`<span style="font-size:11px;color:var(--green)">✔</span>`}
         <button class="ico-btn edit" data-eid="${e.id}" title="এডিট">✏️</button>
@@ -1258,6 +1270,15 @@ function doEdit(id){
   document.getElementById("fBen").value=e.benefit||"";
   document.getElementById("bCap").value=e.bCap||"";
   document.getElementById("aCap").value=e.aCap||"";
+  // restore proposedBy
+  const pbSel=document.getElementById("fProposedBy");
+  pbSel.innerHTML=`<option value="">— Select Member —</option>`;
+  if(currentTeam){
+    const members=currentTeam.members||[];
+    if(currentTeam.leaderName) pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
+    members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
+  }
+  pbSel.value=e.proposedBy||"";
   document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
   if(isAdmin)document.getElementById("fAdminTeam").value=e.teamId||"";
   if(e.bUrl)showPrev("b",e.bUrl);else resetPrev("b");
@@ -1279,13 +1300,14 @@ function viewPhotos(id,list){
   const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
   document.getElementById("detRows").innerHTML=`
     <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">বিস্তারিত</div>
-    ${dr("টিম",e.teamName||"-")}
-    ${dr("তারিখ",e.date||"-")}
+    ${dr("Team",e.teamName||"-")}
+    ${dr("Date",e.date||"-")}
+    ${e.proposedBy?dr("Proposed By",`💡 ${e.proposedBy}`):""}
     ${dr("Status",stBadge(e.status))}
     ${dr("Impact",is[e.impact]||"-")}
-    ${e.problem?dr("সমস্যা",e.problem):""}
-    ${e.solution?dr("সমাধান",e.solution):""}
-    ${e.benefit?dr("সুফল",e.benefit):""}
+    ${e.problem?dr("Problem",e.problem):""}
+    ${e.solution?dr("Solution",e.solution):""}
+    ${e.benefit?dr("Benefit",e.benefit):""}
   `;
   openModal("photoOvl");
 }
@@ -1398,7 +1420,7 @@ document.getElementById("fStatus").addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function stBadge(s){
-  const m={"Implemented":["b-green","✅ সম্পন্ন"],"In Progress":["b-orange","⏳ চলমান"],"Planned":["b-blue","📅 পরিকল্পিত"]};
+  const m={"Implemented":["b-green","✅ Implemented"],"In Progress":["b-orange","⏳ In Progress"],"Planned":["b-blue","📅 Planned"]};
   const [cls,lbl]=m[s]||["b-gray",s];
   return `<span class="badge ${cls}">${lbl}</span>`;
 }
