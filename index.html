@@ -354,18 +354,18 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div class="toolbar">
       <div class="search-wrap">
         <span class="search-ico">🔍</span>
-        <input type="text" id="srch" placeholder="কাইজেন পয়েন্ট খুঁজুন..."/>
+        <input type="text" id="srch" placeholder="Find Kaizen points...."/>
       </div>
       <select class="flt" id="fStatus">
-        <option value="">সব স্ট্যাটাস</option>
-        <option value="Implemented">✅ Implemented</option>
+        <option value="">All statuses</option>
+        <option value="Planned">✅ Planned</option>
         <option value="In Progress">⏳ In Progress</option>
-        <option value="Planned">📅 Planned</option>
+        <option value="Complete">📅 Complete</option>
       </select>
     </div>
     <div class="tbl-card">
       <div class="tbl-hdr">
-        <div class="tbl-title" id="teamTblTitle">📋 কাইজেন তালিকা</div>
+        <div class="tbl-title" id="teamTblTitle">📋 Kaizen List</div>
         <div class="tbl-count" id="tblCount">লোড হচ্ছে...</div>
       </div>
       <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:20px;height:20px;border-width:3px"></div> লোড হচ্ছে...</div></div>
@@ -383,7 +383,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <button class="cls-btn" id="closeNewTeam">✕</button>
   </div>
   <div class="modal-body">
-    <div class="info-box" id="newTeamInfoBox">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন। Admin পরে পাসওয়ার্ড দেখতে পারবে।</div>
+    <div class="info-box" id="newTeamInfoBox">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন</div>
     <div class="fg" style="grid-template-columns:1fr">
       <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
       <div class="f-group">
@@ -902,7 +902,7 @@ function enterTeam(team){
   else{av.textContent="";}
   // members
   renderTeamMembersBar(team.members||[]);
-  document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — কাইজেন তালিকা`;
+  document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — Kaizen List`;
   showPage("teamPage");
   subscribeTeamEntries(team.id);
 }
