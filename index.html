@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -52,26 +53,63 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .main{max-width:1300px;margin:0 auto;padding:24px}
 
 /* HOME PAGE */
-.home-hero{text-align:center;padding:40px 24px 24px}
-.home-hero h1{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px}
-.home-hero p{font-size:14px;color:var(--muted);margin-bottom:24px}
-.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;max-width:960px;margin:0 auto 32px}
-.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.18);transform:translateY(-2px)}
-.team-card .tc-avatar{width:60px;height:60px;border-radius:50%;overflow:hidden;margin:0 auto 10px;border:3px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:24px}
+.home-hero{text-align:center;padding:40px 24px 24px;position:relative}
+.home-hero h1{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
+.home-hero p{font-size:14px;color:var(--muted);margin-bottom:22px}
+#homePage{position:relative;overflow:hidden}
+.home-watermark{position:fixed;top:100%;left:100%;transform:translate(-20%,-30%);width:min(64vw,640px);max-width:80vw;height:auto;opacity:.05;pointer-events:none;z-index:0;filter:grayscale(10%);user-select:none}
+.home-hero,.team-search-wrap,.teams-grid,.approved-home{position:relative;z-index:1}
+.team-search-wrap{max-width:480px;margin:0 auto 22px;position:relative}
+.team-search-wrap input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--border);border-radius:30px;font-size:14px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
+.team-search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(46,134,193,.12),var(--shadow)}
+.team-search-wrap .tsw-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+.team-search-wrap .tsw-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;cursor:pointer;background:none;border:none;display:none;padding:4px}
+.team-search-count{text-align:center;font-size:12px;color:var(--muted);margin:-12px auto 18px;max-width:480px}
+.logo-upload-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo-upload-row .logo-preview{width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:#F8FAFC}
+
+/* HOME TEAM SUMMARY — LIST LAYOUT */
+.home-team-list{display:flex;flex-direction:column;gap:8px}
+.htc-search-wrap{position:relative;margin-bottom:10px}
+.htc-search-wrap input{width:100%;padding:9px 14px 9px 38px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
+.htc-search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.11)}
+.htc-search-wrap .hsw-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+.htc-search-wrap .hsw-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:3px;display:none}
+.htc-search-count{font-size:11px;color:var(--muted);margin:-6px 0 8px;padding-left:2px}
+.htc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);cursor:pointer;transition:.18s;overflow:hidden;display:flex;align-items:center;gap:12px;padding:11px 14px}
+.htc-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(46,134,193,.15);transform:translateX(3px)}
+.htc-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.htc-avatar img{width:100%;height:100%;object-fit:cover}
+.htc-info{flex:1;min-width:0}
+.htc-name{font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.htc-count-pill{display:inline-flex;align-items:center;gap:4px;background:#DBEAFE;color:#1E40AF;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-top:3px}
+.htc-arrow{color:var(--accent);font-size:18px;flex-shrink:0}
+.htc-del-btn{background:var(--red-lt);color:var(--red);border:1px solid rgba(146,43,33,.2);padding:4px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;transition:.15s}
+.htc-del-btn:hover{background:var(--red);color:#fff}
+.htc-delall{display:none}
+/* TEAMS LIST — vertical list layout */
+.teams-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:0}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;text-align:left}
+.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.18);transform:translateX(3px)}
+.team-card .tc-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:20px}
 .team-card .tc-avatar img{width:100%;height:100%;object-fit:cover}
-.team-card .tc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
-.team-card .tc-meta{font-size:11px;color:var(--muted);margin-bottom:6px}
-.team-card .tc-leader{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:4px}
-.team-card .tc-members{font-size:10px;color:var(--muted)}
-.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:6px}
-.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:160px}
+.team-card .tc-info{flex:1;min-width:0}
+.team-card .tc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:1px}
+.team-card .tc-meta{font-size:11px;color:var(--muted)}
+.team-card .tc-leader{font-size:11px;color:var(--accent);font-weight:600}
+.team-card .tc-members{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:4px}
+.team-card .tc-arrow{font-size:20px;color:var(--accent);flex-shrink:0;margin-left:auto}
+.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:14px 20px;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:14px}
 .add-team-card:hover{border-color:var(--accent);background:#F0F7FF}
-.add-team-card .atc-ico{font-size:32px;margin-bottom:8px}
+.add-team-card .atc-ico{font-size:24px}
 .add-team-card span{font-size:13px;color:var(--muted);font-weight:500}
 
-/* HOME APPROVED — TEAM WISE */
-.approved-home{max-width:1100px;margin:0 auto;padding:0 24px 40px}
+/* HOME TWO-COLUMN LAYOUT */
+.home-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:0 24px 40px;align-items:start}
+.home-col-left{}
+.home-col-right{}
+@media(max-width:860px){.home-cols{grid-template-columns:1fr;padding:0 14px 32px}}
 .section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .section-title{font-size:17px;font-weight:700;color:var(--navy)}
 .team-kaizen-block{margin-bottom:20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
@@ -252,13 +290,11 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   .img-grid{grid-template-columns:1fr}
   .photo-pair{grid-template-columns:1fr}
   .main{padding:14px}
-  .teams-grid{grid-template-columns:1fr 1fr}
   .hdr-right .btn span{display:none}
   .members-row{display:none}
 }
 @media(max-width:480px){
   .stats{grid-template-columns:1fr}
-  .teams-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -300,28 +336,51 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 
 <!-- ══ HOME PAGE ══ -->
 <div class="page active" id="homePage">
+  <img id="homeWatermark" class="home-watermark" src="" alt="" style="display:none"/>
   <div class="main">
     <div class="home-hero">
       <h1> Kaizen Tracker</h1>
       <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
     </div>
-    <div class="teams-grid" id="teamsGrid">
-      <div class="add-team-card" id="addTeamCard">
-        <div class="atc-ico">➕</div>
-        <span>নতুন টিম তৈরি করুন</span>
-      </div>
+    <div class="team-search-wrap">
+      <span class="tsw-ico">🔍</span>
+      <input type="text" id="teamSearchInput" placeholder="টিমের নাম দিয়ে খুঁজুন..."/>
+      <button class="tsw-clear" id="teamSearchClear">✕</button>
     </div>
+    <div class="team-search-count" id="teamSearchCount" style="display:none"></div>
   </div>
 
-  <!-- APPROVED KAIZEN — TEAM WISE -->
-  <div class="approved-home" id="approvedHomeSection">
-    <div class="section-hdr">
-      <div class="section-title">✅ Complete Kaizen — By team</div>
-      <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
+  <!-- TWO-COLUMN SECTION -->
+  <div class="home-cols">
+    <!-- LEFT: Team List -->
+    <div class="home-col-left">
+      <div class="section-hdr" style="margin-bottom:10px">
+        <div class="section-title">🏢 টিম সমূহ</div>
+      </div>
+      <div class="teams-grid" id="teamsGrid">
+        <div class="add-team-card" id="addTeamCard">
+          <div class="atc-ico">➕</div>
+          <span>নতুন টিম তৈরি করুন</span>
+        </div>
+      </div>
     </div>
-    <div id="approvedHomeWrap" style="display:none">
-      <div id="teamKaizenBlocks">
-        <div class="empty"><div class="eico">📅</div><p>লোড হচ্ছে...</p></div>
+
+    <!-- RIGHT: Approved Kaizen -->
+    <div class="home-col-right" id="approvedHomeSection">
+      <div class="section-hdr" style="margin-bottom:10px">
+        <div class="section-title">✅ Complete Kaizen — টিম অনুযায়ী</div>
+        <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
+      </div>
+      <div id="approvedHomeWrap" style="display:none">
+        <div class="htc-search-wrap">
+          <span class="hsw-ico">🔍</span>
+          <input type="text" id="kaizenTeamSearch" placeholder="টিমের নাম দিয়ে খুঁজুন..."/>
+          <button class="hsw-clear" id="kaizenTeamSearchClear">✕</button>
+        </div>
+        <div class="htc-search-count" id="kaizenTeamSearchCount" style="display:none"></div>
+        <div id="teamKaizenBlocks">
+          <div class="empty"><div class="eico">📅</div><p>লোড হচ্ছে...</p></div>
+        </div>
       </div>
     </div>
   </div>
@@ -461,7 +520,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
-    <div class="modal-title" id="entryTitle">New Kaizen Entry</div>
+    <div class="modal-title" id="entryTitle">New Kaizen এন্ট্রি</div>
     <button class="cls-btn" id="closeEntry">✕</button>
   </div>
   <div class="modal-body">
@@ -476,7 +535,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="fDate" type="date"/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">Team Leader's Name<span>*</span></label>
+        <label class="f-lbl">👑 টিম লিডারের নাম <span>*</span></label>
         <input class="f-input" id="fLeaderName" placeholder="টিম লিডারের নাম"/>
       </div>
       <div class="f-group">
@@ -487,10 +546,6 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
           <option value="3" selected>⭐⭐⭐ Medium</option>
           <option value="2">⭐⭐ Low</option>
         </select>
-      </div>
-      <div id="adminTeamSelectRow" class="f-group" style="display:none">
-        <label class="f-lbl">Team (Admin)</label>
-        <select class="f-select" id="fAdminTeam"></select>
       </div>
       <div class="f-group">
         <label class="f-lbl">💡 Proposed By</label>
@@ -586,6 +641,17 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div id="pendingApprovalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের পাসওয়ার্ড:</div>
       <div id="teamPassList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto"></div>
+      <div class="f-group" style="margin-bottom:14px">
+        <label class="f-lbl">হোম পেজ জলছাপ লোগো (Watermark)</label>
+        <div class="logo-upload-row">
+          <img id="adminLogoPrev" class="logo-preview" src="" alt="" style="display:none"/>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer">
+            📁 লোগো বাছুন
+            <input type="file" accept="image/*" id="adminLogoFile" style="display:none"/>
+          </label>
+          <button class="btn btn-danger btn-sm" id="removeLogoBtn" style="display:none">🗑 মুছুন</button>
+        </div>
+      </div>
       <div class="f-group" style="margin-bottom:12px">
         <label class="f-lbl">Admin পাসওয়ার্ড পরিবর্তন</label>
         <input class="f-input" id="newAdminPass" type="password" placeholder="নতুন পাসওয়ার্ড (খালি = পরিবর্তন নেই)"/>
@@ -603,7 +669,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
-  onSnapshot, query, orderBy, serverTimestamp, where, getDocs }
+  onSnapshot, query, orderBy, serverTimestamp, where, getDocs, setDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const CLOUD_NAME   = "dhdllytiv";
@@ -635,6 +701,10 @@ let editingTeamId= null;
 // New team form state
 let ntLeaderFileObj=null, ntLeaderUrl="";
 let ntMembers=[]; // [{name, fileObj, url, previewSrc}]
+let siteSettings = {};
+let pendingLogoFile = null;
+let pendingLogoRemoved = false;
+let teamSearchTerm = "";
 
 function showPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -717,6 +787,19 @@ function updateLiveClock(){
 }
 updateLiveClock();setInterval(updateLiveClock,1000);
 
+// ── SITE SETTINGS (HOME WATERMARK LOGO) ─────────────────────────────
+onSnapshot(doc(db,"kaizen_settings","main"), snap=>{
+  siteSettings = snap.exists() ? snap.data() : {};
+  applyHomeWatermark();
+}, err=>{console.error("settings load error:",err);});
+
+function applyHomeWatermark(){
+  const url=siteSettings.logoUrl||"";
+  const wm=document.getElementById("homeWatermark");
+  if(url){ wm.src=url; wm.style.display="block"; }
+  else { wm.style.display="none"; wm.src=""; }
+}
+
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
 onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
   allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
@@ -771,24 +854,36 @@ function renderPendingApprovalList(){
 // ── RENDER TEAM CARDS ──────────────────────────────────────────────
 function renderTeamCards(){
   const grid=document.getElementById("teamsGrid");
+  const term=teamSearchTerm.trim().toLowerCase();
+  const filtered=term
+    ? allTeams.filter(t=>(t.name||"").toLowerCase().includes(term)||(t.division||"").toLowerCase().includes(term)||(t.leaderName||"").toLowerCase().includes(term))
+    : allTeams;
+  const countEl=document.getElementById("teamSearchCount");
+  if(term){
+    countEl.style.display="block";
+    countEl.textContent=filtered.length?`🔎 ${filtered.length} টি টিম পাওয়া গেছে`:`😕 "${teamSearchTerm}" নামে কোনো টিম পাওয়া যায়নি`;
+  }else{
+    countEl.style.display="none";
+  }
   let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>নতুন টিম তৈরি করুন</span></div>`;
-  allTeams.forEach(t=>{
+  filtered.forEach(t=>{
     const members=t.members||[];
     const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
     const avHtml=t.leaderUrl
       ?`<img src="${t.leaderUrl}" alt="${t.leaderName||''}" loading="lazy"/>`
       :``;
     h+=`<div class="team-card" data-tid="${t.id}">
-      ${isAdmin?`<div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:2">
+      <div class="tc-avatar">${avHtml}</div>
+      <div class="tc-info">
+        <div class="tc-name">${t.name}</div>
+        ${t.division?`<div class="tc-meta">${t.division}</div>`:""}
+        ${t.leaderName?`<div class="tc-leader">👑 ${t.leaderName}</div>`:""}
+        ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
+      </div>
+      ${isAdmin?`<div style="display:flex;gap:4px;flex-shrink:0">
         <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="এডিট" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
         <button class="btn btn-danger btn-sm" style="padding:3px 6px" title="ডিলিট" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑</button>
-      </div>`:""}
-      <div class="tc-avatar">${avHtml}</div>
-      <div class="tc-name">${t.name}</div>
-      <div class="tc-meta">${t.division||""}</div>
-      ${t.leaderName?`<div class="tc-leader">👤 ${t.leaderName}</div>`:""}
-      ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
-      <span class="badge b-blue tc-badge">📋 Team</span>
+      </div>`:`<div class="tc-arrow">›</div>`}
     </div>`;
   });
   grid.innerHTML=h;
@@ -799,6 +894,17 @@ function renderTeamCards(){
     c.addEventListener("click",()=>handleTeamClick(c.dataset.tid));
   });
 }
+document.getElementById("teamSearchInput").addEventListener("input",e=>{
+  teamSearchTerm=e.target.value;
+  document.getElementById("teamSearchClear").style.display=teamSearchTerm?"block":"none";
+  renderTeamCards();
+});
+document.getElementById("teamSearchClear").addEventListener("click",()=>{
+  teamSearchTerm="";
+  document.getElementById("teamSearchInput").value="";
+  document.getElementById("teamSearchClear").style.display="none";
+  renderTeamCards();
+});
 
 // ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
 let homeKaizenViewTeamId=null; // null = টিম লিস্ট দেখাচ্ছে, কোনো টিমের id হলে সেই টিমের ডিটেইল দেখাচ্ছে
@@ -823,19 +929,48 @@ function renderApprovedHome(){
     renderHomeTeamList(wrap,grouped);
   }
 }
+let kaizenTeamSearchTerm="";
 function renderHomeTeamList(wrap,grouped){
+  const term=kaizenTeamSearchTerm.trim().toLowerCase();
+  const allTids=Object.keys(grouped);
+  const filteredTids=term
+    ? allTids.filter(tid=>{
+        const team=allTeams.find(t=>t.id===tid);
+        const tname=(team?.name||grouped[tid][0]?.teamName||"").toLowerCase();
+        return tname.includes(term);
+      })
+    : allTids;
+
+  // search count
+  const countEl=document.getElementById("kaizenTeamSearchCount");
+  if(term){
+    countEl.style.display="block";
+    countEl.textContent=filteredTids.length
+      ?`🔎 ${filteredTids.length} টি টিম পাওয়া গেছে`
+      :`😕 "${kaizenTeamSearchTerm}" নামে কোনো টিম পাওয়া যায়নি`;
+  }else{
+    countEl.style.display="none";
+  }
+
+  if(!filteredTids.length){
+    wrap.innerHTML=`<div class="empty" style="padding:32px 20px"><div class="eico">🔍</div><p>কোনো টিম পাওয়া যায়নি</p></div>`;
+    return;
+  }
+
   let h=`<div class="home-team-list">`;
-  Object.keys(grouped).forEach(tid=>{
+  filteredTids.forEach(tid=>{
     const items=grouped[tid];
     const team=allTeams.find(t=>t.id===tid);
     const tname=team?.name||items[0]?.teamName||"Unknown Team";
     const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
-    h+=`<div class="tkb-hdr" style="border-radius:10px;margin-bottom:8px;cursor:pointer" data-hometid="${tid}">
-      <div class="tkb-avatar">${avHtml}</div>
-      <div class="tkb-name">${tname}</div>
-      <span class="tkb-count">${items.length} টি Complete</span>
-      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
-      <span class="tkb-arrow">›</span>
+    h+=`<div class="htc-card" data-hometid="${tid}">
+      <div class="htc-avatar">${avHtml}</div>
+      <div class="htc-info">
+        <div class="htc-name">${tname}</div>
+        <div class="htc-count-pill">✅ ${items.length} টি Complete</div>
+      </div>
+      ${isAdmin?`<button class="htc-del-btn" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
+      <div class="htc-arrow">›</div>
     </div>`;
   });
   h+=`</div>`;
@@ -911,6 +1046,17 @@ document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
   const btn=document.getElementById("toggleApprovedBtn");
   if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 Hide";}
   else{w.style.display="none";btn.textContent="📋View ";}
+});
+document.getElementById("kaizenTeamSearch").addEventListener("input",e=>{
+  kaizenTeamSearchTerm=e.target.value;
+  document.getElementById("kaizenTeamSearchClear").style.display=kaizenTeamSearchTerm?"block":"none";
+  renderApprovedHome();
+});
+document.getElementById("kaizenTeamSearchClear").addEventListener("click",()=>{
+  kaizenTeamSearchTerm="";
+  document.getElementById("kaizenTeamSearch").value="";
+  document.getElementById("kaizenTeamSearchClear").style.display="none";
+  renderApprovedHome();
 });
 
 // ── TEAM LOGIN ──────────────────────────────────────────────────────
@@ -1155,14 +1301,13 @@ document.getElementById("closeEntry").addEventListener("click",()=>closeModal("e
 
 function openNewEntry(){
   editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
-  document.getElementById("entryTitle").textContent="New Kaizen Entry";
+  document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
   document.getElementById("fLeaderName").value=currentTeam?.leaderName||"";
   document.getElementById("fImpact").value="3";
   document.getElementById("bStat").className="up-status";
   document.getElementById("aStat").className="up-status";
-  document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
   // populate Proposed By dropdown with current team members
   const pbSel=document.getElementById("fProposedBy");
   pbSel.innerHTML=`<option value="">— Select Member —</option>`;
@@ -1186,7 +1331,7 @@ async function doSave(){
     let finalB=bUrl,finalA=aUrl;
     if(bFileObj)finalB=await uploadImg(bFileObj,"b");
     if(aFileObj)finalA=await uploadImg(aFileObj,"a");
-    const tid=isAdmin?(document.getElementById("fAdminTeam").value||currentTeamId):currentTeamId;
+    const tid=currentTeamId;
     const teamObj=allTeams.find(t=>t.id===tid);
     // এই ফর্মে Status নেই — নতুন এন্ট্রির ডিফল্ট স্ট্যাটাস "Planned", আর এডিট করলে আগের status অপরিবর্তিত থাকবে
     // (status পরিবর্তন হয় টিমের Kaizen List-এর ড্রপডাউন থেকে, এই ফর্ম থেকে নয়)
@@ -1364,8 +1509,6 @@ function doEdit(id){
     members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
   }
   pbSel.value=e.proposedBy||"";
-  document.getElementById("adminTeamSelectRow").style.display=isAdmin?"flex":"none";
-  if(isAdmin)document.getElementById("fAdminTeam").value=e.teamId||"";
   if(e.bUrl)showPrev("b",e.bUrl);else resetPrev("b");
   if(e.aUrl)showPrev("a",e.aUrl);else resetPrev("a");
   openModal("entryOvl");
@@ -1420,8 +1563,7 @@ function renderAdminPassList(){
   `).join("");
 }
 function populateAdminTeamSelect(){
-  const sel=document.getElementById("fAdminTeam");
-  sel.innerHTML=allTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
+  // fAdminTeam field removed — no longer needed
 }
 document.getElementById("adminBtn").addEventListener("click",()=>{
   document.getElementById("adminPassIn").value="";
@@ -1431,6 +1573,7 @@ document.getElementById("adminBtn").addEventListener("click",()=>{
     document.getElementById("adminLoggedSec").style.display="block";
     document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
     renderPendingApprovalList();
+    populateAdminLogoPreview();
   }else{
     document.getElementById("adminLoginSec").style.display="block";
     document.getElementById("adminLoggedSec").style.display="none";
@@ -1456,16 +1599,64 @@ function doAdminLogin(){
     renderPendingApprovalList();
     renderApprovedHome();
     updateAdminPendingDot();
+    populateAdminLogoPreview();
     if(currentTeam)renderTeamTable();
   }else{
     document.getElementById("adminPassErr").style.display="block";
     document.getElementById("adminPassIn").value="";
   }
 }
-function saveAdminSettings(){
+
+// ── HOME WATERMARK LOGO MANAGEMENT ──────────────────────────────────
+function populateAdminLogoPreview(){
+  pendingLogoFile=null; pendingLogoRemoved=false;
+  const prev=document.getElementById("adminLogoPrev");
+  const rmBtn=document.getElementById("removeLogoBtn");
+  if(siteSettings.logoUrl){
+    prev.src=siteSettings.logoUrl; prev.style.display="block";
+    rmBtn.style.display="inline-flex";
+  }else{
+    prev.src=""; prev.style.display="none";
+    rmBtn.style.display="none";
+  }
+}
+document.getElementById("adminLogoFile").addEventListener("change",e=>{
+  const f=e.target.files[0]; if(!f) return;
+  pendingLogoFile=f; pendingLogoRemoved=false;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById("adminLogoPrev").src=ev.target.result;
+    document.getElementById("adminLogoPrev").style.display="block";
+    document.getElementById("removeLogoBtn").style.display="inline-flex";
+  };
+  r.readAsDataURL(f);
+});
+document.getElementById("removeLogoBtn").addEventListener("click",()=>{
+  pendingLogoFile=null; pendingLogoRemoved=true;
+  document.getElementById("adminLogoPrev").src="";
+  document.getElementById("adminLogoPrev").style.display="none";
+  document.getElementById("removeLogoBtn").style.display="none";
+});
+
+async function saveAdminSettings(){
+  const btn=document.getElementById("adminActBtn");
   const p=document.getElementById("newAdminPass").value;
   if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
-  showToast("📅 সেটিং সেভ হয়েছে");closeModal("adminOvl");
+  btn.disabled=true; btn.textContent="⏳ সেভ হচ্ছে...";
+  try{
+    if(pendingLogoFile){
+      const url=await uploadImgDirect(pendingLogoFile);
+      await setDoc(doc(db,"kaizen_settings","main"),{logoUrl:url},{merge:true});
+    }else if(pendingLogoRemoved){
+      await setDoc(doc(db,"kaizen_settings","main"),{logoUrl:""},{merge:true});
+    }
+    pendingLogoFile=null; pendingLogoRemoved=false;
+    showToast("📅 সেটিং সেভ হয়েছে");
+    closeModal("adminOvl");
+  }catch(e){
+    showToast("❌ "+e.message);
+  }
+  btn.disabled=false; btn.textContent="💾 সেটিং সেভ";
 }
 document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   isAdmin=false;
