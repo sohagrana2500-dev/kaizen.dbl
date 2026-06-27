@@ -302,7 +302,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 
 <div class="loading-cover" id="loadingCover">
   <div class="spinner"></div>
-  <div style="font-size:13px;color:var(--muted)">লোড হচ্ছে...</div>
+  <div style="font-size:13px;color:var(--muted)">Loading...ছে...</div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="lightbox" id="lightbox" onclick="closeLB()">
@@ -340,11 +340,11 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="home-hero">
       <h1> Kaizen Tracker</h1>
-      <p>আপনার টিম সিলেক্ট করুন অথবা নতুন টিম তৈরি করুন</p>
+      <p>আপনার টিম সিলেক্ট করুন অথবা Create a new team.</p>
     </div>
     <div class="team-search-wrap">
       <span class="tsw-ico">🔍</span>
-      <input type="text" id="teamSearchInput" placeholder="টিমের নাম দিয়ে খুঁজুন..."/>
+      <input type="text" id="teamSearchInput" placeholder="Team Name দিয়ে খুঁজুন..."/>
       <button class="tsw-clear" id="teamSearchClear">✕</button>
     </div>
     <div class="team-search-count" id="teamSearchCount" style="display:none"></div>
@@ -355,12 +355,12 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <!-- LEFT: Team List -->
     <div class="home-col-left">
       <div class="section-hdr" style="margin-bottom:10px">
-        <div class="section-title">🏢 টিম সমূহ</div>
+        <div class="section-title">🏢 Teams</div>
       </div>
       <div class="teams-grid" id="teamsGrid">
         <div class="add-team-card" id="addTeamCard">
           <div class="atc-ico">➕</div>
-          <span>নতুন টিম তৈরি করুন</span>
+          <span>Create a new team.</span>
         </div>
       </div>
     </div>
@@ -368,18 +368,18 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <!-- RIGHT: Approved Kaizen -->
     <div class="home-col-right" id="approvedHomeSection">
       <div class="section-hdr" style="margin-bottom:10px">
-        <div class="section-title">✅ Complete Kaizen — টিম অনুযায়ী</div>
+        <div class="section-title">✅ Complete Kaizen — By team</div>
         <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
       </div>
       <div id="approvedHomeWrap" style="display:none">
         <div class="htc-search-wrap">
           <span class="hsw-ico">🔍</span>
-          <input type="text" id="kaizenTeamSearch" placeholder="টিমের নাম দিয়ে খুঁজুন..."/>
+          <input type="text" id="kaizenTeamSearch" placeholder="Team Name দিয়ে খুঁজুন..."/>
           <button class="hsw-clear" id="kaizenTeamSearchClear">✕</button>
         </div>
         <div class="htc-search-count" id="kaizenTeamSearchCount" style="display:none"></div>
         <div id="teamKaizenBlocks">
-          <div class="empty"><div class="eico">📅</div><p>লোড হচ্ছে...</p></div>
+          <div class="empty"><div class="eico">📅</div><p>Loading...ছে...</p></div>
         </div>
       </div>
     </div>
@@ -431,9 +431,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div class="tbl-card">
       <div class="tbl-hdr">
         <div class="tbl-title" id="teamTblTitle">📋 Kaizen List</div>
-        <div class="tbl-count" id="tblCount">লোড হচ্ছে...</div>
+        <div class="tbl-count" id="tblCount">Loading.....</div>
       </div>
-      <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:20px;height:20px;border-width:3px"></div> লোড হচ্ছে...</div></div>
+      <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:20px;height:20px;border-width:3px"></div> Loading.....</div></div>
     </div>
   </div>
 </div>
@@ -444,25 +444,25 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="newTeamOvl">
 <div class="modal" style="max-width:560px">
   <div class="modal-hdr">
-    <div class="modal-title" id="newTeamModalTitle">➕ নতুন টিম তৈরি করুন</div>
+    <div class="modal-title" id="newTeamModalTitle">➕ Create a new team.</div>
     <button class="cls-btn" id="closeNewTeam">✕</button>
   </div>
   <div class="modal-body">
-    <div class="info-box" id="newTeamInfoBox">নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন</div>
+    <div class="info-box" id="newTeamInfoBox">If you create a new team, you will set the password for that team.</div>
     <div class="fg" style="grid-template-columns:1fr">
-      <div class="sec-lbl" style="grid-column:1/-1">📋 টিমের তথ্য</div>
+      <div class="sec-lbl" style="grid-column:1/-1">📋  Team Information</div>
       <div class="f-group">
-        <label class="f-lbl">টিমের নাম <span>*</span></label>
-        <input class="f-input" id="ntName" placeholder="যেমন: Warehouse Team 01"/>
+        <label class="f-lbl">Team Name <span>*</span></label>
+        <input class="f-input" id="ntName" placeholder="For example: Finishing Team 01"/>
       </div>
 
       <div class="f-group">
-        <label class="f-lbl" id="ntPassLbl">টিম পাসওয়ার্ড <span>*</span></label>
-        <input class="f-input" id="ntPass" type="password" placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন"/>
+        <label class="f-lbl" id="ntPassLbl">Team Password <span>*</span></label>
+        <input class="f-input" id="ntPass" type="password" placeholder="Set a password for the team."/>
       </div>
       <div class="f-group">
-        <label class="f-lbl" id="ntPass2Lbl">পাসওয়ার্ড নিশ্চিত করুন <span>*</span></label>
-        <input class="f-input" id="ntPass2" type="password" placeholder="আবার পাসওয়ার্ড লিখুন"/>
+        <label class="f-lbl" id="ntPass2Lbl">Confirm password <span>*</span></label>
+        <input class="f-input" id="ntPass2" type="password" placeholder="Enter the password again."/>
       </div>
 
       <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👤 Team Leader</div>
@@ -481,16 +481,16 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <div class="up-status" id="ntLeaderStat"></div>
       </div>
 
-      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 টিম সদস্য</div>
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 Team Memberয</div>
       <div style="grid-column:1/-1">
         <div class="member-list-edit" id="ntMemberList"></div>
-        <button class="btn btn-ghost btn-sm" id="addMemberBtn" style="margin-top:8px;width:100%">➕ সদস্য যোগ করুন</button>
+        <button class="btn btn-ghost btn-sm" id="addMemberBtn" style="margin-top:8px;width:100%">➕ Add member</button>
       </div>
     </div>
   </div>
   <div class="modal-foot">
     <button class="btn btn-ghost" id="cancelNewTeam">বাতিল</button>
-    <button class="btn btn-primary" id="saveNewTeamBtn">📅 টিম তৈরি করুন</button>
+    <button class="btn btn-primary" id="saveNewTeamBtn">📅 Create a team</button>
   </div>
 </div>
 </div>
@@ -726,7 +726,7 @@ window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
 
 async function uploadImg(file,type){
   const el=document.getElementById(type+"Stat");
-  if(el){el.className="up-status uploading";el.textContent="⏳ আপলোড হচ্ছে...";}
+  if(el){el.className="up-status uploading";el.textContent="⏳ আপLoading...ছে...";}
   try{
     const fd=new FormData();
     fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
@@ -865,7 +865,7 @@ function renderTeamCards(){
   }else{
     countEl.style.display="none";
   }
-  let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>নতুন টিম তৈরি করুন</span></div>`;
+  let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>Create a new team.</span></div>`;
   filtered.forEach(t=>{
     const members=t.members||[];
     const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
@@ -1103,7 +1103,7 @@ function subscribeTeamEntries(tid){
   if(unsubTeam)unsubTeam();
   // NOTE: where("teamId",...) + orderBy("createdAt",...) একসাথে ব্যবহার করলে Firestore
   // composite index চায়; index না থাকলে এই listener silently fail করে এবং কাইজেন
-  // লিস্টে কখনো ডেটা না এসে শুধু "লোড হচ্ছে..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
+  // লিস্টে কখনো ডেটা না এসে শুধু "Loading...ছে..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
   // client-side এ সর্ট করা হচ্ছে যাতে index ছাড়াই কাজ করে।
   unsubTeam=onSnapshot(
     query(collection(db,"kaizen_entries"),where("teamId","==",tid)),
@@ -1143,12 +1143,12 @@ function resetNewTeamForm(){
   document.getElementById("ntLeaderPrev").style.display="none";
   document.getElementById("ntLeaderImg").src="";
   document.getElementById("ntLeaderStat").className="up-status";
-  document.getElementById("newTeamModalTitle").textContent="➕ নতুন টিম তৈরি করুন";
-  document.getElementById("newTeamInfoBox").textContent="নতুন টিম তৈরি করলে আপনি সেই টিমের পাসওয়ার্ড সেট করবেন";
-  document.getElementById("ntPassLbl").innerHTML="টিম পাসওয়ার্ড <span>*</span>";
-  document.getElementById("ntPass2Lbl").innerHTML="পাসওয়ার্ড নিশ্চিত করুন <span>*</span>";
-  document.getElementById("ntPass").placeholder="টিমের জন্য পাসওয়ার্ড সেট করুন";
-  document.getElementById("saveNewTeamBtn").textContent="📅 টিম তৈরি করুন";
+  document.getElementById("newTeamModalTitle").textContent="➕ Create a new team.";
+  document.getElementById("newTeamInfoBox").textContent="If you create a new team, you will set the password for that team.";
+  document.getElementById("ntPassLbl").innerHTML="Team Password <span>*</span>";
+  document.getElementById("ntPass2Lbl").innerHTML="Confirm password <span>*</span>";
+  document.getElementById("ntPass").placeholder="Set a password for the team.";
+  document.getElementById("saveNewTeamBtn").textContent="📅 Create a team";
   renderMemberListEdit();
 }
 function openEditTeam(tid){
@@ -1167,8 +1167,8 @@ function openEditTeam(tid){
   renderMemberListEdit();
   document.getElementById("newTeamModalTitle").textContent="✏️ টিম এডিট করুন";
   document.getElementById("newTeamInfoBox").textContent="পাসওয়ার্ড পরিবর্তন করতে না চাইলে ফাঁকা রাখুন — পুরনো পাসওয়ার্ড বহাল থাকবে।";
-  document.getElementById("ntPassLbl").textContent="নতুন টিম পাসওয়ার্ড (ঐচ্ছিক)";
-  document.getElementById("ntPass2Lbl").textContent="পাসওয়ার্ড নিশ্চিত করুন (ঐচ্ছিক)";
+  document.getElementById("ntPassLbl").textContent="নতুন Team Password (ঐচ্ছিক)";
+  document.getElementById("ntPass2Lbl").textContent="Confirm password (ঐচ্ছিক)";
   document.getElementById("ntPass").placeholder="পরিবর্তন না করলে ফাঁকা রাখুন";
   document.getElementById("saveNewTeamBtn").textContent="💾 পরিবর্তন সেভ করুন";
   openModal("newTeamOvl");
@@ -1244,7 +1244,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const p1=document.getElementById("ntPass").value;
   const p2=document.getElementById("ntPass2").value;
   const leaderName=document.getElementById("ntLeaderName").value.trim();
-  if(!name){showToast("⚠️ টিমের নাম লিখুন");return;}
+  if(!name){showToast("⚠️ Team Name লিখুন");return;}
   if(!leaderName){showToast("⚠️ Enter the leader's name");return;}
   if(!editingTeamId && !p1){showToast("⚠️ পাসওয়ার্ড দিন");return;}
   if(p1!==p2){showToast("❌ পাসওয়ার্ড মিলছে না!");return;}
@@ -1254,7 +1254,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
     // upload leader photo (নতুন ছবি দিলে আপলোড হবে, না দিলে আগের url/blank থাকবে)
     let leaderUrl=ntLeaderUrl;
     if(ntLeaderFileObj){
-      showToast("⏳ লিডারের ছবি আপলোড হচ্ছে...");
+      showToast("⏳ লিডারের ছবি আপLoading...ছে...");
       leaderUrl=await uploadImgDirect(ntLeaderFileObj);
     }
     // upload member photos (নতুন ছবি না থাকলে আগের url ব্যবহার হবে)
@@ -1288,7 +1288,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
     closeModal("newTeamOvl");
     resetNewTeamForm();
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false;btn.textContent=editingTeamId?"💾 পরিবর্তন সেভ করুন":"📅 টিম তৈরি করুন";
+  btn.disabled=false;btn.textContent=editingTeamId?"💾 পরিবর্তন সেভ করুন":"📅 Create a team";
 });
 document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
