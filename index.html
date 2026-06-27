@@ -1,7 +1,8 @@
 
 
+
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -302,7 +303,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 
 <div class="loading-cover" id="loadingCover">
   <div class="spinner"></div>
-  <div style="font-size:13px;color:var(--muted)">Loading...ছে...</div>
+  <div style="font-size:13px;color:var(--muted)">Loading...</div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="lightbox" id="lightbox" onclick="closeLB()">
@@ -340,11 +341,11 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="main">
     <div class="home-hero">
       <h1> Kaizen Tracker</h1>
-      <p>আপনার টিম সিলেক্ট করুন অথবা Create a new team.</p>
+      <p>Select your team or create a new one.</p>
     </div>
     <div class="team-search-wrap">
       <span class="tsw-ico">🔍</span>
-      <input type="text" id="teamSearchInput" placeholder="Team Name দিয়ে খুঁজুন..."/>
+      <input type="text" id="teamSearchInput" placeholder="Search by team name..."/>
       <button class="tsw-clear" id="teamSearchClear">✕</button>
     </div>
     <div class="team-search-count" id="teamSearchCount" style="display:none"></div>
@@ -374,12 +375,12 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <div id="approvedHomeWrap" style="display:none">
         <div class="htc-search-wrap">
           <span class="hsw-ico">🔍</span>
-          <input type="text" id="kaizenTeamSearch" placeholder="Team Name দিয়ে খুঁজুন..."/>
+          <input type="text" id="kaizenTeamSearch" placeholder="Search by team name..."/>
           <button class="hsw-clear" id="kaizenTeamSearchClear">✕</button>
         </div>
         <div class="htc-search-count" id="kaizenTeamSearchCount" style="display:none"></div>
         <div id="teamKaizenBlocks">
-          <div class="empty"><div class="eico">📅</div><p>Loading...ছে...</p></div>
+          <div class="empty"><div class="eico">📅</div><p>Loading...</p></div>
         </div>
       </div>
     </div>
@@ -475,13 +476,13 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <div class="upload-area" id="ntLeaderArea" style="min-height:70px">
           <input type="file" accept="image/*" id="ntLeaderFile"/>
           <div class="u-ico" style="font-size:18px">📷</div>
-          <div class="u-lbl">ছবি আপলোড</div>
+          <div class="u-lbl">Upload Photo</div>
         </div>
         <div class="prev-wrap" id="ntLeaderPrev"><img id="ntLeaderImg" src="" alt=""/><button class="rm-btn" id="rmLeader">✕</button></div>
         <div class="up-status" id="ntLeaderStat"></div>
       </div>
 
-      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 Team Memberয</div>
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 Team Members</div>
       <div style="grid-column:1/-1">
         <div class="member-list-edit" id="ntMemberList"></div>
         <button class="btn btn-ghost btn-sm" id="addMemberBtn" style="margin-top:8px;width:100%">➕ Add member</button>
@@ -489,7 +490,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     </div>
   </div>
   <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelNewTeam">বাতিল</button>
+    <button class="btn btn-ghost" id="cancelNewTeam">Cancel</button>
     <button class="btn btn-primary" id="saveNewTeamBtn">📅 Create a team</button>
   </div>
 </div>
@@ -499,19 +500,19 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="teamLoginOvl">
 <div class="modal" style="max-width:400px">
   <div class="modal-hdr">
-    <div class="modal-title" id="teamLoginTitle">🔒 টিম Login</div>
+    <div class="modal-title" id="teamLoginTitle">🔒 Team Login</div>
     <button class="cls-btn" id="closeTeamLogin">✕</button>
   </div>
   <div class="modal-body">
     <div class="f-group">
-      <label class="f-lbl">পাসওয়ার্ড</label>
-      <input class="f-input" id="teamPassIn" type="password" placeholder="টিমের পাসওয়ার্ড দিন..."/>
-      <div class="pass-err" id="teamPassErr">❌ ভুল পাসওয়ার্ড!</div>
+      <label class="f-lbl">Password</label>
+      <input class="f-input" id="teamPassIn" type="password" placeholder="Enter team password..."/>
+      <div class="pass-err" id="teamPassErr">❌ ভুল Password!</div>
     </div>
   </div>
   <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelTeamLogin">বাতিল</button>
-    <button class="btn btn-primary" id="doTeamLoginBtn">প্রবেশ করুন</button>
+    <button class="btn btn-ghost" id="cancelTeamLogin">Cancel</button>
+    <button class="btn btn-primary" id="doTeamLoginBtn">Enter</button>
   </div>
 </div>
 </div>
@@ -535,8 +536,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="fDate" type="date"/>
       </div>
       <div class="f-group">
-        <label class="f-lbl">👑 টিম লিডারের নাম <span>*</span></label>
-        <input class="f-input" id="fLeaderName" placeholder="টিম লিডারের নাম"/>
+        <label class="f-lbl">👑 Team Leader Name <span>*</span></label>
+        <input class="f-input" id="fLeaderName" placeholder="Team Leader Name"/>
       </div>
       <div class="f-group">
         <label class="f-lbl">Impact</label>
@@ -573,7 +574,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
           <div class="upload-area" id="bArea">
             <input type="file" accept="image/*" id="bFile"/>
             <div class="u-ico">📷</div>
-            <div class="u-lbl">Before ছবি</div>
+            <div class="u-lbl">Before Photo</div>
           </div>
           <div class="prev-wrap" id="bPrev"><img id="bImg" src="" alt=""/><button class="rm-btn" id="rmB">✕</button></div>
           <div class="up-status" id="bStat"></div>
@@ -584,7 +585,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
           <div class="upload-area" id="aArea">
             <input type="file" accept="image/*" id="aFile"/>
             <div class="u-ico">✨</div>
-            <div class="u-lbl">After ছবি</div>
+            <div class="u-lbl">After Photo</div>
           </div>
           <div class="prev-wrap" id="aPrev"><img id="aImg" src="" alt=""/><button class="rm-btn" id="rmA">✕</button></div>
           <div class="up-status" id="aStat"></div>
@@ -604,7 +605,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="photoOvl">
 <div class="modal photo-modal">
   <div class="modal-hdr">
-    <div class="modal-title" id="photoTitle">Before / After ছবি</div>
+    <div class="modal-title" id="photoTitle">Before / After Photo</div>
     <button class="cls-btn" id="closePhoto">✕</button>
   </div>
   <div class="modal-body">
@@ -630,38 +631,38 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="modal-body">
     <div id="adminLoginSec">
       <div class="f-group">
-        <label class="f-lbl">Admin পাসওয়ার্ড</label>
-        <input class="f-input" id="adminPassIn" type="password" placeholder="পাসওয়ার্ড লিখুন..."/>
-        <div class="pass-err" id="adminPassErr">❌ ভুল পাসওয়ার্ড!</div>
+        <label class="f-lbl">Admin Password</label>
+        <input class="f-input" id="adminPassIn" type="password" placeholder="Password লিখুন..."/>
+        <div class="pass-err" id="adminPassErr">❌ ভুল Password!</div>
       </div>
     </div>
     <div id="adminLoggedSec" style="display:none">
-      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">📅 Admin mode চালু</p>
-      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px" id="pendingApprovalTitle">⏳ অনুমোদনের অপেক্ষায় থাকা কাইজেন:</div>
+      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">📅 Admin mode active</p>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px" id="pendingApprovalTitle">⏳ Kaizen pending approval:</div>
       <div id="pendingApprovalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের পাসওয়ার্ড:</div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের Password:</div>
       <div id="teamPassList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto"></div>
       <div class="f-group" style="margin-bottom:14px">
-        <label class="f-lbl">হোম পেজ জলছাপ লোগো (Watermark)</label>
+        <label class="f-lbl">Home Page Watermark Logo</label>
         <div class="logo-upload-row">
           <img id="adminLogoPrev" class="logo-preview" src="" alt="" style="display:none"/>
           <label class="btn btn-ghost btn-sm" style="cursor:pointer">
-            📁 লোগো বাছুন
+            📁 Choose Logo
             <input type="file" accept="image/*" id="adminLogoFile" style="display:none"/>
           </label>
-          <button class="btn btn-danger btn-sm" id="removeLogoBtn" style="display:none">🗑 মুছুন</button>
+          <button class="btn btn-danger btn-sm" id="removeLogoBtn" style="display:none">🗑 Remove</button>
         </div>
       </div>
       <div class="f-group" style="margin-bottom:12px">
-        <label class="f-lbl">Admin পাসওয়ার্ড পরিবর্তন</label>
-        <input class="f-input" id="newAdminPass" type="password" placeholder="নতুন পাসওয়ার্ড (খালি = পরিবর্তন নেই)"/>
+        <label class="f-lbl">Admin Password পরিবর্তন</label>
+        <input class="f-input" id="newAdminPass" type="password" placeholder="নতুন Password (খালি = পরিবর্তন নেই)"/>
       </div>
       <button class="btn btn-danger btn-sm" id="adminLogoutBtn">🔒 Logout</button>
     </div>
   </div>
   <div class="modal-foot">
-    <button class="btn btn-ghost" id="cancelAdmin">বাতিল</button>
-    <button class="btn btn-primary" id="adminActBtn">প্রবেশ করুন</button>
+    <button class="btn btn-ghost" id="cancelAdmin">Cancel</button>
+    <button class="btn btn-primary" id="adminActBtn">Login</button>
   </div>
 </div>
 </div>
@@ -726,14 +727,14 @@ window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
 
 async function uploadImg(file,type){
   const el=document.getElementById(type+"Stat");
-  if(el){el.className="up-status uploading";el.textContent="⏳ আপLoading...ছে...";}
+  if(el){el.className="up-status uploading";el.textContent="⏳ আপLoading...";}
   try{
     const fd=new FormData();
     fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
-      if(el){el.className="up-status done";el.textContent="📅 সম্পন্ন!";setTimeout(()=>{el.className="up-status";},2500);}
+      if(el){el.className="up-status done";el.textContent="📅 Done!";setTimeout(()=>{el.className="up-status";},2500);}
       return j.secure_url;
     }
     throw new Error(j.error?.message||"Upload failed");
@@ -811,7 +812,7 @@ onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=
 },err=>{
   console.error("teams load error:",err);
   document.getElementById("loadingCover").style.display="none";
-  showToast("❌ টিম লোড করতে সমস্যা: "+err.message);
+  showToast("❌ Failed to load teams: "+err.message);
 });
 
 // APPROVED KAIZEN — all teams realtime
@@ -861,7 +862,7 @@ function renderTeamCards(){
   const countEl=document.getElementById("teamSearchCount");
   if(term){
     countEl.style.display="block";
-    countEl.textContent=filtered.length?`🔎 ${filtered.length} টি টিম পাওয়া গেছে`:`😕 "${teamSearchTerm}" নামে কোনো টিম পাওয়া যায়নি`;
+    countEl.textContent=filtered.length?`🔎 ${filtered.length} team(s) found`:`😕 No team found for "${teamSearchTerm}"`;
   }else{
     countEl.style.display="none";
   }
@@ -882,7 +883,7 @@ function renderTeamCards(){
       </div>
       ${isAdmin?`<div style="display:flex;gap:4px;flex-shrink:0">
         <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="এডিট" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" style="padding:3px 6px" title="ডিলিট" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑</button>
+        <button class="btn btn-danger btn-sm" style="padding:3px 6px" title="Delete" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑</button>
       </div>`:`<div class="tc-arrow">›</div>`}
     </div>`;
   });
@@ -912,7 +913,7 @@ function renderApprovedHome(){
   const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
     homeKaizenViewTeamId=null;
-    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>এখনো কোনো Complete কাইজেন নেই</p></div>`;
+    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>No completed Kaizen yet</p></div>`;
     return;
   }
   // group by teamId
@@ -946,14 +947,14 @@ function renderHomeTeamList(wrap,grouped){
   if(term){
     countEl.style.display="block";
     countEl.textContent=filteredTids.length
-      ?`🔎 ${filteredTids.length} টি টিম পাওয়া গেছে`
-      :`😕 "${kaizenTeamSearchTerm}" নামে কোনো টিম পাওয়া যায়নি`;
+      ?`🔎 ${filteredTids.length} team(s) found`
+      :`😕 No team found for "${kaizenTeamSearchTerm}"`;
   }else{
     countEl.style.display="none";
   }
 
   if(!filteredTids.length){
-    wrap.innerHTML=`<div class="empty" style="padding:32px 20px"><div class="eico">🔍</div><p>কোনো টিম পাওয়া যায়নি</p></div>`;
+    wrap.innerHTML=`<div class="empty" style="padding:32px 20px"><div class="eico">🔍</div><p>No teams found</p></div>`;
     return;
   }
 
@@ -967,9 +968,9 @@ function renderHomeTeamList(wrap,grouped){
       <div class="htc-avatar">${avHtml}</div>
       <div class="htc-info">
         <div class="htc-name">${tname}</div>
-        <div class="htc-count-pill">✅ ${items.length} টি Complete</div>
+        <div class="htc-count-pill">✅ ${items.length} Complete</div>
       </div>
-      ${isAdmin?`<button class="htc-del-btn" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 সব ডিলিট</button>`:""}
+      ${isAdmin?`<button class="htc-del-btn" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 Delete All</button>`:""}
       <div class="htc-arrow">›</div>
     </div>`;
   });
@@ -991,12 +992,12 @@ function renderHomeTeamDetail(wrap,tid,items){
       <button class="btn btn-outline btn-sm" id="homeTeamBackBtn" style="flex-shrink:0">← Back</button>
       <div class="tkb-avatar">${avHtml}</div>
       <div class="tkb-name">${tname}</div>
-      <span class="tkb-count">${items.length} টি Complete</span>
-      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}">🗑 সব ডিলিট</button>`:""}
+      <span class="tkb-count">${items.length} Complete</span>
+      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}">🗑 Delete All</button>`:""}
     </div>
     <div class="tkb-body open" style="border-radius:0 0 10px 10px">
       <table><thead><tr>
-        <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Status</th><th>Impact</th><th>তারিখ</th><th>ছবি</th>
+        <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Status</th><th>Impact</th><th>Date</th><th>Photos</th>
         ${isAdmin?"<th>Action</th>":""}
       </tr></thead><tbody>
       ${items.map((e,i)=>{
@@ -1008,13 +1009,13 @@ function renderHomeTeamDetail(wrap,tid,items){
           <td>${stBadge(getStatus(e))}</td>
           <td style="font-size:12px">${stars(e.impact)}</td>
           <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
-          <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 নেই"}</button></td>
+          <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 None"}</button></td>
           ${isAdmin?`<td><div style="display:flex;align-items:center;gap:4px">
             <select class="ah-move-sel" data-ahmove="${e.id}">
-              <option value="">↔ মুভ</option>
+              <option value="">↔ Move</option>
               ${otherTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("")}
             </select>
-            <button class="ico-btn del" data-ahdel="${e.id}" title="ডিলিট">🗑️</button>
+            <button class="ico-btn del" data-ahdel="${e.id}" title="Delete">🗑️</button>
           </div></td>`:""}
         </tr>`;
       }).join("")}
@@ -1103,7 +1104,7 @@ function subscribeTeamEntries(tid){
   if(unsubTeam)unsubTeam();
   // NOTE: where("teamId",...) + orderBy("createdAt",...) একসাথে ব্যবহার করলে Firestore
   // composite index চায়; index না থাকলে এই listener silently fail করে এবং কাইজেন
-  // লিস্টে কখনো ডেটা না এসে শুধু "Loading...ছে..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
+  // লিস্টে কখনো ডেটা না এসে শুধু "Loading..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
   // client-side এ সর্ট করা হচ্ছে যাতে index ছাড়াই কাজ করে।
   unsubTeam=onSnapshot(
     query(collection(db,"kaizen_entries"),where("teamId","==",tid)),
@@ -1115,7 +1116,7 @@ function subscribeTeamEntries(tid){
     err=>{
       console.error("team entries error:",err);
       document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">⚠️</div><p style="font-weight:600;margin-bottom:4px">ডেটা লোড করতে সমস্যা হয়েছে</p><p>${err.message}</p></div>`;
-      showToast("❌ কাইজেন লিস্ট লোড করতে সমস্যা: "+err.message);
+      showToast("❌ Failed to load Kaizen list: "+err.message);
     }
   );
 }
@@ -1165,29 +1166,29 @@ function openEditTeam(tid){
   }
   ntMembers=(t.members||[]).map(m=>({name:m.name||"",fileObj:null,url:m.url||"",previewSrc:m.url||""}));
   renderMemberListEdit();
-  document.getElementById("newTeamModalTitle").textContent="✏️ টিম এডিট করুন";
-  document.getElementById("newTeamInfoBox").textContent="পাসওয়ার্ড পরিবর্তন করতে না চাইলে ফাঁকা রাখুন — পুরনো পাসওয়ার্ড বহাল থাকবে।";
-  document.getElementById("ntPassLbl").textContent="নতুন Team Password (ঐচ্ছিক)";
-  document.getElementById("ntPass2Lbl").textContent="Confirm password (ঐচ্ছিক)";
-  document.getElementById("ntPass").placeholder="পরিবর্তন না করলে ফাঁকা রাখুন";
-  document.getElementById("saveNewTeamBtn").textContent="💾 পরিবর্তন সেভ করুন";
+  document.getElementById("newTeamModalTitle").textContent="✏️ Edit Team";
+  document.getElementById("newTeamInfoBox").textContent="Password পরিবর্তন করতে না চাইলে ফাঁকা রাখুন — পুরনো Password বহাল থাকবে।";
+  document.getElementById("ntPassLbl").textContent="New Team Password (optional)";
+  document.getElementById("ntPass2Lbl").textContent="Confirm Password (optional)";
+  document.getElementById("ntPass").placeholder="Leave blank if not changing";
+  document.getElementById("saveNewTeamBtn").textContent="💾 Save Changes";
   openModal("newTeamOvl");
 }
 window.openEditTeam=openEditTeam;
 async function deleteTeam(tid){
   const t=allTeams.find(x=>x.id===tid);if(!t)return;
-  if(!confirm(`আপনি কি নিশ্চিত "${t.name}" টিমটি ডিলিট করতে চান?\n\n⚠️ এই টিমের সব কাইজেন  Entryও স্থায়ীভাবে মুছে যাবে।`))return;
+  if(!confirm(`Are you sure you want to delete the "${t.name}" team?\n\n⚠️ All Kaizen entries for this team will also be permanently deleted.`))return;
   try{
     const entrySnap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
     await Promise.all(entrySnap.docs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
     await deleteDoc(doc(db,"kaizen_teams",tid));
-    showToast("🗑 টিম ও এর সব  Entry ডিলিট হয়েছে");
+    showToast("🗑 Team and all entries deleted");
     if(currentTeamId===tid){
       if(unsubTeam){unsubTeam();unsubTeam=null;}
       currentTeam=null;currentTeamId=null;teamEntries=[];
       showPage("homePage");
     }
-  }catch(e){showToast("❌ ডিলিট করতে সমস্যা: "+e.message);}
+  }catch(e){showToast("❌ Failed to delete: "+e.message);}
 }
 window.deleteTeam=deleteTeam;
 document.getElementById("ntLeaderFile").addEventListener("change",e=>{
@@ -1214,11 +1215,11 @@ function renderMemberListEdit(){
   if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">কোনো সদস্য যোগ করা হয়নি</div>`;return;}
   list.innerHTML=ntMembers.map((m,i)=>`
     <div class="member-item" data-mi="${i}">
-      <div class="member-av-wrap" title="ছবি যোগ করুন">
+      <div class="member-av-wrap" title="Add photo">
         ${m.previewSrc?`<img src="${m.previewSrc}" alt=""/>`:`👤`}
         <input type="file" accept="image/*" class="member-file-in" data-mi="${i}"/>
       </div>
-      <input class="member-name-in" placeholder="সদস্যের নাম..." value="${m.name}" data-mi="${i}"/>
+      <input class="member-name-in" placeholder="Member name..." value="${m.name}" data-mi="${i}"/>
       <button class="member-del-btn" data-mi="${i}">✕</button>
     </div>
   `).join("");
@@ -1244,17 +1245,17 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const p1=document.getElementById("ntPass").value;
   const p2=document.getElementById("ntPass2").value;
   const leaderName=document.getElementById("ntLeaderName").value.trim();
-  if(!name){showToast("⚠️ Team Name লিখুন");return;}
+  if(!name){showToast("⚠️ Please enter a team name");return;}
   if(!leaderName){showToast("⚠️ Enter the leader's name");return;}
-  if(!editingTeamId && !p1){showToast("⚠️ পাসওয়ার্ড দিন");return;}
-  if(p1!==p2){showToast("❌ পাসওয়ার্ড মিলছে না!");return;}
+  if(!editingTeamId && !p1){showToast("⚠️ Password দিন");return;}
+  if(p1!==p2){showToast("❌ Password মিলছে না!");return;}
   const btn=document.getElementById("saveNewTeamBtn");
-  btn.disabled=true;btn.textContent=editingTeamId?"⏳ সেভ হচ্ছে...":"⏳ তৈরি হচ্ছে...";
+  btn.disabled=true;btn.textContent=editingTeamId?"⏳ Saving...":"⏳ Creating...";
   try{
     // upload leader photo (নতুন ছবি দিলে আপলোড হবে, না দিলে আগের url/blank থাকবে)
     let leaderUrl=ntLeaderUrl;
     if(ntLeaderFileObj){
-      showToast("⏳ লিডারের ছবি আপLoading...ছে...");
+      showToast("⏳ লিডারের ছবি আপLoading...");
       leaderUrl=await uploadImgDirect(ntLeaderFileObj);
     }
     // upload member photos (নতুন ছবি না থাকলে আগের url ব্যবহার হবে)
@@ -1269,7 +1270,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       const updateData={name,leaderName,leaderUrl,members:membersData};
       if(p1)updateData.password=p1;
       await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
-      showToast("📅 টিম আপডেট হয়েছে!");
+      showToast("📅 Team updated!");
       if(currentTeamId===editingTeamId){
         currentTeam={...currentTeam,...updateData};
         document.getElementById("teamLeaderDisp").textContent=leaderName?`👑 Leader: ${leaderName}`:"";
@@ -1283,12 +1284,12 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
         members:membersData,
         createdAt:serverTimestamp()
       });
-      showToast("📅 নতুন টিম তৈরি হয়েছে!");
+      showToast("📅 New team created!");
     }
     closeModal("newTeamOvl");
     resetNewTeamForm();
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false;btn.textContent=editingTeamId?"💾 পরিবর্তন সেভ করুন":"📅 Create a team";
+  btn.disabled=false;btn.textContent=editingTeamId?"💾 Save Changes":"📅 Create a team";
 });
 document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
 document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
@@ -1322,11 +1323,11 @@ function openNewEntry(){
 
 async function doSave(){
   const title=document.getElementById("fTitle").value.trim();
-  if(!title){showToast("⚠️ শিরোনাম লিখুন");return;}
+  if(!title){showToast("⚠️ Please enter a title");return;}
   const leaderName=document.getElementById("fLeaderName").value.trim();
-  if(!leaderName){showToast("⚠️ টিম লিডারের নাম লিখুন");return;}
+  if(!leaderName){showToast("⚠️ Please enter the team leader's name");return;}
   const btn=document.getElementById("saveBtn");
-  btn.disabled=true;btn.textContent="⏳ সংরক্ষণ হচ্ছে...";
+  btn.disabled=true;btn.textContent="⏳ Saving...";
   try{
     let finalB=bUrl,finalA=aUrl;
     if(bFileObj)finalB=await uploadImg(bFileObj,"b");
@@ -1355,14 +1356,14 @@ async function doSave(){
     };
     if(editId){
       await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
-      showToast("📅 আপডেট হয়েছে!");
+      showToast("📅 Updated!");
     }else{
       await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
       showToast(isAdmin?"📅 Kaizen added!":"📅 Entry added!");
     }
     closeModal("entryOvl");
   }catch(e){showToast("❌ "+e.message);}
-  btn.disabled=false;btn.textContent="💾 সংরক্ষণ করুন";
+  btn.disabled=false;btn.textContent="💾 Save";
 }
 
 // ── RENDER TEAM TABLE ─────────────────────────────────────────────
@@ -1373,7 +1374,7 @@ function renderTeamTable(){
     const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
     return ms&&(!fs||getStatus(e)===fs);
   });
-  document.getElementById("tblCount").textContent=`${list.length} টি  Entry`;
+  document.getElementById("tblCount").textContent=`${list.length} Entries`;
   if(!list.length){
     document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো  Entry নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
     return;
@@ -1424,7 +1425,7 @@ function renderTeamTable(){
 async function updateEntryStatus(id,newStatus){
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{status:newStatus,updatedAt:serverTimestamp()});
-    showToast(`✅ Status আপডেট হয়েছে: ${newStatus}`);
+    showToast(`✅ Status updated: ${newStatus}`);
   }catch(e){showToast("❌ "+e.message);}
 }
 function updateStats(){
@@ -1437,41 +1438,41 @@ function updateStats(){
 
 // ── APPROVE ─────────────────────────────────────────────────────────
 async function approveKaizen(id){
-  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
-    showToast("📅 Kaizen Approved! হোম পেজে দেখা যাবে।");
+    showToast("📅 Kaizen Approved! It will appear on the home page.");
   }catch(e){showToast("❌ "+e.message);}
 }
 
 // ── DELETE / EDIT ─────────────────────────────────────────────────
 async function doDelete(id){
-  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
-  if(!confirm("মুছে ফেলবেন?"))return;
-  try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 মুছে ফেলা হয়েছে");}
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  if(!confirm("Are you sure you want to delete this?"))return;
+  try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 Deleted successfully");}
   catch(e){showToast("❌ "+e.message);}
 }
 
 // ── MOVE KAIZEN TO ANOTHER TEAM (admin only, from home screen) ─────
 async function moveKaizenToTeam(id,newTeamId){
-  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
   const team=allTeams.find(t=>t.id===newTeamId);
-  if(!team){showToast("❌ টিম পাওয়া যায়নি");return;}
-  if(!confirm(`এই কাইজেনটি "${team.name}" টিমে মুভ করবেন?`))return;
+  if(!team){showToast("❌ Team not found");return;}
+  if(!confirm(`Move this Kaizen to "${team.name}" team?`))return;
   try{
     await updateDoc(doc(db,"kaizen_entries",id),{teamId:newTeamId,teamName:team.name});
-    showToast(`📅 "${team.name}" টিমে মুভ হয়েছে!`);
+    showToast(`📅 Moved to "${team.name}" team!`);
   }catch(e){showToast("❌ "+e.message);}
 }
 
 // ── DELETE ALL KAIZEN OF A TEAM (or unassigned/unknown entries), admin only ─
 async function deleteAllTeamKaizen(tid){
-  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
   const team=allTeams.find(t=>t.id===tid);
-  const tname=team?.name||"অজ্ঞাত টিম (Unknown Team)";
-  if(!confirm(`⚠️ "${tname}" এর সমস্ত কাইজেন  Entry স্থায়ীভাবে ডিলেট হয়ে যাবে। এটি ফিরিয়ে আনা যাবে না। নিশ্চিত?`))return;
+  const tname=team?.name||"Unknown Team";
+  if(!confirm(`⚠️ All Kaizen entries for "${tname}" will be permanently deleted. This cannot be undone. Confirm?`))return;
   try{
-    showToast("⏳ ডিলেট হচ্ছে...");
+    showToast("⏳ Deleting...");
     let targetDocs=[];
     if(tid==="unknown"){
       const validIds=new Set(allTeams.map(t=>t.id));
@@ -1482,15 +1483,15 @@ async function deleteAllTeamKaizen(tid){
       targetDocs=snap.docs;
     }
     await Promise.all(targetDocs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
-    showToast(`🗑 ${targetDocs.length} টি  Entry ডিলেট হয়েছে`);
+    showToast(`🗑 ${targetDocs.length} entries deleted`);
     if(currentTeamId===tid) renderTeamTable();
-  }catch(e){showToast("❌ ডিলেট করতে সমস্যা: "+e.message);}
+  }catch(e){showToast("❌ Failed to delete: "+e.message);}
 }
 function doEdit(id){
-  if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
   const e=teamEntries.find(x=>x.id===id);if(!e)return;
   editId=id;bFileObj=null;aFileObj=null;bUrl=e.bUrl||"";aUrl=e.aUrl||"";
-  document.getElementById("entryTitle").textContent="✏️  Entry এডিট করুন";
+  document.getElementById("entryTitle").textContent="✏️ Edit Entry";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
   document.getElementById("fLeaderName").value=e.leaderName||currentTeam?.leaderName||"";
@@ -1520,14 +1521,14 @@ function viewPhotos(id,list){
   document.getElementById("photoTitle").textContent=e.title||"Photos";
   const mkI=(url,lb)=>url
     ?`<img src="${url}" alt="${lb}" style="width:100%;height:240px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" onclick="openLB('${url}')">`
-    :`<div class="no-img"><span style="font-size:32px">${lb==="Before"?"📷":"✨"}</span><span>ছবি নেই</span></div>`;
+    :`<div class="no-img"><span style="font-size:32px">${lb==="Before"?"📷":"✨"}</span><span>No image</span></div>`;
   document.getElementById("pBefore").innerHTML=mkI(e.bUrl,"Before");
   document.getElementById("pAfter").innerHTML=mkI(e.aUrl,"After");
-  document.getElementById("pBCap").textContent=e.bCap||"কোনো বিবরণ নেই";
-  document.getElementById("pACap").textContent=e.aCap||"কোনো বিবরণ নেই";
+  document.getElementById("pBCap").textContent=e.bCap||"No description";
+  document.getElementById("pACap").textContent=e.aCap||"No description";
   const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
   document.getElementById("detRows").innerHTML=`
-    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">বিস্তারিত</div>
+    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">Details</div>
     ${dr("Team",e.teamName||"-")}
     ${dr("Date",e.date||"-")}
     ${e.proposedBy?dr("Proposed By",`💡 ${e.proposedBy}`):""}
@@ -1547,7 +1548,7 @@ document.getElementById("closePhoto2").addEventListener("click",()=>closeModal("
 // ── ADMIN ─────────────────────────────────────────────────────────
 function renderAdminPassList(){
   const list=document.getElementById("teamPassList");
-  if(!allTeams.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted)">কোনো টিম নেই</div>`;return;}
+  if(!allTeams.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted)">No teams yet</div>`;return;}
   list.innerHTML=allTeams.map(t=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);gap:8px">
       <div style="min-width:0">
@@ -1556,8 +1557,8 @@ function renderAdminPassList(){
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
         <code style="font-size:12px;background:var(--gold-lt);color:var(--gold);padding:3px 8px;border-radius:6px">${t.password}</code>
-        <button class="btn btn-ghost btn-sm" style="padding:5px 8px" title="টিম এডিট করুন" onclick="openEditTeam('${t.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" style="padding:5px 8px" title="টিম ডিলিট করুন" onclick="deleteTeam('${t.id}')">🗑</button>
+        <button class="btn btn-ghost btn-sm" style="padding:5px 8px" title="Edit team" onclick="openEditTeam('${t.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" style="padding:5px 8px" title="Delete team" onclick="deleteTeam('${t.id}')">🗑</button>
       </div>
     </div>
   `).join("");
@@ -1571,13 +1572,13 @@ document.getElementById("adminBtn").addEventListener("click",()=>{
   if(isAdmin){
     document.getElementById("adminLoginSec").style.display="none";
     document.getElementById("adminLoggedSec").style.display="block";
-    document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
+    document.getElementById("adminActBtn").textContent="💾 Save Settings";
     renderPendingApprovalList();
     populateAdminLogoPreview();
   }else{
     document.getElementById("adminLoginSec").style.display="block";
     document.getElementById("adminLoggedSec").style.display="none";
-    document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
+    document.getElementById("adminActBtn").textContent="Login";
   }
   openModal("adminOvl");
 });
@@ -1591,7 +1592,7 @@ function doAdminLogin(){
     document.getElementById("adminPassErr").style.display="none";
     document.getElementById("adminLoginSec").style.display="none";
     document.getElementById("adminLoggedSec").style.display="block";
-    document.getElementById("adminActBtn").textContent="💾 সেটিং সেভ";
+    document.getElementById("adminActBtn").textContent="💾 Save Settings";
     document.getElementById("adminBadge").style.display="flex";
     document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
     renderAdminPassList();
@@ -1642,7 +1643,7 @@ async function saveAdminSettings(){
   const btn=document.getElementById("adminActBtn");
   const p=document.getElementById("newAdminPass").value;
   if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
-  btn.disabled=true; btn.textContent="⏳ সেভ হচ্ছে...";
+  btn.disabled=true; btn.textContent="⏳ Saving...";
   try{
     if(pendingLogoFile){
       const url=await uploadImgDirect(pendingLogoFile);
@@ -1651,12 +1652,12 @@ async function saveAdminSettings(){
       await setDoc(doc(db,"kaizen_settings","main"),{logoUrl:""},{merge:true});
     }
     pendingLogoFile=null; pendingLogoRemoved=false;
-    showToast("📅 সেটিং সেভ হয়েছে");
+    showToast("📅 Settings saved");
     closeModal("adminOvl");
   }catch(e){
     showToast("❌ "+e.message);
   }
-  btn.disabled=false; btn.textContent="💾 সেটিং সেভ";
+  btn.disabled=false; btn.textContent="💾 Save Settings";
 }
 document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   isAdmin=false;
@@ -1664,12 +1665,12 @@ document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
   document.getElementById("adminLoginSec").style.display="block";
   document.getElementById("adminLoggedSec").style.display="none";
-  document.getElementById("adminActBtn").textContent="প্রবেশ করুন";
+  document.getElementById("adminActBtn").textContent="Login";
   if(currentTeam)renderTeamTable();
   renderTeamCards();
   renderApprovedHome();
   updateAdminPendingDot();
-  closeModal("adminOvl");showToast("🔒 Logout হয়েছে");
+  closeModal("adminOvl");showToast("🔒 Logged out");
 });
 document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
@@ -1682,7 +1683,7 @@ document.getElementById("teamExportBtn").addEventListener("click",()=>{
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
   a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
-  showToast("📅 Export সম্পন্ন!");
+  showToast("📅 Export complete!");
 });
 
 // ── HOME BTN ──────────────────────────────────────────────────────
