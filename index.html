@@ -1376,7 +1376,7 @@ function renderTeamTable(){
   });
   document.getElementById("tblCount").textContent=`${list.length} Entries`;
   if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো  Entry নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">No entry</p><p>+ New Kaizen Click the button.</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
