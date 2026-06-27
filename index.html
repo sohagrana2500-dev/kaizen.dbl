@@ -1212,7 +1212,7 @@ document.getElementById("addMemberBtn").addEventListener("click",()=>{
 });
 function renderMemberListEdit(){
   const list=document.getElementById("ntMemberList");
-  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">কোনো সদস্য যোগ করা হয়নি</div>`;return;}
+  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">No members have been added.</div>`;return;}
   list.innerHTML=ntMembers.map((m,i)=>`
     <div class="member-item" data-mi="${i}">
       <div class="member-av-wrap" title="Add photo">
@@ -1252,13 +1252,13 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const btn=document.getElementById("saveNewTeamBtn");
   btn.disabled=true;btn.textContent=editingTeamId?"⏳ Saving...":"⏳ Creating...";
   try{
-    // upload leader photo (নতুন ছবি দিলে আপলোড হবে, না দিলে আগের url/blank থাকবে)
+    // upload leader photo ( It will upload if a new photo is provided, না দিলে আগের url/blank থাকবে)
     let leaderUrl=ntLeaderUrl;
     if(ntLeaderFileObj){
-      showToast("⏳ লিডারের ছবি আপLoading...");
+      showToast("⏳ লিডারের It will upload if a new photo is provided. আপLoading...");
       leaderUrl=await uploadImgDirect(ntLeaderFileObj);
     }
-    // upload member photos (নতুন ছবি না থাকলে আগের url ব্যবহার হবে)
+    // upload member photos ( It will upload if a new photo is provided. না থাকলে আগের url ব্যবহার হবে)
     const membersData=[];
     for(const m of ntMembers){
       if(!m.name.trim())continue;
