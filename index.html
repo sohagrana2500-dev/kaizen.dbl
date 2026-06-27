@@ -314,7 +314,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name"> DBL Kaizen</div>
+        <div class="brand-name">Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -520,7 +520,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <div class="overlay" id="entryOvl">
 <div class="modal">
   <div class="modal-hdr">
-    <div class="modal-title" id="entryTitle">New Kaizen এন্ট্রি</div>
+    <div class="modal-title" id="entryTitle">New Kaizen  Entry</div>
     <button class="cls-btn" id="closeEntry">✕</button>
   </div>
   <div class="modal-body">
@@ -818,7 +818,7 @@ onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=
 // NOTE: শুধু where() ব্যবহার করা হয়েছে, orderBy() বাদ দেওয়া হয়েছে কারণ Firestore-এ
 // composite index না থাকলে where+orderBy একসাথে ব্যবহার করলে কোয়েরি silently fail করে
 // এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
-// হোম পেজে শুধুমাত্র status === "Complete" এন্ট্রিগুলোই দেখানো হবে।
+// হোম পেজে শুধুমাত্র status === "Complete"  Entryগুলোই দেখানো হবে।
 onSnapshot(
   collection(db,"kaizen_entries"),
   snap=>{
@@ -1176,12 +1176,12 @@ function openEditTeam(tid){
 window.openEditTeam=openEditTeam;
 async function deleteTeam(tid){
   const t=allTeams.find(x=>x.id===tid);if(!t)return;
-  if(!confirm(`আপনি কি নিশ্চিত "${t.name}" টিমটি ডিলিট করতে চান?\n\n⚠️ এই টিমের সব কাইজেন এন্ট্রিও স্থায়ীভাবে মুছে যাবে।`))return;
+  if(!confirm(`আপনি কি নিশ্চিত "${t.name}" টিমটি ডিলিট করতে চান?\n\n⚠️ এই টিমের সব কাইজেন  Entryও স্থায়ীভাবে মুছে যাবে।`))return;
   try{
     const entrySnap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
     await Promise.all(entrySnap.docs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
     await deleteDoc(doc(db,"kaizen_teams",tid));
-    showToast("🗑 টিম ও এর সব এন্ট্রি ডিলিট হয়েছে");
+    showToast("🗑 টিম ও এর সব  Entry ডিলিট হয়েছে");
     if(currentTeamId===tid){
       if(unsubTeam){unsubTeam();unsubTeam=null;}
       currentTeam=null;currentTeamId=null;teamEntries=[];
@@ -1301,7 +1301,7 @@ document.getElementById("closeEntry").addEventListener("click",()=>closeModal("e
 
 function openNewEntry(){
   editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
-  document.getElementById("entryTitle").textContent="New Kaizen এন্ট্রি";
+  document.getElementById("entryTitle").textContent="New Kaizen  Entry";
   ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
   document.getElementById("fLeaderName").value=currentTeam?.leaderName||"";
@@ -1333,7 +1333,7 @@ async function doSave(){
     if(aFileObj)finalA=await uploadImg(aFileObj,"a");
     const tid=currentTeamId;
     const teamObj=allTeams.find(t=>t.id===tid);
-    // এই ফর্মে Status নেই — নতুন এন্ট্রির ডিফল্ট স্ট্যাটাস "Planned", আর এডিট করলে আগের status অপরিবর্তিত থাকবে
+    // এই ফর্মে Status নেই — নতুন  Entryর ডিফল্ট স্ট্যাটাস "Planned", আর এডিট করলে আগের status অপরিবর্তিত থাকবে
     // (status পরিবর্তন হয় টিমের Kaizen List-এর ড্রপডাউন থেকে, এই ফর্ম থেকে নয়)
     const existing=editId?teamEntries.find(x=>x.id===editId):null;
     const data={
@@ -1373,9 +1373,9 @@ function renderTeamTable(){
     const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
     return ms&&(!fs||getStatus(e)===fs);
   });
-  document.getElementById("tblCount").textContent=`${list.length} টি এন্ট্রি`;
+  document.getElementById("tblCount").textContent=`${list.length} টি  Entry`;
   if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো এন্ট্রি নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো  Entry নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
@@ -1469,7 +1469,7 @@ async function deleteAllTeamKaizen(tid){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   const team=allTeams.find(t=>t.id===tid);
   const tname=team?.name||"অজ্ঞাত টিম (Unknown Team)";
-  if(!confirm(`⚠️ "${tname}" এর সমস্ত কাইজেন এন্ট্রি স্থায়ীভাবে ডিলেট হয়ে যাবে। এটি ফিরিয়ে আনা যাবে না। নিশ্চিত?`))return;
+  if(!confirm(`⚠️ "${tname}" এর সমস্ত কাইজেন  Entry স্থায়ীভাবে ডিলেট হয়ে যাবে। এটি ফিরিয়ে আনা যাবে না। নিশ্চিত?`))return;
   try{
     showToast("⏳ ডিলেট হচ্ছে...");
     let targetDocs=[];
@@ -1482,7 +1482,7 @@ async function deleteAllTeamKaizen(tid){
       targetDocs=snap.docs;
     }
     await Promise.all(targetDocs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
-    showToast(`🗑 ${targetDocs.length} টি এন্ট্রি ডিলেট হয়েছে`);
+    showToast(`🗑 ${targetDocs.length} টি  Entry ডিলেট হয়েছে`);
     if(currentTeamId===tid) renderTeamTable();
   }catch(e){showToast("❌ ডিলেট করতে সমস্যা: "+e.message);}
 }
@@ -1490,7 +1490,7 @@ function doEdit(id){
   if(!isAdmin){showToast("⚠️ Admin mode চালু করুন");return;}
   const e=teamEntries.find(x=>x.id===id);if(!e)return;
   editId=id;bFileObj=null;aFileObj=null;bUrl=e.bUrl||"";aUrl=e.aUrl||"";
-  document.getElementById("entryTitle").textContent="✏️ এন্ট্রি এডিট করুন";
+  document.getElementById("entryTitle").textContent="✏️  Entry এডিট করুন";
   document.getElementById("fTitle").value=e.title||"";
   document.getElementById("fDate").value=e.date||"";
   document.getElementById("fLeaderName").value=e.leaderName||currentTeam?.leaderName||"";
