@@ -314,7 +314,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
-        <div class="brand-name"> Kaizen</div>
+        <div class="brand-name"> My Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
       </div>
     </div>
@@ -678,9 +678,9 @@ const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload
 
 const app = initializeApp({
   apiKey:"AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
-  authDomain:"-kaizen.firebaseapp.com",
-  projectId:"kaizen",
-  storageBucket:"kaizen.firebasestorage.app",
+  authDomain:"My-kaizen.firebaseapp.com",
+  projectId:"My-kaizen",
+  storageBucket:"My-kaizen.firebasestorage.app",
   messagingSenderId:"447302057753",
   appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
 });
@@ -729,7 +729,7 @@ async function uploadImg(file,type){
   if(el){el.className="up-status uploading";el.textContent="⏳ আপলোড হচ্ছে...";}
   try{
     const fd=new FormData();
-    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen");
+    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_My");
     const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
     const j=await r.json();
     if(j.secure_url){
@@ -745,7 +745,7 @@ async function uploadImg(file,type){
 
 async function uploadImgDirect(file){
   const fd=new FormData();
-  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen");
+  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_My");
   const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
   const j=await r.json();
   if(j.secure_url) return j.secure_url;
