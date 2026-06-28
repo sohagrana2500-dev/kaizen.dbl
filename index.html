@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +72,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .wlc-new-team-btn{width:100%;padding:11px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.18s}
 .wlc-new-team-btn:hover{background:#EFF6FF}
 .wlc-footer{text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.45)}
-.wlc-watermark{position:absolute;bottom:20px;right:20px;width:90px;height:90px;object-fit:contain;opacity:.08;pointer-events:none;display:none}
+.wlc-side{display:none;position:absolute;left:7%;top:50%;transform:translateY(-50%);pointer-events:none;z-index:0}
+.wlc-side.show{display:block}
+.wlc-side-logo{width:200px;height:200px;max-width:28vw;object-fit:contain;opacity:.13;filter:grayscale(10%)}
+@media(max-width:900px){.wlc-side{display:none!important}}
 
 
 /* PAGES */
@@ -87,7 +88,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .home-hero h1{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
 .home-hero p{font-size:14px;color:var(--muted);margin-bottom:22px}
 #homePage{position:relative;overflow:hidden}
-.home-watermark{position:fixed;top:100px;right:24px;left:auto;transform:none;width:180px;height:180px;max-width:none;object-fit:contain;opacity:.15;pointer-events:none;z-index:0;filter:grayscale(10%);user-select:none}
+.hdr-logo-img{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;display:none;border:1.5px solid rgba(255,255,255,.25)}
 .home-hero,.team-search-wrap,.teams-grid,.approved-home{position:relative;z-index:1}
 .team-search-wrap{max-width:480px;margin:0 auto 22px;position:relative}
 .team-search-wrap input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--border);border-radius:30px;font-size:14px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
@@ -332,6 +333,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 
 <!-- ══ WELCOME / LOGIN PAGE ══ -->
 <div id="welcomePage">
+  <div class="wlc-side" id="wlcSide">
+    <img id="wlcWatermark" class="wlc-side-logo" src="" alt=""/>
+  </div>
   <div class="wlc-box">
     <div class="wlc-logo">
       <div class="wlc-logo-icon">📋</div>
@@ -359,8 +363,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <button class="wlc-new-team-btn" id="wlcNewTeamBtn">➕ Create New Team</button>
     </div>
   </div>
-  <div class="wlc-footer">Kaizen Tracker — Continuous Improvement System</div>
-  <img id="wlcWatermark" class="wlc-watermark" src="" alt=""/>
+  <div class="wlc-footer">Kaizen Tracker © 2025 — Continuous Improvement System</div>
 </div>
 
 <div class="loading-cover" id="loadingCover" style="display:none">
@@ -376,6 +379,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <header class="hdr" style="display:none">
   <div class="hdr-inner">
     <div class="logo-area">
+      <img id="hdrLogoImg" class="hdr-logo-img" src="" alt="" style="display:none"/>
       <div class="brand">
         <div class="brand-name">Kaizen</div>
         <div class="brand-sub">Multi-Team Continuous Improvement</div>
@@ -396,9 +400,6 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     </div>
   </div>
 </header>
-
-<!-- GLOBAL WATERMARK — fixed, shows on all pages -->
-<img id="homeWatermark" class="home-watermark" src="" alt="" style="display:none"/>
 
 <!-- ══ HOME PAGE ══ -->
 <div class="page" id="homePage">
@@ -831,14 +832,15 @@ onSnapshot(doc(db,"kaizen_settings","main"), snap=>{
 
 function applyHomeWatermark(){
   const url=siteSettings.logoUrl||"";
-  const wm=document.getElementById("homeWatermark");
+  const hl=document.getElementById("hdrLogoImg");
   const ww=document.getElementById("wlcWatermark");
+  const side=document.getElementById("wlcSide");
   if(url){
-    wm.src=url; wm.style.display="block";
-    ww.src=url; ww.style.display="block";
+    hl.src=url; hl.style.display="block";
+    ww.src=url; side.classList.add("show");
   }else{
-    wm.style.display="none"; wm.src="";
-    ww.style.display="none"; ww.src="";
+    hl.style.display="none"; hl.src="";
+    ww.src=""; side.classList.remove("show");
   }
 }
 
