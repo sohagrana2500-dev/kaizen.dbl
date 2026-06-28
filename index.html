@@ -49,8 +49,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .btn-danger{background:var(--red-lt);color:var(--red)}.btn-danger:hover{background:#f5c6c6}
 .btn-gold{background:var(--gold-lt);color:var(--gold);border:1px solid var(--gold)}.btn-gold:hover{background:#fef3c7}
 
+/* ══ WELCOME / LOGIN PAGE ══ */
+#welcomePage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 50%,#1B4F72 100%);padding:24px;position:relative;overflow:hidden}
+#welcomePage::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.wlc-box{background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.35);padding:40px 36px;width:100%;max-width:420px;position:relative;z-index:1}
+.wlc-logo{text-align:center;margin-bottom:28px}
+.wlc-logo-icon{width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--navy),var(--accent));display:inline-flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:12px;box-shadow:0 8px 24px rgba(46,134,193,.35)}
+.wlc-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.wlc-sub{font-size:13px;color:var(--muted)}
+.wlc-form{display:flex;flex-direction:column;gap:14px}
+.wlc-field{display:flex;flex-direction:column;gap:5px}
+.wlc-lbl{font-size:12px;font-weight:600;color:var(--text);letter-spacing:.3px}
+.wlc-inp-wrap{position:relative}
+.wlc-inp-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+.wlc-inp{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:.2s;background:#FAFBFC;color:var(--text)}
+.wlc-inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.12);background:#fff}
+.wlc-err{font-size:12px;color:var(--red);font-weight:600;display:none;padding:8px 12px;background:var(--red-lt);border-radius:8px;border:1px solid rgba(146,43,33,.15)}
+.wlc-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),#1B6FA8);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;margin-top:4px;letter-spacing:.3px}
+.wlc-btn:hover{background:linear-gradient(135deg,#1f6fa0,#144f7a);box-shadow:0 6px 20px rgba(46,134,193,.35)}
+.wlc-btn:disabled{opacity:.6;cursor:not-allowed}
+.wlc-divider{display:flex;align-items:center;gap:10px;margin:4px 0}
+.wlc-divider::before,.wlc-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.wlc-divider span{font-size:11px;color:var(--muted);white-space:nowrap}
+.wlc-new-team-btn{width:100%;padding:11px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.18s}
+.wlc-new-team-btn:hover{background:#EFF6FF}
+.wlc-footer{text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.45)}
+.wlc-watermark{position:absolute;bottom:20px;right:20px;width:90px;height:90px;object-fit:contain;opacity:.08;pointer-events:none;display:none}
+
+
 /* PAGES */
 .page{display:none}.page.active{display:block}
+
 .main{max-width:1300px;margin:0 auto;padding:24px}
 
 /* HOME PAGE */
@@ -58,7 +87,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .home-hero h1{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
 .home-hero p{font-size:14px;color:var(--muted);margin-bottom:22px}
 #homePage{position:relative;overflow:hidden}
-.home-watermark{position:fixed;top:60px;right:24px;left:auto;transform:none;width:180px;height:180px;max-width:none;object-fit:contain;opacity:.15;pointer-events:none;z-index:0;filter:grayscale(10%);user-select:none}
+.home-watermark{position:fixed;top:100px;right:24px;left:auto;transform:none;width:180px;height:180px;max-width:none;object-fit:contain;opacity:.15;pointer-events:none;z-index:0;filter:grayscale(10%);user-select:none}
 .home-hero,.team-search-wrap,.teams-grid,.approved-home{position:relative;z-index:1}
 .team-search-wrap{max-width:480px;margin:0 auto 22px;position:relative}
 .team-search-wrap input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--border);border-radius:30px;font-size:14px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
@@ -70,62 +99,62 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .logo-upload-row .logo-preview{width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:#F8FAFC}
 
 /* HOME TEAM SUMMARY — LIST LAYOUT */
-.home-team-list{display:flex;flex-direction:column;gap:8px}
-.htc-search-wrap{position:relative;margin-bottom:10px}
-.htc-search-wrap input{width:100%;padding:9px 14px 9px 38px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
-.htc-search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.11)}
-.htc-search-wrap .hsw-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
-.htc-search-wrap .hsw-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:3px;display:none}
-.htc-search-count{font-size:11px;color:var(--muted);margin:-6px 0 8px;padding-left:2px}
-.htc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);cursor:pointer;transition:.18s;overflow:hidden;display:flex;align-items:center;gap:12px;padding:11px 14px}
-.htc-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(46,134,193,.15);transform:translateX(3px)}
-.htc-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.home-team-list{display:flex;flex-direction:column;gap:5px}
+.htc-search-wrap{position:relative;margin-bottom:7px}
+.htc-search-wrap input{width:100%;padding:6px 12px 6px 30px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
+.htc-search-wrap input:focus{border-color:var(--accent)}
+.htc-search-wrap .hsw-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.htc-search-wrap .hsw-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:2px;display:none}
+.htc-search-count{font-size:10px;color:var(--muted);margin:-4px 0 6px;padding-left:2px}
+.htc-card{background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);cursor:pointer;transition:.18s;overflow:hidden;display:flex;align-items:center;gap:8px;padding:7px 10px}
+.htc-card:hover{border-color:var(--accent);transform:translateX(2px)}
+.htc-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .htc-avatar img{width:100%;height:100%;object-fit:cover}
 .htc-info{flex:1;min-width:0}
-.htc-name{font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.htc-count-pill{display:inline-flex;align-items:center;gap:4px;background:#DBEAFE;color:#1E40AF;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-top:3px}
-.htc-arrow{color:var(--accent);font-size:18px;flex-shrink:0}
-.htc-del-btn{background:var(--red-lt);color:var(--red);border:1px solid rgba(146,43,33,.2);padding:4px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;transition:.15s}
+.htc-name{font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.htc-count-pill{display:inline-flex;align-items:center;gap:3px;background:#DBEAFE;color:#1E40AF;border-radius:20px;padding:1px 6px;font-size:10px;font-weight:700;margin-top:2px}
+.htc-arrow{color:var(--accent);font-size:14px;flex-shrink:0}
+.htc-del-btn{background:var(--red-lt);color:var(--red);border:1px solid rgba(146,43,33,.2);padding:3px 6px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;transition:.15s}
 .htc-del-btn:hover{background:var(--red);color:#fff}
 .htc-delall{display:none}
 /* TEAMS LIST — vertical list layout */
-.teams-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:0}
-.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;text-align:left}
-.team-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(46,134,193,.18);transform:translateX(3px)}
-.team-card .tc-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:20px}
+.teams-grid{display:flex;flex-direction:column;gap:5px;margin-bottom:0}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;align-items:center;gap:8px;text-align:left}
+.team-card:hover{border-color:var(--accent);transform:translateX(2px)}
+.team-card .tc-avatar{width:30px;height:30px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:13px}
 .team-card .tc-avatar img{width:100%;height:100%;object-fit:cover}
 .team-card .tc-info{flex:1;min-width:0}
-.team-card .tc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:1px}
-.team-card .tc-meta{font-size:11px;color:var(--muted)}
-.team-card .tc-leader{font-size:11px;color:var(--accent);font-weight:600}
-.team-card .tc-members{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.team-card .tc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-top:4px}
-.team-card .tc-arrow{font-size:20px;color:var(--accent);flex-shrink:0;margin-left:auto}
-.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:var(--radius);padding:14px 20px;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:14px}
+.team-card .tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:0}
+.team-card .tc-meta{font-size:10px;color:var(--muted)}
+.team-card .tc-leader{font-size:10px;color:var(--accent);font-weight:600}
+.team-card .tc-members{font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.team-card .tc-badge{display:none}
+.team-card .tc-arrow{font-size:14px;color:var(--accent);flex-shrink:0;margin-left:auto}
+.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:8px}
 .add-team-card:hover{border-color:var(--accent);background:#F0F7FF}
-.add-team-card .atc-ico{font-size:24px}
-.add-team-card span{font-size:13px;color:var(--muted);font-weight:500}
+.add-team-card .atc-ico{font-size:16px}
+.add-team-card span{font-size:12px;color:var(--muted);font-weight:500}
 
 /* HOME TWO-COLUMN LAYOUT */
-.home-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:0 24px 40px;align-items:start}
-.home-col-left{}
-.home-col-right{}
-@media(max-width:860px){.home-cols{grid-template-columns:1fr;padding:0 14px 32px}}
-.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-.section-title{font-size:17px;font-weight:700;color:var(--navy)}
-.team-kaizen-block{margin-bottom:20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
-.tkb-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,var(--navy),var(--blue));cursor:pointer;user-select:none}
-.tkb-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.home-cols{grid-template-columns:280px 1fr;gap:16px;max-width:100%;margin:0;padding:12px 16px 24px;align-items:start;overflow:hidden}
+.home-col-left{min-width:0}
+.home-col-right{min-width:0;overflow:hidden}
+@media(max-width:860px){.home-cols{grid-template-columns:1fr;padding:0 10px 20px}}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.section-title{font-size:13px;font-weight:700;color:var(--navy)}
+.team-kaizen-block{margin-bottom:12px;background:var(--card);border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.tkb-hdr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(90deg,var(--navy),var(--blue));cursor:pointer;user-select:none}
+.tkb-avatar{width:26px;height:26px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .tkb-avatar img{width:100%;height:100%;object-fit:cover}
-.tkb-name{font-size:14px;font-weight:700;color:#fff;flex:1}
-.tkb-count{font-size:11px;background:rgba(255,255,255,.18);color:#fff;padding:2px 8px;border-radius:12px;font-weight:600}
-.tkb-arrow{color:rgba(255,255,255,.7);font-size:12px;transition:.2s}
+.tkb-name{font-size:12px;font-weight:700;color:#fff;flex:1}
+.tkb-count{font-size:10px;background:rgba(255,255,255,.18);color:#fff;padding:1px 6px;border-radius:10px;font-weight:600}
+.tkb-arrow{color:rgba(255,255,255,.7);font-size:11px;transition:.2s}
 .tkb-arrow.open{transform:rotate(180deg)}
 .tkb-body{display:none;overflow-x:auto}
 .tkb-body.open{display:block}
-.tkb-delall{background:rgba(255,255,255,.14);color:#FFD7D7;border:1px solid rgba(255,120,120,.5);padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+.tkb-delall{background:rgba(255,255,255,.14);color:#FFD7D7;border:1px solid rgba(255,120,120,.5);padding:3px 7px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
 .tkb-delall:hover{background:var(--red);color:#fff;border-color:var(--red)}
-.ah-move-sel{padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:120px}
+.ah-move-sel{padding:3px 5px;font-size:10px;border:1px solid var(--border);border-radius:5px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:100px}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
@@ -301,7 +330,40 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 </head>
 <body>
 
-<div class="loading-cover" id="loadingCover">
+<!-- ══ WELCOME / LOGIN PAGE ══ -->
+<div id="welcomePage">
+  <div class="wlc-box">
+    <div class="wlc-logo">
+      <div class="wlc-logo-icon">📋</div>
+      <div class="wlc-title">Kaizen Tracker</div>
+      <div class="wlc-sub">Multi-Team Continuous Improvement</div>
+    </div>
+    <div class="wlc-form">
+      <div class="wlc-field">
+        <label class="wlc-lbl">USERNAME</label>
+        <div class="wlc-inp-wrap">
+          <span class="wlc-inp-ico">👤</span>
+          <input class="wlc-inp" id="wlcUser" type="text" placeholder="Enter your team name..." autocomplete="off"/>
+        </div>
+      </div>
+      <div class="wlc-field">
+        <label class="wlc-lbl">PASSWORD</label>
+        <div class="wlc-inp-wrap">
+          <span class="wlc-inp-ico">🔑</span>
+          <input class="wlc-inp" id="wlcPass" type="password" placeholder="Enter password..."/>
+        </div>
+      </div>
+      <div class="wlc-err" id="wlcErr">❌ Invalid username or password. Please try again.</div>
+      <button class="wlc-btn" id="wlcLoginBtn">🔓 Login</button>
+      <div class="wlc-divider"><span>or</span></div>
+      <button class="wlc-new-team-btn" id="wlcNewTeamBtn">➕ Create New Team</button>
+    </div>
+  </div>
+  <div class="wlc-footer">Kaizen Tracker © 2025 — Continuous Improvement System</div>
+  <img id="wlcWatermark" class="wlc-watermark" src="" alt=""/>
+</div>
+
+<div class="loading-cover" id="loadingCover" style="display:none">
   <div class="spinner"></div>
   <div style="font-size:13px;color:var(--muted)">Loading...</div>
 </div>
@@ -311,7 +373,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <img id="lbImg" src="" alt=""/>
 </div>
 
-<header class="hdr">
+<header class="hdr" style="display:none">
   <div class="hdr-inner">
     <div class="logo-area">
       <div class="brand">
@@ -330,29 +392,18 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <button class="btn btn-outline btn-sm" id="adminBtn">🔒 <span>Admin</span></button>
         <span id="adminPendingDot" style="display:none;position:absolute;top:-5px;right:-5px;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:10px;min-width:16px;height:16px;padding:0 4px;align-items:center;justify-content:center;line-height:1;border:2px solid var(--navy)"></span>
       </div>
-      <button class="btn btn-outline btn-sm" id="homeBtn" style="display:none">🏠 <span>Home</span></button>
+      <button class="btn btn-outline btn-sm" id="logoutBtn" style="display:none">🚪 <span>Logout</span></button>
     </div>
   </div>
 </header>
 
-<!-- ══ HOME PAGE ══ -->
-<div class="page active" id="homePage">
-  <img id="homeWatermark" class="home-watermark" src="" alt="" style="display:none"/>
-  <div class="main">
-    <div class="home-hero">
-      <h1> Kaizen Tracker</h1>
-      <p>Select your team or create a new one.</p>
-    </div>
-    <div class="team-search-wrap">
-      <span class="tsw-ico">🔍</span>
-      <input type="text" id="teamSearchInput" placeholder="Search by team name..."/>
-      <button class="tsw-clear" id="teamSearchClear">✕</button>
-    </div>
-    <div class="team-search-count" id="teamSearchCount" style="display:none"></div>
-  </div>
+<!-- GLOBAL WATERMARK — fixed, shows on all pages -->
+<img id="homeWatermark" class="home-watermark" src="" alt="" style="display:none"/>
 
+<!-- ══ HOME PAGE ══ -->
+<div class="page" id="homePage">
   <!-- TWO-COLUMN SECTION -->
-  <div class="home-cols">
+  <div class="home-cols" id="homeCols" style="display:none;padding-top:24px">
     <!-- LEFT: Team List -->
     <div class="home-col-left">
       <div class="section-hdr" style="margin-bottom:10px">
@@ -365,10 +416,9 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         </div>
       </div>
     </div>
-
     <!-- RIGHT: Approved Kaizen -->
     <div class="home-col-right" id="approvedHomeSection">
-      <div class="section-hdr" style="margin-bottom:15px">
+      <div class="section-hdr" style="margin-bottom:10px">
         <div class="section-title">✅ Complete Kaizen — By team</div>
         <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
       </div>
@@ -403,32 +453,12 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <div class="members-row" id="teamMembersDisp"></div>
       </div>
       <div class="team-bar-right">
-        <span class="pending-badge" id="pendingBadgeDisp" style="display:none">⏳ 0 Pending</span>
         <button class="btn btn-outline btn-sm" id="teamExportBtn">⬇ Export</button>
         <button class="btn btn-primary" id="newKaizenBtn">+ New Kaizen</button>
       </div>
     </div>
   </div>
   <div class="main">
-    <div class="stats">
-      <div class="stat"><div class="stat-ico" style="background:#EFF6FF">📋</div><div><div class="stat-lbl">Total Kaizen</div><div class="stat-val" id="sTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📅</div><div><div class="stat-lbl">Planned</div><div class="stat-val" id="sDone">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--orange-lt)">⏳</div><div><div class="stat-lbl">In Progress</div><div class="stat-val" id="sPending">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:#DBEAFE">✅</div><div><div class="stat-lbl">Total Complete</div><div class="stat-val" id="sCompleteTotal">0</div></div></div>
-      <div class="stat"><div class="stat-ico" style="background:var(--green-lt)">📸</div><div><div class="stat-lbl">With Photos</div><div class="stat-val" id="sPic">0</div></div></div>
-    </div>
-    <div class="toolbar">
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input type="text" id="srch" placeholder="Find Kaizen points...."/>
-      </div>
-      <select class="flt" id="fStatus">
-        <option value="">All statuses</option>
-        <option value="Planned">📅 Planned</option>
-        <option value="In Progress">⏳ In Progress</option>
-        <option value="Complete">✅ Complete</option>
-      </select>
-    </div>
     <div class="tbl-card">
       <div class="tbl-hdr">
         <div class="tbl-title" id="teamTblTitle">📋 Kaizen List</div>
@@ -708,10 +738,15 @@ let pendingLogoRemoved = false;
 let teamSearchTerm = "";
 
 function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.getElementById("homeBtn").style.display = id==="teamPage"?"flex":"none";
+  document.getElementById("welcomePage").style.display = id==="welcomePage"?"flex":"none";
+  document.querySelector("header.hdr").style.display = id==="welcomePage"?"none":"block";
+  if(id!=="welcomePage"){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  document.getElementById("logoutBtn").style.display = id==="welcomePage"?"none":"flex";
 }
+showPage("welcomePage");
 function openModal(id){document.getElementById(id).classList.add("on");}
 function closeModal(id){document.getElementById(id).classList.remove("on");}
 ["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl"].forEach(id=>{
@@ -797,18 +832,26 @@ onSnapshot(doc(db,"kaizen_settings","main"), snap=>{
 function applyHomeWatermark(){
   const url=siteSettings.logoUrl||"";
   const wm=document.getElementById("homeWatermark");
-  if(url){ wm.src=url; wm.style.display="block"; }
-  else { wm.style.display="none"; wm.src=""; }
+  const ww=document.getElementById("wlcWatermark");
+  if(url){
+    wm.src=url; wm.style.display="block";
+    ww.src=url; ww.style.display="block";
+  }else{
+    wm.style.display="none"; wm.src="";
+    ww.style.display="none"; ww.src="";
+  }
 }
 
 // ── LOAD TEAMS ──────────────────────────────────────────────────────
 onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
   allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
+  teamsLoaded=true;
   renderTeamCards();
   renderApprovedHome();
   renderAdminPassList();
   populateAdminTeamSelect();
   document.getElementById("loadingCover").style.display="none";
+  // if currently on welcome page, keep it (don't redirect)
 },err=>{
   console.error("teams load error:",err);
   document.getElementById("loadingCover").style.display="none";
@@ -860,11 +903,13 @@ function renderTeamCards(){
     ? allTeams.filter(t=>(t.name||"").toLowerCase().includes(term)||(t.division||"").toLowerCase().includes(term)||(t.leaderName||"").toLowerCase().includes(term))
     : allTeams;
   const countEl=document.getElementById("teamSearchCount");
-  if(term){
-    countEl.style.display="block";
-    countEl.textContent=filtered.length?`🔎 ${filtered.length} team(s) found`:`😕 No team found for "${teamSearchTerm}"`;
-  }else{
-    countEl.style.display="none";
+  if(countEl){
+    if(term){
+      countEl.style.display="block";
+      countEl.textContent=filtered.length?`🔎 ${filtered.length} team(s) found`:`😕 No team found for "${teamSearchTerm}"`;
+    }else{
+      countEl.style.display="none";
+    }
   }
   let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>Create a new team.</span></div>`;
   filtered.forEach(t=>{
@@ -895,15 +940,17 @@ function renderTeamCards(){
     c.addEventListener("click",()=>handleTeamClick(c.dataset.tid));
   });
 }
-document.getElementById("teamSearchInput").addEventListener("input",e=>{
+const teamSrchIn=document.getElementById("teamSearchInput");
+const teamSrchClr=document.getElementById("teamSearchClear");
+if(teamSrchIn)teamSrchIn.addEventListener("input",e=>{
   teamSearchTerm=e.target.value;
-  document.getElementById("teamSearchClear").style.display=teamSearchTerm?"block":"none";
+  if(teamSrchClr)teamSrchClr.style.display=teamSearchTerm?"block":"none";
   renderTeamCards();
 });
-document.getElementById("teamSearchClear").addEventListener("click",()=>{
+if(teamSrchClr)teamSrchClr.addEventListener("click",()=>{
   teamSearchTerm="";
-  document.getElementById("teamSearchInput").value="";
-  document.getElementById("teamSearchClear").style.display="none";
+  if(teamSrchIn)teamSrchIn.value="";
+  teamSrchClr.style.display="none";
   renderTeamCards();
 });
 
@@ -1060,6 +1107,76 @@ document.getElementById("kaizenTeamSearchClear").addEventListener("click",()=>{
   renderApprovedHome();
 });
 
+// ── WELCOME PAGE LOGIN ───────────────────────────────────────────────
+let teamsLoaded = false;
+function doWelcomeLogin(){
+  const uname = document.getElementById("wlcUser").value.trim();
+  const pass  = document.getElementById("wlcPass").value;
+  const errEl = document.getElementById("wlcErr");
+  const btn   = document.getElementById("wlcLoginBtn");
+  errEl.style.display="none";
+  if(!uname||!pass){errEl.textContent="❌ Please enter both username and password.";errEl.style.display="block";return;}
+
+  // If teams not loaded yet, show loading
+  if(!teamsLoaded && uname.toLowerCase()!=="admin"){
+    btn.disabled=true; btn.textContent="⏳ Loading...";
+    const wait=setInterval(()=>{
+      if(teamsLoaded){clearInterval(wait);btn.disabled=false;btn.textContent="🔓 Login";doWelcomeLogin();}
+    },300);
+    return;
+  }
+
+  // Admin login
+  if(uname.toLowerCase()==="admin" && pass===adminPass){
+    isAdmin=true;
+    document.getElementById("adminBadge").style.display="flex";
+    document.getElementById("adminBtn").style.display="inline-flex";
+    document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
+    document.getElementById("homeCols").style.display="grid";
+    showPage("homePage");
+    renderTeamCards();renderApprovedHome();
+    return;
+  }
+
+  // Team login — username = team name (case-insensitive)
+  const team = allTeams.find(t=>t.name.trim().toLowerCase()===uname.toLowerCase());
+  if(team && pass===team.password){
+    isAdmin=false;
+    document.getElementById("adminBadge").style.display="none";
+    document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+    enterTeam(team);
+    return;
+  }
+
+  // Failed
+  errEl.textContent="❌ Invalid username or password. Please try again.";
+  errEl.style.display="block";
+  document.getElementById("wlcPass").value="";
+}
+document.getElementById("wlcLoginBtn").addEventListener("click",doWelcomeLogin);
+document.getElementById("wlcUser").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("wlcPass").focus();});
+document.getElementById("wlcPass").addEventListener("keydown",e=>{if(e.key==="Enter")doWelcomeLogin();});
+document.getElementById("wlcNewTeamBtn").addEventListener("click",()=>{
+  resetNewTeamForm();openModal("newTeamOvl");
+});
+
+// Logout
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  isAdmin=false;
+  currentTeam=null;currentTeamId=null;teamEntries=[];
+  document.getElementById("adminBadge").style.display="none";
+  document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+  document.getElementById("adminBtn").style.display="inline-flex";
+  document.getElementById("homeCols").style.display="none";
+  document.getElementById("wlcUser").value="";
+  document.getElementById("wlcPass").value="";
+  document.getElementById("wlcErr").style.display="none";
+  // hide all pages
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  showPage("welcomePage");
+});
+
 // ── TEAM LOGIN ──────────────────────────────────────────────────────
 function handleTeamClick(tid){
   const team=allTeams.find(t=>t.id===tid);if(!team)return;
@@ -1076,16 +1193,16 @@ function enterTeam(team){
   currentTeam=team;currentTeamId=team.id;
   document.getElementById("teamNameDisp").textContent=team.name;
   document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
-  // leader
   const ld=document.getElementById("teamLeaderDisp");
   ld.textContent=team.leaderName?`👑 Leader : ${team.leaderName}`:"";
-  // avatar
   const av=document.getElementById("teamAvatarDisp");
   if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
   else{av.textContent="";}
-  // members
   renderTeamMembersBar(team.members||[]);
   document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — Kaizen List`;
+  // Admin button & home cols visibility
+  document.getElementById("adminBtn").style.display = isAdmin?"inline-flex":"none";
+  document.getElementById("homeCols").style.display = isAdmin?"grid":"none";
   showPage("teamPage");
   subscribeTeamEntries(team.id);
 }
@@ -1212,7 +1329,7 @@ document.getElementById("addMemberBtn").addEventListener("click",()=>{
 });
 function renderMemberListEdit(){
   const list=document.getElementById("ntMemberList");
-  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">No members have been added.</div>`;return;}
+  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">কোনো সদস্য যোগ করা হয়নি</div>`;return;}
   list.innerHTML=ntMembers.map((m,i)=>`
     <div class="member-item" data-mi="${i}">
       <div class="member-av-wrap" title="Add photo">
@@ -1252,13 +1369,13 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const btn=document.getElementById("saveNewTeamBtn");
   btn.disabled=true;btn.textContent=editingTeamId?"⏳ Saving...":"⏳ Creating...";
   try{
-    // upload leader photo ( It will upload if a new photo is provided, না দিলে আগের url/blank থাকবে)
+    // upload leader photo (নতুন ছবি দিলে আপলোড হবে, না দিলে আগের url/blank থাকবে)
     let leaderUrl=ntLeaderUrl;
     if(ntLeaderFileObj){
-      showToast("⏳ লিডারের It will upload if a new photo is provided. আপLoading...");
+      showToast("⏳ লিডারের ছবি আপLoading...");
       leaderUrl=await uploadImgDirect(ntLeaderFileObj);
     }
-    // upload member photos ( It will upload if a new photo is provided. না থাকলে আগের url ব্যবহার হবে)
+    // upload member photos (নতুন ছবি না থাকলে আগের url ব্যবহার হবে)
     const membersData=[];
     for(const m of ntMembers){
       if(!m.name.trim())continue;
@@ -1277,14 +1394,23 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
         renderTeamMembersBar(membersData);
       }
     }else{
-      await addDoc(collection(db,"kaizen_teams"),{
+      const newRef = await addDoc(collection(db,"kaizen_teams"),{
         name,password:p1,
         icon:"",color:"#2E86C1",
         leaderName,leaderUrl,
         members:membersData,
         createdAt:serverTimestamp()
       });
-      showToast("📅 New team created!");
+      showToast("📅 New team created! Logging in...");
+      closeModal("newTeamOvl");
+      resetNewTeamForm();
+      // auto-login into the newly created team
+      const waitForTeam=setInterval(()=>{
+        const t=allTeams.find(x=>x.id===newRef.id);
+        if(t){clearInterval(waitForTeam);isAdmin=false;enterTeam(t);}
+      },300);
+      btn.disabled=false;btn.textContent="📅 Create a team";
+      return;
     }
     closeModal("newTeamOvl");
     resetNewTeamForm();
@@ -1368,15 +1494,17 @@ async function doSave(){
 
 // ── RENDER TEAM TABLE ─────────────────────────────────────────────
 function renderTeamTable(){
-  const srch=document.getElementById("srch").value.toLowerCase();
-  const fs=document.getElementById("fStatus").value;
+  const srchEl=document.getElementById("srch");
+  const fsEl=document.getElementById("fStatus");
+  const srch=srchEl?srchEl.value.toLowerCase():"";
+  const fs=fsEl?fsEl.value:"";
   const list=teamEntries.filter(e=>{
     const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
     return ms&&(!fs||getStatus(e)===fs);
   });
   document.getElementById("tblCount").textContent=`${list.length} Entries`;
   if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">No entry</p><p>+ New Kaizen Click the button.</p></div>`;
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো  Entry নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
     return;
   }
   let h=`<table><thead><tr>
@@ -1416,10 +1544,9 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-stid]").forEach(sel=>{
     sel.addEventListener("change",()=>updateEntryStatus(sel.dataset.stid,sel.value));
   });
-  const pending=teamEntries.filter(e=>!e.approved).length;
   const pb=document.getElementById("pendingBadgeDisp");
-  if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
-  else pb.style.display="none";
+  if(pb){if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
+  else pb.style.display="none";}
 }
 
 async function updateEntryStatus(id,newStatus){
@@ -1429,11 +1556,12 @@ async function updateEntryStatus(id,newStatus){
   }catch(e){showToast("❌ "+e.message);}
 }
 function updateStats(){
-  document.getElementById("sTotal").textContent=teamEntries.length;
-  document.getElementById("sDone").textContent=teamEntries.filter(x=>getStatus(x)==="Planned").length;
-  document.getElementById("sPending").textContent=teamEntries.filter(x=>getStatus(x)==="In Progress").length;
-  document.getElementById("sCompleteTotal").textContent=teamEntries.filter(x=>getStatus(x)==="Complete").length;
-  document.getElementById("sPic").textContent=teamEntries.filter(x=>x.bUrl||x.aUrl).length;
+  const s=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  s("sTotal",teamEntries.length);
+  s("sDone",teamEntries.filter(x=>getStatus(x)==="Planned").length);
+  s("sPending",teamEntries.filter(x=>getStatus(x)==="In Progress").length);
+  s("sCompleteTotal",teamEntries.filter(x=>getStatus(x)==="Complete").length);
+  s("sPic",teamEntries.filter(x=>x.bUrl||x.aUrl).length);
 }
 
 // ── APPROVE ─────────────────────────────────────────────────────────
@@ -1670,7 +1798,17 @@ document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   renderTeamCards();
   renderApprovedHome();
   updateAdminPendingDot();
-  closeModal("adminOvl");showToast("🔒 Logged out");
+  closeModal("adminOvl");
+  // go back to welcome page on admin logout
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  currentTeam=null;currentTeamId=null;teamEntries=[];
+  document.getElementById("homeCols").style.display="none";
+  document.getElementById("wlcUser").value="";
+  document.getElementById("wlcPass").value="";
+  document.getElementById("wlcErr").style.display="none";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  showPage("welcomePage");
+  showToast("🔒 Logged out");
 });
 document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
@@ -1687,15 +1825,18 @@ document.getElementById("teamExportBtn").addEventListener("click",()=>{
 });
 
 // ── HOME BTN ──────────────────────────────────────────────────────
-document.getElementById("homeBtn").addEventListener("click",()=>{
+const homeBtnEl=document.getElementById("homeBtn");
+if(homeBtnEl)homeBtnEl.addEventListener("click",()=>{
   if(unsubTeam){unsubTeam();unsubTeam=null;}
   currentTeam=null;currentTeamId=null;teamEntries=[];
   showPage("homePage");
 });
 
 // ── SEARCH / FILTER ───────────────────────────────────────────────
-document.getElementById("srch").addEventListener("input",renderTeamTable);
-document.getElementById("fStatus").addEventListener("change",renderTeamTable);
+const srchEl=document.getElementById("srch");
+const fStatusEl=document.getElementById("fStatus");
+if(srchEl)srchEl.addEventListener("input",renderTeamTable);
+if(fStatusEl)fStatusEl.addEventListener("change",renderTeamTable);
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function getStatus(e){return e.status||"Planned";}
