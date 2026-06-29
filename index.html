@@ -215,6 +215,10 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 .team-bar-left{display:flex;align-items:center;gap:14px}
 .team-avatar-bar{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,.35);overflow:hidden;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .team-avatar-bar img{width:100%;height:100%;object-fit:cover}
+.team-avatar-wrap{position:relative;flex-shrink:0;cursor:pointer}
+.team-avatar-wrap:hover .team-avatar-bar{filter:brightness(1.08)}
+.team-lock-badge{position:absolute;bottom:-3px;right:-3px;width:20px;height:20px;border-radius:50%;background:#EF4444;border:2px solid var(--navy,#0D1B2A);display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:.15s}
+.team-lock-badge.unlocked{background:#16A34A}
 .team-bar-name{font-size:18px;font-weight:700;color:#fff}
 .team-bar-sub{font-size:12px;color:rgba(255,255,255,.6)}
 .team-bar-leader{font-size:11px;color:rgba(255,215,0,.8);font-weight:600;margin-top:2px}
@@ -445,7 +449,10 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="team-bar" id="teamBar">
     <div class="team-bar-inner">
       <div class="team-bar-left">
-        <div class="team-avatar-bar" id="teamAvatarDisp"></div>
+        <div class="team-avatar-wrap" id="teamAvatarWrap" title="Unlock Edit/Delete/Status with the Team Leader password">
+          <div class="team-avatar-bar" id="teamAvatarDisp"></div>
+          <div class="team-lock-badge" id="teamLockBadge">🔒</div>
+        </div>
         <div>
           <div class="team-bar-name" id="teamNameDisp">Team</div>
           <div class="team-bar-leader" id="teamLeaderDisp"></div>
@@ -505,6 +512,10 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <input class="f-input" id="ntLeaderName" placeholder="Team Leader Name"/>
       </div>
       <div class="f-group">
+        <label class="f-lbl" id="ntLeaderPassLbl">Leader Password (Edit/Delete Unlock) <span>*</span></label>
+        <input class="f-input" id="ntLeaderPass" type="password" placeholder="Only the Leader will know this password"/>
+      </div>
+      <div class="f-group">
         <label class="f-lbl">Leader's phot</label>
         <div class="upload-area" id="ntLeaderArea" style="min-height:70px">
           <input type="file" accept="image/*" id="ntLeaderFile"/>
@@ -540,12 +551,34 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div class="f-group">
       <label class="f-lbl">Password</label>
       <input class="f-input" id="teamPassIn" type="password" placeholder="Enter team password..."/>
-      <div class="pass-err" id="teamPassErr">❌ ভুল Password!</div>
+      <div class="pass-err" id="teamPassErr">❌ Wrong Password!</div>
     </div>
   </div>
   <div class="modal-foot">
     <button class="btn btn-ghost" id="cancelTeamLogin">Cancel</button>
     <button class="btn btn-primary" id="doTeamLoginBtn">Enter</button>
+  </div>
+</div>
+</div>
+
+<!-- TEAM LEADER UNLOCK MODAL (Edit/Delete/Status unlock) -->
+<div class="overlay" id="leaderUnlockOvl">
+<div class="modal" style="max-width:400px">
+  <div class="modal-hdr">
+    <div class="modal-title" id="leaderUnlockTitle">👑 Team Leader Password</div>
+    <button class="cls-btn" id="closeLeaderUnlock">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="info-box">Enter the Team Leader's own Password to Edit / Delete / Update Status (this is different from the team login password — only the Leader will know it).</div>
+    <div class="f-group">
+      <label class="f-lbl">Leader Password</label>
+      <input class="f-input" id="leaderUnlockPass" type="password" placeholder="Enter Leader Password..."/>
+      <div class="pass-err" id="leaderUnlockErr">❌ Wrong Password!</div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelLeaderUnlock">Cancel</button>
+    <button class="btn btn-primary" id="doLeaderUnlockBtn">🔓 Unlock</button>
   </div>
 </div>
 </div>
@@ -665,15 +698,15 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
     <div id="adminLoginSec">
       <div class="f-group">
         <label class="f-lbl">Admin Password</label>
-        <input class="f-input" id="adminPassIn" type="password" placeholder="Password লিখুন..."/>
-        <div class="pass-err" id="adminPassErr">❌ ভুল Password!</div>
+        <input class="f-input" id="adminPassIn" type="password" placeholder="Enter Password..."/>
+        <div class="pass-err" id="adminPassErr">❌ Wrong Password!</div>
       </div>
     </div>
     <div id="adminLoggedSec" style="display:none">
       <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">📅 Admin mode active</p>
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px" id="pendingApprovalTitle">⏳ Kaizen pending approval:</div>
       <div id="pendingApprovalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 সব টিমের Password:</div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 All Teams' Passwords:</div>
       <div id="teamPassList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto"></div>
       <div class="f-group" style="margin-bottom:14px">
         <label class="f-lbl">Home Page Watermark Logo</label>
@@ -687,8 +720,8 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         </div>
       </div>
       <div class="f-group" style="margin-bottom:12px">
-        <label class="f-lbl">Admin Password পরিবর্তন</label>
-        <input class="f-input" id="newAdminPass" type="password" placeholder="নতুন Password (খালি = পরিবর্তন নেই)"/>
+        <label class="f-lbl">Change Admin Password</label>
+        <input class="f-input" id="newAdminPass" type="password" placeholder="New Password (leave empty = no change)"/>
       </div>
       <button class="btn btn-danger btn-sm" id="adminLogoutBtn">🔒 Logout</button>
     </div>
@@ -721,6 +754,7 @@ const app = initializeApp({
 const db = getFirestore(app);
 
 let isAdmin      = false;
+let teamUnlocked = false; // becomes true when the team unlocks itself using the leader password — grants Edit/Delete/Status permission
 let adminPass    = "eco@sr123";
 let currentTeam  = null;
 let currentTeamId= null;
@@ -752,7 +786,7 @@ function showPage(id){
 showPage("welcomePage");
 function openModal(id){document.getElementById(id).classList.add("on");}
 function closeModal(id){document.getElementById(id).classList.remove("on");}
-["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl"].forEach(id=>{
+["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl","leaderUnlockOvl"].forEach(id=>{
   document.getElementById(id).addEventListener("click",e=>{if(e.target.id===id)closeModal(id);});
 });
 function showToast(msg){
@@ -765,7 +799,7 @@ window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
 
 async function uploadImg(file,type){
   const el=document.getElementById(type+"Stat");
-  if(el){el.className="up-status uploading";el.textContent="⏳ আপLoading...";}
+  if(el){el.className="up-status uploading";el.textContent="⏳ Uploading...";}
   try{
     const fd=new FormData();
     fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
@@ -863,10 +897,10 @@ onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=
 });
 
 // APPROVED KAIZEN — all teams realtime
-// NOTE: শুধু where() ব্যবহার করা হয়েছে, orderBy() বাদ দেওয়া হয়েছে কারণ Firestore-এ
-// composite index না থাকলে where+orderBy একসাথে ব্যবহার করলে কোয়েরি silently fail করে
-// এবং লিস্টে কিছুই লোড হয় না — শুধু "লোডিং" দেখাতে থাকে। sort এখন client-side হচ্ছে।
-// হোম পেজে শুধুমাত্র status === "Complete"  Entryগুলোই দেখানো হবে।
+// NOTE: only where() is used here, orderBy() is omitted because in Firestore
+// if there's no composite index, using where+orderBy together makes the query silently fail
+// and the list never loads — it just keeps showing "Loading". Sorting is now done client-side.
+// On the home page only entries with status === "Complete" are shown.
 onSnapshot(
   collection(db,"kaizen_entries"),
   snap=>{
@@ -883,7 +917,7 @@ function updateAdminPendingDot(){
   const dot=document.getElementById("adminPendingDot");
   if(dot) dot.style.display="none";
 }
-// One-time fix: পুরানো entries যেগুলোতে approved:false আছে সেগুলো update করো
+// One-time fix: update old entries that have approved:false
 async function fixOldEntries(){
   try{
     const snap=await getDocs(query(collection(db,"kaizen_entries"),where("approved","==",false)));
@@ -931,7 +965,7 @@ function renderTeamCards(){
         ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
       </div>
       ${isAdmin?`<div style="display:flex;gap:4px;flex-shrink:0">
-        <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="এডিট" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
+        <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="Edit" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
         <button class="btn btn-danger btn-sm" style="padding:3px 6px" title="Delete" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑</button>
       </div>`:`<div class="tc-arrow">›</div>`}
     </div>`;
@@ -959,7 +993,7 @@ if(teamSrchClr)teamSrchClr.addEventListener("click",()=>{
 });
 
 // ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
-let homeKaizenViewTeamId=null; // null = টিম লিস্ট দেখাচ্ছে, কোনো টিমের id হলে সেই টিমের ডিটেইল দেখাচ্ছে
+let homeKaizenViewTeamId=null; // null = showing team list, a team's id = showing that team's detail
 function renderApprovedHome(){
   const wrap=document.getElementById("teamKaizenBlocks");
   if(!allApproved.length){
@@ -1168,6 +1202,7 @@ document.getElementById("wlcNewTeamBtn").addEventListener("click",()=>{
 document.getElementById("logoutBtn").addEventListener("click",()=>{
   if(unsubTeam){unsubTeam();unsubTeam=null;}
   isAdmin=false;
+  teamUnlocked=false;
   currentTeam=null;currentTeamId=null;teamEntries=[];
   document.getElementById("adminBadge").style.display="none";
   document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
@@ -1195,6 +1230,7 @@ function handleTeamClick(tid){
 }
 function enterTeam(team){
   currentTeam=team;currentTeamId=team.id;
+  teamUnlocked=false; // re-entering the team should not keep the previous unlock state
   document.getElementById("teamNameDisp").textContent=team.name;
   document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
   const ld=document.getElementById("teamLeaderDisp");
@@ -1207,9 +1243,70 @@ function enterTeam(team){
   // Admin button & home cols visibility
   document.getElementById("adminBtn").style.display = isAdmin?"inline-flex":"none";
   document.getElementById("homeCols").style.display = isAdmin?"grid":"none";
+  updateLockBadge();
   showPage("teamPage");
   subscribeTeamEntries(team.id);
 }
+// ── TEAM LEADER UNLOCK (Edit/Delete/Status permission via leader password) ─
+function updateLockBadge(){
+  const wrap=document.getElementById("teamAvatarWrap");
+  const badge=document.getElementById("teamLockBadge");
+  if(!wrap||!badge)return;
+  if(isAdmin){
+    // In Admin mode all permissions are already available, so no need to show the lock badge
+    wrap.style.display="none";
+    return;
+  }
+  wrap.style.display="block";
+  if(teamUnlocked){
+    badge.textContent="🔓";
+    badge.classList.add("unlocked");
+    wrap.title="Unlocked — Edit/Delete/Status is active. Click again to Lock.";
+  }else{
+    badge.textContent="🔒";
+    badge.classList.remove("unlocked");
+    wrap.title="Unlock Edit/Delete/Status with the Team Leader Password";
+  }
+}
+document.getElementById("teamAvatarWrap").addEventListener("click",()=>{
+  if(isAdmin)return;
+  if(teamUnlocked){
+    // if already unlocked, clicking again will lock it
+    teamUnlocked=false;
+    updateLockBadge();
+    renderTeamTable();
+    showToast("🔒 Locked again — Edit/Delete/Status has been disabled.");
+    return;
+  }
+  document.getElementById("leaderUnlockPass").value="";
+  document.getElementById("leaderUnlockErr").style.display="none";
+  openModal("leaderUnlockOvl");
+});
+function doLeaderUnlock(){
+  if(!currentTeam)return;
+  if(!currentTeam.leaderPassword){
+    document.getElementById("leaderUnlockErr").textContent="⚠️ A Leader Password has not been set for this team yet. Ask the Admin to set it via Edit Team.";
+    document.getElementById("leaderUnlockErr").style.display="block";
+    return;
+  }
+  const val=document.getElementById("leaderUnlockPass").value;
+  if(val && val===currentTeam.leaderPassword){
+    teamUnlocked=true;
+    document.getElementById("leaderUnlockErr").style.display="none";
+    closeModal("leaderUnlockOvl");
+    updateLockBadge();
+    renderTeamTable();
+    showToast("🔓 Unlocked! You can now Edit/Delete/Update Status.");
+  }else{
+    document.getElementById("leaderUnlockErr").textContent="❌ Wrong Password!";
+    document.getElementById("leaderUnlockErr").style.display="block";
+    document.getElementById("leaderUnlockPass").value="";
+  }
+}
+document.getElementById("doLeaderUnlockBtn").addEventListener("click",doLeaderUnlock);
+document.getElementById("leaderUnlockPass").addEventListener("keydown",e=>{if(e.key==="Enter")doLeaderUnlock();});
+document.getElementById("closeLeaderUnlock").addEventListener("click",()=>closeModal("leaderUnlockOvl"));
+document.getElementById("cancelLeaderUnlock").addEventListener("click",()=>closeModal("leaderUnlockOvl"));
 function renderTeamMembersBar(members){
   const row=document.getElementById("teamMembersDisp");
   if(!members.length){row.innerHTML="";return;}
@@ -1223,10 +1320,10 @@ function renderTeamMembersBar(members){
 }
 function subscribeTeamEntries(tid){
   if(unsubTeam)unsubTeam();
-  // NOTE: where("teamId",...) + orderBy("createdAt",...) একসাথে ব্যবহার করলে Firestore
-  // composite index চায়; index না থাকলে এই listener silently fail করে এবং কাইজেন
-  // লিস্টে কখনো ডেটা না এসে শুধু "Loading..." দেখাতে থাকে। এখানে orderBy বাদ দিয়ে
-  // client-side এ সর্ট করা হচ্ছে যাতে index ছাড়াই কাজ করে।
+  // NOTE: using where("teamId",...) + orderBy("createdAt",...) together requires a Firestore
+  // composite index; without that index this listener silently fails, and the
+  // Kaizen list never loads any data — it just keeps showing "Loading...". orderBy is removed here
+  // and sorting is done client-side instead, so it works without needing an index.
   unsubTeam=onSnapshot(
     query(collection(db,"kaizen_entries"),where("teamId","==",tid)),
     snap=>{
@@ -1236,7 +1333,7 @@ function subscribeTeamEntries(tid){
     },
     err=>{
       console.error("team entries error:",err);
-      document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">⚠️</div><p style="font-weight:600;margin-bottom:4px">ডেটা লোড করতে সমস্যা হয়েছে</p><p>${err.message}</p></div>`;
+      document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">⚠️</div><p style="font-weight:600;margin-bottom:4px">There was a problem loading the data</p><p>${err.message}</p></div>`;
       showToast("❌ Failed to load Kaizen list: "+err.message);
     }
   );
@@ -1259,7 +1356,7 @@ document.getElementById("cancelTeamLogin").addEventListener("click",()=>closeMod
 // ── NEW TEAM FORM ────────────────────────────────────────────────────
 function resetNewTeamForm(){
   editingTeamId=null;
-  ["ntName","ntPass","ntPass2","ntLeaderName"].forEach(id=>document.getElementById(id).value="");
+  ["ntName","ntPass","ntPass2","ntLeaderName","ntLeaderPass"].forEach(id=>document.getElementById(id).value="");
   ntLeaderFileObj=null;ntLeaderUrl="";ntMembers=[];
   document.getElementById("ntLeaderArea").style.display="flex";
   document.getElementById("ntLeaderPrev").style.display="none";
@@ -1270,6 +1367,8 @@ function resetNewTeamForm(){
   document.getElementById("ntPassLbl").innerHTML="Team Password <span>*</span>";
   document.getElementById("ntPass2Lbl").innerHTML="Confirm password <span>*</span>";
   document.getElementById("ntPass").placeholder="Set a password for the team.";
+  document.getElementById("ntLeaderPassLbl").innerHTML="Leader Password (Edit/Delete Unlock) <span>*</span>";
+  document.getElementById("ntLeaderPass").placeholder="Only the Leader will know this password";
   document.getElementById("saveNewTeamBtn").textContent="📅 Create a team";
   renderMemberListEdit();
 }
@@ -1288,10 +1387,12 @@ function openEditTeam(tid){
   ntMembers=(t.members||[]).map(m=>({name:m.name||"",fileObj:null,url:m.url||"",previewSrc:m.url||""}));
   renderMemberListEdit();
   document.getElementById("newTeamModalTitle").textContent="✏️ Edit Team";
-  document.getElementById("newTeamInfoBox").textContent="Password পরিবর্তন করতে না চাইলে ফাঁকা রাখুন — পুরনো Password বহাল থাকবে।";
+  document.getElementById("newTeamInfoBox").textContent="Leave blank if you don't want to change the password — the old password will remain.";
   document.getElementById("ntPassLbl").textContent="New Team Password (optional)";
   document.getElementById("ntPass2Lbl").textContent="Confirm Password (optional)";
   document.getElementById("ntPass").placeholder="Leave blank if not changing";
+  document.getElementById("ntLeaderPassLbl").textContent="New Leader Password (optional)";
+  document.getElementById("ntLeaderPass").placeholder=t.leaderPassword?"Leave blank if not changing":"Not set yet — type here to set it";
   document.getElementById("saveNewTeamBtn").textContent="💾 Save Changes";
   openModal("newTeamOvl");
 }
@@ -1333,7 +1434,7 @@ document.getElementById("addMemberBtn").addEventListener("click",()=>{
 });
 function renderMemberListEdit(){
   const list=document.getElementById("ntMemberList");
-  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">কোনো সদস্য যোগ করা হয়নি</div>`;return;}
+  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">No members added yet</div>`;return;}
   list.innerHTML=ntMembers.map((m,i)=>`
     <div class="member-item" data-mi="${i}">
       <div class="member-av-wrap" title="Add photo">
@@ -1366,20 +1467,22 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
   const p1=document.getElementById("ntPass").value;
   const p2=document.getElementById("ntPass2").value;
   const leaderName=document.getElementById("ntLeaderName").value.trim();
+  const leaderPass=document.getElementById("ntLeaderPass").value;
   if(!name){showToast("⚠️ Please enter a team name");return;}
   if(!leaderName){showToast("⚠️ Enter the leader's name");return;}
-  if(!editingTeamId && !p1){showToast("⚠️ Password দিন");return;}
-  if(p1!==p2){showToast("❌ Password মিলছে না!");return;}
+  if(!editingTeamId && !p1){showToast("⚠️ Please enter a Password");return;}
+  if(!editingTeamId && !leaderPass){showToast("⚠️ Please enter a Leader Password");return;}
+  if(p1!==p2){showToast("❌ Passwords do not match!");return;}
   const btn=document.getElementById("saveNewTeamBtn");
   btn.disabled=true;btn.textContent=editingTeamId?"⏳ Saving...":"⏳ Creating...";
   try{
-    // upload leader photo (নতুন ছবি দিলে আপলোড হবে, না দিলে আগের url/blank থাকবে)
+    // upload leader photo (uploads if a new photo is given, otherwise keeps the old url/blank)
     let leaderUrl=ntLeaderUrl;
     if(ntLeaderFileObj){
-      showToast("⏳ লিডারের ছবি আপLoading...");
+      showToast("⏳ Uploading leader's photo...");
       leaderUrl=await uploadImgDirect(ntLeaderFileObj);
     }
-    // upload member photos (নতুন ছবি না থাকলে আগের url ব্যবহার হবে)
+    // upload member photos (uses the old url if there's no new photo)
     const membersData=[];
     for(const m of ntMembers){
       if(!m.name.trim())continue;
@@ -1390,6 +1493,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
     if(editingTeamId){
       const updateData={name,leaderName,leaderUrl,members:membersData};
       if(p1)updateData.password=p1;
+      if(leaderPass)updateData.leaderPassword=leaderPass;
       await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
       showToast("📅 Team updated!");
       if(currentTeamId===editingTeamId){
@@ -1401,7 +1505,7 @@ document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
       const newRef = await addDoc(collection(db,"kaizen_teams"),{
         name,password:p1,
         icon:"",color:"#2E86C1",
-        leaderName,leaderUrl,
+        leaderName,leaderUrl,leaderPassword:leaderPass,
         members:membersData,
         createdAt:serverTimestamp()
       });
@@ -1464,8 +1568,8 @@ async function doSave(){
     if(aFileObj)finalA=await uploadImg(aFileObj,"a");
     const tid=currentTeamId;
     const teamObj=allTeams.find(t=>t.id===tid);
-    // এই ফর্মে Status নেই — নতুন  Entryর ডিফল্ট স্ট্যাটাস "Planned", আর এডিট করলে আগের status অপরিবর্তিত থাকবে
-    // (status পরিবর্তন হয় টিমের Kaizen List-এর ড্রপডাউন থেকে, এই ফর্ম থেকে নয়)
+    // There's no Status field in this form — a new Entry's default status is "Planned", and editing keeps the previous status unchanged
+    // (status is changed from the dropdown in the team's Kaizen List, not from this form)
     const existing=editId?teamEntries.find(x=>x.id===editId):null;
     const data={
       title,
@@ -1508,13 +1612,14 @@ function renderTeamTable(){
   });
   document.getElementById("tblCount").textContent=`${list.length} Entries`;
   if(!list.length){
-    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">কোনো  Entry নেই</p><p>+ New Kaizen বাটনে ক্লিক করুন</p></div>`;
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">No entries yet</p><p>Click the + New Kaizen button</p></div>`;
     return;
   }
+  const canEdit = isAdmin||teamUnlocked;
   let h=`<table><thead><tr>
     <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Proposed By</th><th>Status</th><th>Impact</th>
     <th>Date</th><th>Photos</th>
-    ${isAdmin?"<th>Action</th>":""}
+    ${canEdit?"<th>Action</th>":""}
   </tr></thead><tbody>`;
   list.forEach((e,i)=>{
     const hp=!!(e.bUrl||e.aUrl);
@@ -1525,7 +1630,7 @@ function renderTeamTable(){
       <td style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap">${e.leaderName?`👑 ${e.leaderName}`:"-"}</td>
       <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
       <td>
-        <select class="flt st-sel" data-stid="${e.id}" style="font-size:11px;padding:4px 6px">
+        <select class="flt st-sel" data-stid="${e.id}" style="font-size:11px;padding:4px 6px" ${canEdit?"":"disabled title=\"🔒 Unlock with the Leader Password to change Edit/Status\""}>
           <option value="Planned" ${st==="Planned"?"selected":""}>📅 Planned</option>
           <option value="In Progress" ${st==="In Progress"?"selected":""}>⏳ In Progress</option>
           <option value="Complete" ${st==="Complete"?"selected":""}>✅ Complete</option>
@@ -1534,7 +1639,7 @@ function renderTeamTable(){
       <td style="font-size:12px">${stars(e.impact)}</td>
       <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
       <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
-      ${isAdmin?`<td><div class="act-btns">
+      ${canEdit?`<td><div class="act-btns">
         <button class="ico-btn edit" data-eid="${e.id}" title="Edit">✏️</button>
         <button class="ico-btn del" data-did="${e.id}" title="Delete">🗑️</button>
       </div></td>`:""}
@@ -1546,7 +1651,14 @@ function renderTeamTable(){
   document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
   document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
   document.getElementById("tblWrap").querySelectorAll("[data-stid]").forEach(sel=>{
-    sel.addEventListener("change",()=>updateEntryStatus(sel.dataset.stid,sel.value));
+    sel.addEventListener("change",()=>{
+      if(!(isAdmin||teamUnlocked)){
+        showToast("⚠️ Unlock with the Team Leader Password to change Status");
+        renderTeamTable();
+        return;
+      }
+      updateEntryStatus(sel.dataset.stid,sel.value);
+    });
   });
   const pb=document.getElementById("pendingBadgeDisp");
   if(pb){if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
@@ -1579,7 +1691,7 @@ async function approveKaizen(id){
 
 // ── DELETE / EDIT ─────────────────────────────────────────────────
 async function doDelete(id){
-  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  if(!(isAdmin||teamUnlocked)){showToast("⚠️ Unlock with the Team Leader Password to Edit/Delete");return;}
   if(!confirm("Are you sure you want to delete this?"))return;
   try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 Deleted successfully");}
   catch(e){showToast("❌ "+e.message);}
@@ -1620,7 +1732,7 @@ async function deleteAllTeamKaizen(tid){
   }catch(e){showToast("❌ Failed to delete: "+e.message);}
 }
 function doEdit(id){
-  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  if(!(isAdmin||teamUnlocked)){showToast("⚠️ Unlock with the Team Leader Password to Edit");return;}
   const e=teamEntries.find(x=>x.id===id);if(!e)return;
   editId=id;bFileObj=null;aFileObj=null;bUrl=e.bUrl||"";aUrl=e.aUrl||"";
   document.getElementById("entryTitle").textContent="✏️ Edit Entry";
@@ -1688,7 +1800,8 @@ function renderAdminPassList(){
         <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.division||""}${t.leaderName?" · 👤 "+t.leaderName:""}</div>
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-        <code style="font-size:12px;background:var(--gold-lt);color:var(--gold);padding:3px 8px;border-radius:6px">${t.password}</code>
+        <code style="font-size:12px;background:var(--gold-lt);color:var(--gold);padding:3px 8px;border-radius:6px" title="Team Password">${t.password}</code>
+        <code style="font-size:12px;background:#E0F2FE;color:#0369A1;padding:3px 8px;border-radius:6px" title="Leader Password">${t.leaderPassword?"👑 "+t.leaderPassword:"👑 ❌ Not set"}</code>
         <button class="btn btn-ghost btn-sm" style="padding:5px 8px" title="Edit team" onclick="openEditTeam('${t.id}')">✏️</button>
         <button class="btn btn-danger btn-sm" style="padding:5px 8px" title="Delete team" onclick="deleteTeam('${t.id}')">🗑</button>
       </div>
@@ -1793,6 +1906,7 @@ async function saveAdminSettings(){
 }
 document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
   isAdmin=false;
+  teamUnlocked=false;
   document.getElementById("adminBadge").style.display="none";
   document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
   document.getElementById("adminLoginSec").style.display="block";
@@ -1832,6 +1946,7 @@ document.getElementById("teamExportBtn").addEventListener("click",()=>{
 const homeBtnEl=document.getElementById("homeBtn");
 if(homeBtnEl)homeBtnEl.addEventListener("click",()=>{
   if(unsubTeam){unsubTeam();unsubTeam=null;}
+  teamUnlocked=false;
   currentTeam=null;currentTeamId=null;teamEntries=[];
   showPage("homePage");
 });
