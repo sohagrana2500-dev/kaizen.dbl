@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -336,6 +337,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 </style>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 
 <!-- ══ WELCOME / LOGIN PAGE ══ -->
 <div id="welcomePage">
@@ -1931,15 +1933,163 @@ document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
 document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
 
-// ── EXPORT ────────────────────────────────────────────────────────
-document.getElementById("teamExportBtn").addEventListener("click",()=>{
-  const rows=[["No.","Team","Title","Date","Status","Impact","Problem","Solution","Benefit","Approved"]];
-  teamEntries.forEach((e,i)=>rows.push([i+1,e.teamName||"",e.title||"",e.date||"",e.status||"",e.impact||"",e.problem||"",e.solution||"",e.benefit||"",e.approved?"Yes":"No"]));
-  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
-  a.download=`Kaizen_${currentTeam?.name||"Export"}.csv`;a.click();
-  showToast("📅 Export complete!");
+// ── EXPORT (Excel .xlsx with embedded photos) ───────────────────────
+async function fetchImageForExcel(url,maxW=260,maxH=190){
+  const resp=await fetch(url);
+  if(!resp.ok) throw new Error("HTTP "+resp.status);
+  const blob=await resp.blob();
+  const bitmap=await createImageBitmap(blob);
+  const scale=Math.min(maxW/bitmap.width,maxH/bitmap.height);
+  const cw=Math.max(1,Math.round(bitmap.width*scale));
+  const ch=Math.max(1,Math.round(bitmap.height*scale));
+  const canvas=document.createElement("canvas");
+  canvas.width=cw;canvas.height=ch;
+  canvas.getContext("2d").drawImage(bitmap,0,0,cw,ch);
+  const outBlob=await new Promise(res=>canvas.toBlob(res,"image/jpeg",0.88));
+  const buffer=await outBlob.arrayBuffer();
+  return {buffer,width:cw,height:ch};
+}
+
+document.getElementById("teamExportBtn").addEventListener("click",async()=>{
+  if(typeof ExcelJS==="undefined"){showToast("⚠️ Excel library failed to load. Check your internet connection.");return;}
+  if(!currentTeam){showToast("⚠️ No team selected");return;}
+  if(!teamEntries.length){showToast("⚠️ No Kaizen data to export");return;}
+
+  const btn=document.getElementById("teamExportBtn");
+  const origLabel=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML="⏳ Exporting...";
+  showToast("⏳ Preparing Excel export, please wait...");
+
+  try{
+    const wb=new ExcelJS.Workbook();
+    wb.creator="Kaizen Tracker";
+    wb.created=new Date();
+    const ws=wb.addWorksheet("Kaizen List",{views:[{state:"frozen",ySplit:8}]});
+
+    const colDefs=[
+      {header:"No.",width:6},
+      {header:"Kaizen Title",width:24},
+      {header:"Problem",width:32},
+      {header:"Solution",width:32},
+      {header:"Benefit",width:28},
+      {header:"Proposed By",width:16},
+      {header:"Leader",width:16},
+      {header:"Status",width:14},
+      {header:"Impact",width:18},
+      {header:"Date",width:13},
+      {header:"Approved",width:11},
+      {header:"Before Photo",width:38},
+      {header:"After Photo",width:38},
+    ];
+    const totalCols=colDefs.length;
+    colDefs.forEach((c,i)=>{ws.getColumn(i+1).width=c.width;});
+
+    // ── Banner row ──
+    ws.mergeCells(1,1,1,totalCols);
+    const banner=ws.getCell(1,1);
+    banner.value="📋 KAIZEN IMPROVEMENT REPORT";
+    banner.font={bold:true,size:18,color:{argb:"FFFFFFFF"}};
+    banner.alignment={horizontal:"center",vertical:"middle"};
+    banner.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF0D1B2A"}};
+    ws.getRow(1).height=32;
+
+    // ── Team / Leader / Members info rows ──
+    function infoRow(rowNum,label,value){
+      ws.mergeCells(rowNum,1,rowNum,totalCols);
+      const c=ws.getCell(rowNum,1);
+      c.value=`${label}:  ${value}`;
+      c.font={bold:true,size:12,color:{argb:"FF0D1B2A"}};
+      c.alignment={horizontal:"left",vertical:"middle"};
+      c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF5F0E6"}};
+      ws.getRow(rowNum).height=20;
+    }
+    const memberNames=(currentTeam.members||[]).map(m=>m.name).filter(Boolean).join(", ")||"-";
+    infoRow(2,"Team",currentTeam.name||"-");
+    infoRow(3,"Division",currentTeam.division||"-");
+    infoRow(4,"Team Leader",currentTeam.leaderName?`👑 ${currentTeam.leaderName}`:"-");
+    infoRow(5,"Team Members",memberNames);
+    infoRow(6,"Export Date",new Date().toLocaleString());
+    // row 7 left blank as a visual spacer
+
+    // ── Table header row ──
+    const headerRowNum=8;
+    const headerRow=ws.getRow(headerRowNum);
+    colDefs.forEach((c,i)=>{
+      const cell=headerRow.getCell(i+1);
+      cell.value=c.header;
+      cell.font={bold:true,size:11,color:{argb:"FFFFFFFF"}};
+      cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+      cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFB08D57"}};
+      cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}};
+    });
+    headerRow.height=22;
+
+    const impactLabels={1:"⭐ Very Low",2:"⭐⭐ Low",3:"⭐⭐⭐ Medium",4:"⭐⭐⭐⭐ High",5:"⭐⭐⭐⭐⭐ Critical"};
+    const statusEmoji={"Planned":"📅 Planned","In Progress":"⏳ In Progress","Complete":"✅ Complete"};
+    const thinBorder={top:{style:"thin",color:{argb:"FFDDDDDD"}},left:{style:"thin",color:{argb:"FFDDDDDD"}},bottom:{style:"thin",color:{argb:"FFDDDDDD"}},right:{style:"thin",color:{argb:"FFDDDDDD"}}};
+
+    const dataStartRow=headerRowNum+1;
+    for(let i=0;i<teamEntries.length;i++){
+      const e=teamEntries[i];
+      const rowNum=dataStartRow+i;
+      const st=getStatus(e);
+      const hasB=!!e.bUrl, hasA=!!e.aUrl;
+      const rowHeight=(hasB||hasA)?150:Math.max(40,Math.min(120,((e.problem||"").length+(e.solution||"").length)/3));
+      const row=ws.getRow(rowNum);
+      row.height=rowHeight;
+
+      const values=[i+1,e.title||"-",e.problem||"-",e.solution||"-",e.benefit||"-",
+        e.proposedBy||"-",e.leaderName||"-",statusEmoji[st]||st,impactLabels[e.impact]||(e.impact||"-"),
+        e.date||"-",e.approved?"Yes":"No","",""];
+      values.forEach((v,ci)=>{
+        const cell=row.getCell(ci+1);
+        cell.value=v;
+        cell.alignment={vertical:"top",horizontal:(ci===0?"center":"left"),wrapText:[1,2,3,4].includes(ci)};
+        cell.font={size:10};
+        cell.border=thinBorder;
+      });
+      row.getCell(1).alignment={vertical:"middle",horizontal:"center"};
+
+      if((i+1)%5===0||i===teamEntries.length-1){
+        showToast(`⏳ Exporting photos... (${i+1}/${teamEntries.length})`);
+      }
+
+      if(hasB){
+        try{
+          const img=await fetchImageForExcel(e.bUrl);
+          const imgId=wb.addImage({buffer:img.buffer,extension:"jpeg"});
+          ws.addImage(imgId,{tl:{col:11.05,row:rowNum-1+0.05},ext:{width:img.width,height:img.height}});
+        }catch(err){
+          row.getCell(12).value="(photo unavailable)";
+        }
+      }
+      if(hasA){
+        try{
+          const img=await fetchImageForExcel(e.aUrl);
+          const imgId=wb.addImage({buffer:img.buffer,extension:"jpeg"});
+          ws.addImage(imgId,{tl:{col:12.05,row:rowNum-1+0.05},ext:{width:img.width,height:img.height}});
+        }catch(err){
+          row.getCell(13).value="(photo unavailable)";
+        }
+      }
+    }
+
+    const buffer=await wb.xlsx.writeBuffer();
+    const blob=new Blob([buffer],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+    const a=document.createElement("a");
+    const safeName=(currentTeam.name||"Export").replace(/[^a-zA-Z0-9_\- ]/g,"").trim()||"Export";
+    const dateStr=new Date().toISOString().slice(0,10);
+    a.href=URL.createObjectURL(blob);
+    a.download=`Kaizen_${safeName}_${dateStr}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast("📅 Export complete!");
+  }catch(err){
+    console.error(err);
+    showToast("❌ Export failed: "+err.message);
+  }finally{
+    btn.disabled=false;btn.innerHTML=origLabel;
+  }
 });
 
 // ── HOME BTN ──────────────────────────────────────────────────────
