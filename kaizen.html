@@ -340,6 +340,32 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 
+<!-- ══ APP SWITCHER WIDGET ══ -->
+<div id="ccswWidget" style="position:fixed;bottom:18px;right:18px;z-index:99999;font-family:'Inter',sans-serif;">
+  <button id="ccswToggle" title="অ্যাপ পরিবর্তন করুন" style="width:52px;height:52px;border-radius:50%;background:#0A1A2F;color:#fff;border:2px solid #C9A65A;box-shadow:0 4px 14px rgba(0,0,0,.35);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🔀</button>
+  <div id="ccswMenu" style="display:none;position:absolute;bottom:62px;right:0;background:#fff;border-radius:12px;box-shadow:0 10px 32px rgba(0,0,0,.25);padding:8px;min-width:200px;border:1px solid #DDE3EA;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1A202C;font-size:13px;font-weight:600;">🏠 লঞ্চার হোম</a>
+    <a href="Production_Dashboard.html" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1A202C;font-size:13px;font-weight:600;">📊 Production Dashboard</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('ccswToggle');
+  var menu=document.getElementById('ccswMenu');
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    menu.style.display = menu.style.display==='block' ? 'none':'block';
+  });
+  document.addEventListener('click',function(e){
+    if(menu.style.display==='block' && !menu.contains(e.target) && e.target!==btn){ menu.style.display='none'; }
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('mouseenter',function(){a.style.background='#F0F4F8';});
+    a.addEventListener('mouseleave',function(){a.style.background='transparent';});
+  });
+})();
+</script>
+
 <!-- ══ WELCOME / LOGIN PAGE ══ -->
 <div id="welcomePage">
   <div class="wlc-side" id="wlcSide">
