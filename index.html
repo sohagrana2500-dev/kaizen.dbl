@@ -347,7 +347,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
   <div class="wlc-box">
     <div class="wlc-logo">
       <div class="wlc-logo-icon">📋</div>
-      <div class="wlc-title">Kaizen Tracker</div>
+      <div class="wlc-title">Production Tracker</div>
       <div class="wlc-sub">Multi-Team Continuous Improvement</div>
     </div>
     <div class="wlc-form">
@@ -371,7 +371,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
       <button class="wlc-new-team-btn" id="wlcNewTeamBtn">➕ Create New Team</button>
     </div>
   </div>
-  <div class="wlc-footer">Kaizen Tracker — Continuous Improvement System</div>
+  <div class="wlc-footer">Production Tracker — Continuous Improvement System</div>
 </div>
 
 <div class="loading-cover" id="loadingCover" style="display:none">
@@ -458,7 +458,7 @@ td{padding:11px 14px;font-size:13px;vertical-align:middle}
         <div>
           <div class="team-bar-name" id="teamNameDisp">Team</div>
           <div class="team-bar-leader" id="teamLeaderDisp"></div>
-          <div class="team-bar-sub" id="teamSubDisp">Kaizen Tracker</div>
+          <div class="team-bar-sub" id="teamSubDisp">Pro Tracker</div>
         </div>
       </div>
       <div style="flex:1">
@@ -1234,7 +1234,7 @@ function enterTeam(team){
   currentTeam=team;currentTeamId=team.id;
   teamUnlocked=false; // re-entering the team should not keep the previous unlock state
   document.getElementById("teamNameDisp").textContent=team.name;
-  document.getElementById("teamSubDisp").textContent=team.division||"Kaizen Tracker";
+  document.getElementById("teamSubDisp").textContent=team.division||"Production Tracker";
   const ld=document.getElementById("teamLeaderDisp");
   ld.textContent=team.leaderName?`👑 Leader : ${team.leaderName}`:"";
   const av=document.getElementById("teamAvatarDisp");
@@ -1962,7 +1962,7 @@ document.getElementById("teamExportBtn").addEventListener("click",async()=>{
 
   try{
     const wb=new ExcelJS.Workbook();
-    wb.creator="Kaizen Tracker";
+    wb.creator="Production Tracker";
     wb.created=new Date();
     const ws=wb.addWorksheet("Kaizen List",{views:[{state:"frozen",ySplit:8}]});
 
