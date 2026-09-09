@@ -855,6 +855,24 @@
             document.getElementById("dashboard").style.display = "block";
             var le = document.getElementById("loginError");
             if (le) le.style.display = "none";
+            // restore role from session if module state is empty
+            try {
+              if (!window.pdCurrentRole || !window.pdCurrentRole()) {
+                var r = sessionStorage.getItem("pdRole");
+                var u = sessionStorage.getItem("pdUsername");
+                if (r && window.pdResetSession) { /* keep */ }
+              }
+            } catch (e) {}
+            // show/hide admin buttons
+            var isAdmin = sessionStorage.getItem("pdRole") === "admin";
+            document.querySelectorAll(".only-admin").forEach(function (el) {
+              el.style.display = isAdmin ? "" : "none";
+            });
+            var badge = document.getElementById("roleBadge");
+            if (badge) {
+              badge.textContent = isAdmin ? "🔓 Admin" : ("👁 Viewer — " + (sessionStorage.getItem("pdUsername") || ""));
+              badge.classList.toggle("admin", isAdmin);
+            }
             try { await renderCategoryButtons(); } catch (e) { console.warn("renderCategoryButtons:", e); }
         };
 
@@ -1199,7 +1217,18 @@
                     renderTable(allCombinedData);
                     buildDataFilterBar();
                     if (totalRowsLoaded === 0) {
-                        showStatus("⚠️ " + saved.length + " টি ফাইল আছে কিন্তু রো ডাটা খালি। ফাইলগুলো আবার আপলোড করুন।", true);
+                        showStatus("⚠️ " + saved.length + " টি ফাইল আছে কিন্তু রো ডাটা খালি। Admin দিয়ে লগইন করে আবার Excel আপলোড করুন।", true);
+                        var isAdm = (typeof window.pdCurrentRole === "function" && window.pdCurrentRole() === "admin")
+                                 || (sessionStorage.getItem("pdRole") === "admin");
+                        document.getElementById("tableArea").innerHTML =
+                            '<div class="no-data">' +
+                            '<p style="font-weight:700;margin-bottom:8px;">কোনো রো ডাটা নেই</p>' +
+                            '<p style="margin-bottom:12px;">' + saved.length + ' টি ফাইলের নাম আছে, কিন্তু ভিতরের ডাটা খালি (আগের বাগের কারণে)।</p>' +
+                            (isAdm
+                              ? '<p style="margin-bottom:12px;">নিচের বাটন দিয়ে খালি ফাইল মুছে ফেলুন, তারপর Excel আবার আপলোড করুন।</p>' +
+                                '<button class="file-btn" onclick="clearCategoryData()" style="padding:10px 16px;">🗑️ খালি ফাইল মুছে আবার আপলোড করুন</button>'
+                              : '<p style="color:#b23a32;font-weight:600;">আপনি এখন Viewer মোডে আছেন। লগআউট করে <b>admin / eco@sr123</b> দিয়ে লগইন করুন — তারপর ফাইল আপলোড করতে পারবেন।</p>') +
+                            '</div>';
                     }
                 } else {
                     document.getElementById("tableArea").innerHTML = '<div class="no-data">এখনো কোনো ফাইল সেভ নেই। উপরের বাটন থেকে Excel ফাইল সিলেক্ট করুন। সব ফাইলের ডাটা একসাথে দেখাবে।</div>';
@@ -5270,13 +5299,14 @@ async function enterDashboard() {
 }
 
 function applyRolePermissions() {
-  const isAdmin = currentRole === "admin";
+  const isAdmin = currentRole === "admin" || sessionStorage.getItem("pdRole") === "admin";
+  if (isAdmin) currentRole = "admin";
   document.querySelectorAll(".only-admin").forEach(function (el) {
     el.style.display = isAdmin ? "" : "none";
   });
   const badge = document.getElementById("roleBadge");
   if (badge) {
-    badge.textContent = isAdmin ? ("🔓 Admin") : ("👁 Viewer — " + currentUsername);
+    badge.textContent = isAdmin ? ("🔓 Admin") : ("👁 Viewer — " + (currentUsername || sessionStorage.getItem("pdUsername") || ""));
     badge.classList.toggle("admin", isAdmin);
   }
 }
