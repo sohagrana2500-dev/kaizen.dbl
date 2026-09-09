@@ -1,0 +1,2121 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title> Kaizen — Multi Team System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1A2F;--blue:#143C5C;--accent:#2E86C1;
+  --hdr-line:#C9A65A;
+  --green:#1E8449;--green-lt:#D5F5E3;
+  --orange:#D35400;--orange-lt:#FDEBD0;
+  --gold:#B7950B;--gold-lt:#FEF9E7;
+  --red:#922B21;--red-lt:#FADBD8;
+  --purple:#6C3483;--purple-lt:#F5EEF8;
+  --bg:#F0F4F8;--card:#fff;--border:#DDE3EA;
+  --text:#1A202C;--muted:#64748B;
+  --radius:12px;
+  --shadow:0 2px 12px rgba(13,27,42,.09);
+  --shadow-lg:0 8px 32px rgba(13,27,42,.14);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.hdr{background:linear-gradient(120deg,var(--navy) 0%,var(--blue) 60%,#1B4F72 100%);padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.35);border-bottom:2px solid var(--hdr-line)}
+.hdr-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo-area{display:flex;align-items:center;gap:12px}
+.brand{color:#fff}
+.brand-name{font-size:18px;font-weight:700}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.55)}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.live-clock{display:none;align-items:center;gap:10px;padding:7px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(201,166,90,.35);border-radius:9px;backdrop-filter:blur(2px)}
+.live-clock .lc-date{font-size:11px;color:rgba(255,255,255,.65);font-weight:500;white-space:nowrap}
+.live-clock .lc-time{font-family:'Courier New',monospace;font-size:15px;font-weight:700;letter-spacing:1.5px;color:var(--hdr-line);white-space:nowrap}
+.live-clock .lc-dot{width:6px;height:6px;border-radius:50%;background:#3ECF8E;box-shadow:0 0 0 0 rgba(62,207,142,.6);animation:lcPulse 1.6s infinite}
+@keyframes lcPulse{0%{box-shadow:0 0 0 0 rgba(62,207,142,.55)}70%{box-shadow:0 0 0 6px rgba(62,207,142,0)}100%{box-shadow:0 0 0 0 rgba(62,207,142,0)}}
+@media(min-width:560px){.live-clock{display:flex}}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.18s;font-family:inherit;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:#1f6fa0}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#176038}
+.btn-outline{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}.btn-outline:hover{background:rgba(255,255,255,.22)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-danger{background:var(--red-lt);color:var(--red)}.btn-danger:hover{background:#f5c6c6}
+.btn-gold{background:var(--gold-lt);color:var(--gold);border:1px solid var(--gold)}.btn-gold:hover{background:#fef3c7}
+
+/* ══ WELCOME / LOGIN PAGE ══ */
+#welcomePage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 50%,#1B4F72 100%);padding:24px;position:relative;overflow:hidden}
+#welcomePage::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.wlc-box{background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.35);padding:40px 36px;width:100%;max-width:420px;position:relative;z-index:1}
+.wlc-logo{text-align:center;margin-bottom:28px}
+.wlc-logo-icon{width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--navy),var(--accent));display:inline-flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:12px;box-shadow:0 8px 24px rgba(46,134,193,.35)}
+.wlc-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.wlc-sub{font-size:13px;color:var(--muted)}
+.wlc-form{display:flex;flex-direction:column;gap:14px}
+.wlc-field{display:flex;flex-direction:column;gap:5px}
+.wlc-lbl{font-size:12px;font-weight:600;color:var(--text);letter-spacing:.3px}
+.wlc-inp-wrap{position:relative}
+.wlc-inp-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+.wlc-inp{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:.2s;background:#FAFBFC;color:var(--text)}
+.wlc-inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.12);background:#fff}
+.wlc-err{font-size:12px;color:var(--red);font-weight:600;display:none;padding:8px 12px;background:var(--red-lt);border-radius:8px;border:1px solid rgba(146,43,33,.15)}
+.wlc-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),#1B6FA8);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;margin-top:4px;letter-spacing:.3px}
+.wlc-btn:hover{background:linear-gradient(135deg,#1f6fa0,#144f7a);box-shadow:0 6px 20px rgba(46,134,193,.35)}
+.wlc-btn:disabled{opacity:.6;cursor:not-allowed}
+.wlc-divider{display:flex;align-items:center;gap:10px;margin:4px 0}
+.wlc-divider::before,.wlc-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.wlc-divider span{font-size:11px;color:var(--muted);white-space:nowrap}
+.wlc-new-team-btn{width:100%;padding:11px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.18s}
+.wlc-new-team-btn:hover{background:#EFF6FF}
+.wlc-footer{text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.45)}
+.wlc-side{display:none;position:absolute;left:7%;top:50%;transform:translateY(-50%);pointer-events:none;z-index:0}
+.wlc-side.show{display:block}
+.wlc-side-logo{width:200px;height:200px;max-width:28vw;object-fit:contain;opacity:.13;filter:grayscale(10%)}
+@media(max-width:900px){.wlc-side{display:none!important}}
+
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+.main{max-width:1300px;margin:0 auto;padding:24px}
+
+/* HOME PAGE */
+.home-hero{text-align:center;padding:40px 24px 24px;position:relative}
+.home-hero h1{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
+.home-hero p{font-size:14px;color:var(--muted);margin-bottom:22px}
+#homePage{position:relative;overflow:hidden}
+.hdr-logo-img{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;display:none;border:1.5px solid rgba(255,255,255,.25)}
+.home-hero,.team-search-wrap,.teams-grid,.approved-home{position:relative;z-index:1}
+.team-search-wrap{max-width:480px;margin:0 auto 22px;position:relative}
+.team-search-wrap input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--border);border-radius:30px;font-size:14px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
+.team-search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(46,134,193,.12),var(--shadow)}
+.team-search-wrap .tsw-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+.team-search-wrap .tsw-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;cursor:pointer;background:none;border:none;display:none;padding:4px}
+.team-search-count{text-align:center;font-size:12px;color:var(--muted);margin:-12px auto 18px;max-width:480px}
+.logo-upload-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo-upload-row .logo-preview{width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:#F8FAFC}
+
+/* HOME TEAM SUMMARY — LIST LAYOUT */
+.home-team-list{display:flex;flex-direction:column;gap:5px}
+.htc-search-wrap{position:relative;margin-bottom:7px}
+.htc-search-wrap input{width:100%;padding:6px 12px 6px 30px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;background:var(--card);outline:none;font-family:inherit;transition:.2s;box-shadow:var(--shadow)}
+.htc-search-wrap input:focus{border-color:var(--accent)}
+.htc-search-wrap .hsw-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.htc-search-wrap .hsw-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:2px;display:none}
+.htc-search-count{font-size:10px;color:var(--muted);margin:-4px 0 6px;padding-left:2px}
+.htc-card{background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);cursor:pointer;transition:.18s;overflow:hidden;display:flex;align-items:center;gap:8px;padding:7px 10px}
+.htc-card:hover{border-color:var(--accent);transform:translateX(2px)}
+.htc-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.htc-avatar img{width:100%;height:100%;object-fit:cover}
+.htc-info{flex:1;min-width:0}
+.htc-name{font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.htc-count-pill{display:inline-flex;align-items:center;gap:3px;background:#DBEAFE;color:#1E40AF;border-radius:20px;padding:1px 6px;font-size:10px;font-weight:700;margin-top:2px}
+.htc-arrow{color:var(--accent);font-size:14px;flex-shrink:0}
+.htc-del-btn{background:var(--red-lt);color:var(--red);border:1px solid rgba(146,43,33,.2);padding:3px 6px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;transition:.15s}
+.htc-del-btn:hover{background:var(--red);color:#fff}
+.htc-delall{display:none}
+/* TEAMS LIST — vertical list layout */
+.teams-grid{display:flex;flex-direction:column;gap:5px;margin-bottom:0}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:pointer;transition:.18s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;align-items:center;gap:8px;text-align:left}
+.team-card:hover{border-color:var(--accent);transform:translateX(2px)}
+.team-card .tc-avatar{width:30px;height:30px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border);background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:13px}
+.team-card .tc-avatar img{width:100%;height:100%;object-fit:cover}
+.team-card .tc-info{flex:1;min-width:0}
+.team-card .tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:0}
+.team-card .tc-meta{font-size:10px;color:var(--muted)}
+.team-card .tc-leader{font-size:10px;color:var(--accent);font-weight:600}
+.team-card .tc-members{font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.team-card .tc-badge{display:none}
+.team-card .tc-arrow{font-size:14px;color:var(--accent);flex-shrink:0;margin-left:auto}
+.add-team-card{background:var(--card);border:2px dashed var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:8px}
+.add-team-card:hover{border-color:var(--accent);background:#F0F7FF}
+.add-team-card .atc-ico{font-size:16px}
+.add-team-card span{font-size:12px;color:var(--muted);font-weight:500}
+
+/* HOME TWO-COLUMN LAYOUT */
+.home-cols{grid-template-columns:280px 1fr;gap:16px;max-width:100%;margin:0;padding:12px 16px 24px;align-items:start;overflow:hidden}
+.home-col-left{min-width:0}
+.home-col-right{min-width:0;overflow:hidden}
+@media(max-width:860px){.home-cols{grid-template-columns:1fr;padding:0 10px 20px}}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.section-title{font-size:13px;font-weight:700;color:var(--navy)}
+.team-kaizen-block{margin-bottom:12px;background:var(--card);border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.tkb-hdr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(90deg,var(--navy),var(--blue));cursor:pointer;user-select:none}
+.tkb-avatar{width:26px;height:26px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.tkb-avatar img{width:100%;height:100%;object-fit:cover}
+.tkb-name{font-size:12px;font-weight:700;color:#fff;flex:1}
+.tkb-count{font-size:10px;background:rgba(255,255,255,.18);color:#fff;padding:1px 6px;border-radius:10px;font-weight:600}
+.tkb-arrow{color:rgba(255,255,255,.7);font-size:11px;transition:.2s}
+.tkb-arrow.open{transform:rotate(180deg)}
+.tkb-body{display:none;overflow-x:auto}
+.tkb-body.open{display:block}
+.tkb-delall{background:rgba(255,255,255,.14);color:#FFD7D7;border:1px solid rgba(255,120,120,.5);padding:3px 7px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+.tkb-delall:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ah-move-sel{padding:3px 5px;font-size:10px;border:1px solid var(--border);border-radius:5px;background:var(--card);font-family:inherit;cursor:pointer;color:var(--text);max-width:100px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.stat-ico{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.stat-lbl{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.stat-val{font-size:26px;font-weight:700;line-height:1.1}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.search-wrap{flex:1;min-width:180px;position:relative}
+.search-wrap input{width:100%;padding:9px 14px 9px 38px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;transition:.18s}
+.search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.13)}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none}
+.flt{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);outline:none;font-family:inherit;cursor:pointer;color:var(--text)}
+
+/* TABLE */
+.tbl-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}
+.tbl-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.tbl-title{font-size:15px;font-weight:600}
+.tbl-count{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+thead th{background:#F8FAFC;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:.12s}
+tbody tr:hover{background:#FAFBFD}
+tbody tr:last-child{border-bottom:none}
+td{padding:11px 14px;font-size:13px;vertical-align:middle}
+.td-no{font-weight:700;color:var(--accent);width:40px}
+.td-title{font-weight:600;max-width:200px}
+.td-title small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.b-green{background:var(--green-lt);color:var(--green)}
+.b-orange{background:var(--orange-lt);color:var(--orange)}
+.b-blue{background:#DBEAFE;color:#1E40AF}
+.b-gold{background:var(--gold-lt);color:var(--gold)}
+.b-red{background:var(--red-lt);color:var(--red)}
+.b-purple{background:var(--purple-lt);color:var(--purple)}
+.b-gray{background:#F1F5F9;color:var(--muted)}
+.pic-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s}
+.pic-btn.no-pic{background:#F1F5F9;color:var(--muted)}
+.pic-btn.has-pic{background:var(--green-lt);color:var(--green)}
+.act-btns{display:flex;gap:4px}
+.ico-btn{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:13px;transition:.15s;background:transparent}
+.ico-btn.edit{color:var(--accent)}.ico-btn.edit:hover{background:#EFF6FF}
+.ico-btn.del{color:var(--red)}.ico-btn.del:hover{background:var(--red-lt)}
+.ico-btn.approve{color:var(--green)}.ico-btn.approve:hover{background:var(--green-lt)}
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty .eico{font-size:44px;margin-bottom:10px}
+
+/* TEAM HEADER BAR */
+.team-bar{background:linear-gradient(135deg,var(--navy),var(--blue));padding:16px 24px;margin-bottom:24px;border-radius:0}
+.team-bar-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.team-bar-left{display:flex;align-items:center;gap:14px}
+.team-avatar-bar{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,.35);overflow:hidden;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.team-avatar-bar img{width:100%;height:100%;object-fit:cover}
+.team-avatar-wrap{position:relative;flex-shrink:0;cursor:pointer}
+.team-avatar-wrap:hover .team-avatar-bar{filter:brightness(1.08)}
+.team-lock-badge{position:absolute;bottom:-3px;right:-3px;width:20px;height:20px;border-radius:50%;background:#EF4444;border:2px solid var(--navy,#0D1B2A);display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:.15s}
+.team-lock-badge.unlocked{background:#16A34A}
+.team-bar-name{font-size:18px;font-weight:700;color:#fff}
+.team-bar-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.team-bar-leader{font-size:11px;color:rgba(255,215,0,.8);font-weight:600;margin-top:2px}
+.team-bar-right{display:flex;gap:8px;align-items:center}
+.pending-badge{background:rgba(255,200,0,.2);color:#FFD700;border:1px solid rgba(255,200,0,.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700}
+
+/* MEMBER AVATARS ROW */
+.members-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
+.member-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border-radius:20px;padding:3px 8px 3px 3px;border:1px solid rgba(255,255,255,.15)}
+.member-chip-av{width:20px;height:20px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.member-chip-av img{width:100%;height:100%;object-fit:cover}
+.member-chip-name{font-size:10px;color:rgba(255,255,255,.85);font-weight:500}
+
+/* OVERLAY + MODAL */
+.overlay{position:fixed;inset:0;background:rgba(13,27,42,.52);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:.2s}
+.overlay.on{opacity:1;pointer-events:all}
+.modal{background:var(--card);border-radius:16px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(14px);transition:.22s}
+.overlay.on .modal{transform:translateY(0)}
+.modal-hdr{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1}
+.modal-title{font-size:16px;font-weight:700}
+.cls-btn{width:30px;height:30px;border-radius:8px;border:none;background:var(--bg);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.cls-btn:hover{background:var(--border)}
+.modal-body{padding:20px 24px}
+.modal-foot{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--card)}
+
+/* FORM */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-group{display:flex;flex-direction:column;gap:5px}
+.f-group.full{grid-column:1/-1}
+.f-lbl{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px}
+.f-lbl span{color:var(--red)}
+.f-input,.f-select,.f-textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);background:var(--card);outline:none;transition:.18s;resize:vertical}
+.f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.11)}
+.f-textarea{min-height:70px}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;padding:8px 0 5px;border-bottom:2px solid var(--accent);margin-bottom:2px;grid-column:1/-1}
+
+/* IMAGE UPLOAD */
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;grid-column:1/-1}
+.img-type-tag{display:block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:7px;text-align:center}
+.before-tag{background:var(--red-lt);color:var(--red)}
+.after-tag{background:var(--green-lt);color:var(--green)}
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px 14px;text-align:center;cursor:pointer;transition:.18s;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;position:relative}
+.upload-area:hover{border-color:var(--accent);background:#F0F7FF}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.u-ico{font-size:26px;pointer-events:none}
+.u-lbl{font-size:12px;font-weight:600;color:var(--text);pointer-events:none}
+.prev-wrap{position:relative;display:none}
+.prev-wrap img{width:100%;height:130px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:block}
+.rm-btn{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;z-index:2}
+.cap-input{margin-top:7px;width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none;color:var(--text)}
+.cap-input:focus{border-color:var(--accent)}
+.up-status{margin-top:5px;padding:6px 10px;border-radius:7px;font-size:11px;font-weight:600;text-align:center;display:none}
+.up-status.uploading{display:block;background:var(--gold-lt);color:var(--gold)}
+.up-status.done{display:block;background:var(--green-lt);color:var(--green)}
+.up-status.error{display:block;background:var(--red-lt);color:var(--red)}
+
+/* MEMBER FORM */
+.member-list-edit{display:flex;flex-direction:column;gap:8px;margin-top:6px;max-height:240px;overflow-y:auto}
+.member-item{display:grid;grid-template-columns:36px 1fr 28px;gap:6px;align-items:center;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+.member-av-wrap{width:36px;height:36px;border-radius:50%;overflow:hidden;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;border:2px dashed var(--border);position:relative}
+.member-av-wrap img{width:100%;height:100%;object-fit:cover}
+.member-av-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.member-name-in{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;outline:none}
+.member-name-in:focus{border-color:var(--accent)}
+.member-del-btn{width:24px;height:24px;border-radius:6px;border:none;background:var(--red-lt);color:var(--red);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+
+/* PHOTO VIEW */
+.photo-modal{max-width:900px}
+.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:4px}
+.pcard{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.pcard-hdr{padding:8px 12px;font-size:11px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.5px}
+.pcard-hdr.before{background:var(--red-lt);color:var(--red)}
+.pcard-hdr.after{background:var(--green-lt);color:var(--green)}
+.pcard img{width:100%;height:240px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in}
+.pcard .no-img{height:240px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);background:#F8FAFC;font-size:13px}
+.pcard-cap{padding:9px 12px;font-size:12px;color:var(--muted);background:#FAFBFC;border-top:1px solid var(--border);min-height:36px}
+.det-rows{margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.det-row{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px}
+.det-k{font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding-top:1px}
+
+/* LOADING */
+.loading-cover{position:fixed;inset:0;background:rgba(255,255,255,.9);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spinner{width:36px;height:36px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tbl-loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--muted);gap:10px;font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:500;z-index:1000;opacity:0;transition:.28s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:none;align-items:center;justify-content:center}
+.lightbox.on{display:flex}
+.lightbox img{max-width:94vw;max-height:94vh;border-radius:8px;object-fit:contain}
+.lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:30px;cursor:pointer;background:none;border:none;font-family:inherit}
+.admin-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--gold-lt);color:var(--gold);border-radius:20px;font-size:11px;font-weight:700}
+.pass-err{color:var(--red);font-size:12px;font-weight:600;margin-top:5px;display:none}
+.info-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:12px;color:#1E40AF;margin-bottom:14px}
+.warn-box{background:var(--gold-lt);border:1px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--gold);margin-bottom:14px}
+.pending-section{background:var(--orange-lt);border:1px solid var(--orange);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.pending-section .ps-title{font-size:14px;font-weight:700;color:var(--orange);margin-bottom:12px}
+
+/* APPROVE BTN in table */
+.approve-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:var(--green-lt);color:var(--green);transition:.15s}
+.approve-btn:hover{background:#a7f3d0;color:#065f46}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr 1fr}
+  .fg{grid-template-columns:1fr}
+  .img-grid{grid-template-columns:1fr}
+  .photo-pair{grid-template-columns:1fr}
+  .main{padding:14px}
+  .hdr-right .btn span{display:none}
+  .members-row{display:none}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+
+<!-- ══ WELCOME / LOGIN PAGE ══ -->
+<div id="welcomePage">
+  <div class="wlc-side" id="wlcSide">
+    <img id="wlcWatermark" class="wlc-side-logo" src="" alt=""/>
+  </div>
+  <div class="wlc-box">
+    <div class="wlc-logo">
+      <div class="wlc-logo-icon">📋</div>
+      <div class="wlc-title">Kizen Tracker</div>
+      <div class="wlc-sub">Multi-Team Continuous Improvement</div>
+    </div>
+    <div class="wlc-form">
+      <div class="wlc-field">
+        <label class="wlc-lbl">USERNAME</label>
+        <div class="wlc-inp-wrap">
+          <span class="wlc-inp-ico">👤</span>
+          <input class="wlc-inp" id="wlcUser" type="text" placeholder="Enter your team name..." autocomplete="off"/>
+        </div>
+      </div>
+      <div class="wlc-field">
+        <label class="wlc-lbl">PASSWORD</label>
+        <div class="wlc-inp-wrap">
+          <span class="wlc-inp-ico">🔑</span>
+          <input class="wlc-inp" id="wlcPass" type="password" placeholder="Enter password..."/>
+        </div>
+      </div>
+      <div class="wlc-err" id="wlcErr">❌ Invalid username or password. Please try again.</div>
+      <button class="wlc-btn" id="wlcLoginBtn">🔓 Login</button>
+      <div class="wlc-divider"><span>or</span></div>
+      <button class="wlc-new-team-btn" id="wlcNewTeamBtn">➕ Create New Team</button>
+    </div>
+  </div>
+  <div class="wlc-footer">Kizen Tracker — Continuous Improvement System</div>
+</div>
+
+<div class="loading-cover" id="loadingCover" style="display:none">
+  <div class="spinner"></div>
+  <div style="font-size:13px;color:var(--muted)">Loading...</div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <button class="lb-close">✕</button>
+  <img id="lbImg" src="" alt=""/>
+</div>
+
+<header class="hdr" style="display:none">
+  <div class="hdr-inner">
+    <div class="logo-area">
+      <img id="hdrLogoImg" class="hdr-logo-img" src="" alt="" style="display:none"/>
+      <div class="brand">
+        <div class="brand-name">Kaizen</div>
+        <div class="brand-sub">Multi-Team Continuous Improvement</div>
+      </div>
+    </div>
+    <div class="live-clock" id="liveClock">
+      <span class="lc-dot"></span>
+      <span class="lc-date" id="lcDate">—</span>
+      <span class="lc-time" id="lcTime">--:--:--</span>
+    </div>
+    <div class="hdr-right">
+      <div id="adminBadge" style="display:none" class="admin-badge">🔓 Admin</div>
+      <div style="position:relative">
+        <button class="btn btn-outline btn-sm" id="adminBtn">🔒 <span>Admin</span></button>
+        <span id="adminPendingDot" style="display:none;position:absolute;top:-5px;right:-5px;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:10px;min-width:16px;height:16px;padding:0 4px;align-items:center;justify-content:center;line-height:1;border:2px solid var(--navy)"></span>
+      </div>
+      <button class="btn btn-outline btn-sm" id="logoutBtn" style="display:none">🚪 <span>Logout</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ HOME PAGE ══ -->
+<div class="page" id="homePage">
+  <!-- TWO-COLUMN SECTION -->
+  <div class="home-cols" id="homeCols" style="display:none;padding-top:24px">
+    <!-- LEFT: Team List -->
+    <div class="home-col-left">
+      <div class="section-hdr" style="margin-bottom:10px">
+        <div class="section-title">🏢 Teams</div>
+      </div>
+      <div class="teams-grid" id="teamsGrid">
+        <div class="add-team-card" id="addTeamCard">
+          <div class="atc-ico">➕</div>
+          <span>Create a new team.</span>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT: Approved Kaizen -->
+    <div class="home-col-right" id="approvedHomeSection">
+      <div class="section-hdr" style="margin-bottom:10px">
+        <div class="section-title">✅ Complete Kaizen — By team</div>
+        <button class="btn btn-sm" id="toggleApprovedBtn" style="background:#EFF6FF;color:var(--accent)">📋 </button>
+      </div>
+      <div id="approvedHomeWrap" style="display:none">
+        <div class="htc-search-wrap">
+          <span class="hsw-ico">🔍</span>
+          <input type="text" id="kaizenTeamSearch" placeholder="Search by team name..."/>
+          <button class="hsw-clear" id="kaizenTeamSearchClear">✕</button>
+        </div>
+        <div class="htc-search-count" id="kaizenTeamSearchCount" style="display:none"></div>
+        <div id="teamKaizenBlocks">
+          <div class="empty"><div class="eico">📅</div><p>Loading...</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TEAM PAGE ══ -->
+<div class="page" id="teamPage">
+  <div class="team-bar" id="teamBar">
+    <div class="team-bar-inner">
+      <div class="team-bar-left">
+        <div class="team-avatar-wrap" id="teamAvatarWrap" title="Unlock Edit/Delete/Status with the Team Leader password">
+          <div class="team-avatar-bar" id="teamAvatarDisp"></div>
+          <div class="team-lock-badge" id="teamLockBadge">🔒</div>
+        </div>
+        <div>
+          <div class="team-bar-name" id="teamNameDisp">Team</div>
+          <div class="team-bar-leader" id="teamLeaderDisp"></div>
+          <div class="team-bar-sub" id="teamSubDisp">Pro Tracker</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="members-row" id="teamMembersDisp"></div>
+      </div>
+      <div class="team-bar-right">
+        <button class="btn btn-outline btn-sm" id="teamExportBtn">⬇ Export</button>
+        <button class="btn btn-primary" id="newKaizenBtn">+ New Kaizen</button>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="tbl-card">
+      <div class="tbl-hdr">
+        <div class="tbl-title" id="teamTblTitle">📋 Kaizen List</div>
+        <div class="tbl-count" id="tblCount">Loading.....</div>
+      </div>
+      <div id="tblWrap"><div class="tbl-loading"><div class="spinner" style="width:20px;height:20px;border-width:3px"></div> Loading.....</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- NEW TEAM MODAL -->
+<div class="overlay" id="newTeamOvl">
+<div class="modal" style="max-width:560px">
+  <div class="modal-hdr">
+    <div class="modal-title" id="newTeamModalTitle">➕ Create a new team.</div>
+    <button class="cls-btn" id="closeNewTeam">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="info-box" id="newTeamInfoBox">If you create a new team, you will set the password for that team.</div>
+    <div class="fg" style="grid-template-columns:1fr">
+      <div class="sec-lbl" style="grid-column:1/-1">📋  Team Information</div>
+      <div class="f-group">
+        <label class="f-lbl">Team Name <span>*</span></label>
+        <input class="f-input" id="ntName" placeholder="For example: Finishing Team 01"/>
+      </div>
+
+      <div class="f-group">
+        <label class="f-lbl" id="ntPassLbl">Team Password <span>*</span></label>
+        <input class="f-input" id="ntPass" type="password" placeholder="Set a password for the team."/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl" id="ntPass2Lbl">Confirm password <span>*</span></label>
+        <input class="f-input" id="ntPass2" type="password" placeholder="Enter the password again."/>
+      </div>
+
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👤 Team Leader</div>
+      <div class="f-group">
+        <label class="f-lbl">Leader Name <span>*</span></label>
+        <input class="f-input" id="ntLeaderName" placeholder="Team Leader Name"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl" id="ntLeaderPassLbl">Leader Password (Edit/Delete Unlock) <span>*</span></label>
+        <input class="f-input" id="ntLeaderPass" type="password" placeholder="Only the Leader will know this password"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">Leader's phot</label>
+        <div class="upload-area" id="ntLeaderArea" style="min-height:70px">
+          <input type="file" accept="image/*" id="ntLeaderFile"/>
+          <div class="u-ico" style="font-size:18px">📷</div>
+          <div class="u-lbl">Upload Photo</div>
+        </div>
+        <div class="prev-wrap" id="ntLeaderPrev"><img id="ntLeaderImg" src="" alt=""/><button class="rm-btn" id="rmLeader">✕</button></div>
+        <div class="up-status" id="ntLeaderStat"></div>
+      </div>
+
+      <div class="sec-lbl" style="grid-column:1/-1;margin-top:8px">👥 Team Members</div>
+      <div style="grid-column:1/-1">
+        <div class="member-list-edit" id="ntMemberList"></div>
+        <button class="btn btn-ghost btn-sm" id="addMemberBtn" style="margin-top:8px;width:100%">➕ Add member</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelNewTeam">Cancel</button>
+    <button class="btn btn-primary" id="saveNewTeamBtn">📅 Create a team</button>
+  </div>
+</div>
+</div>
+
+<!-- TEAM LOGIN MODAL -->
+<div class="overlay" id="teamLoginOvl">
+<div class="modal" style="max-width:400px">
+  <div class="modal-hdr">
+    <div class="modal-title" id="teamLoginTitle">🔒 Team Login</div>
+    <button class="cls-btn" id="closeTeamLogin">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="f-group">
+      <label class="f-lbl">Password</label>
+      <input class="f-input" id="teamPassIn" type="password" placeholder="Enter team password..."/>
+      <div class="pass-err" id="teamPassErr">❌ Wrong Password!</div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelTeamLogin">Cancel</button>
+    <button class="btn btn-primary" id="doTeamLoginBtn">Enter</button>
+  </div>
+</div>
+</div>
+
+<!-- TEAM LEADER UNLOCK MODAL (Edit/Delete/Status unlock) -->
+<div class="overlay" id="leaderUnlockOvl">
+<div class="modal" style="max-width:400px">
+  <div class="modal-hdr">
+    <div class="modal-title" id="leaderUnlockTitle">👑 Team Leader Password</div>
+    <button class="cls-btn" id="closeLeaderUnlock">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="info-box">Enter the Team Leader's own Password to Edit / Delete / Update Status (this is different from the team login password — only the Leader will know it).</div>
+    <div class="f-group">
+      <label class="f-lbl">Leader Password</label>
+      <input class="f-input" id="leaderUnlockPass" type="password" placeholder="Enter Leader Password..."/>
+      <div class="pass-err" id="leaderUnlockErr">❌ Wrong Password!</div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelLeaderUnlock">Cancel</button>
+    <button class="btn btn-primary" id="doLeaderUnlockBtn">🔓 Unlock</button>
+  </div>
+</div>
+</div>
+
+<!-- KAIZEN ENTRY MODAL -->
+<div class="overlay" id="entryOvl">
+<div class="modal">
+  <div class="modal-hdr">
+    <div class="modal-title" id="entryTitle">New Kaizen  Entry</div>
+    <button class="cls-btn" id="closeEntry">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="fg">
+      <div class="sec-lbl">📝 Basic Info</div>
+      <div class="f-group full">
+        <label class="f-lbl">Kaizen Point <span>*</span></label>
+        <input class="f-input" id="fTitle" placeholder="Enter Kaizen point title..."/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">Date</label>
+        <input class="f-input" id="fDate" type="date"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">👑 Team Leader Name <span>*</span></label>
+        <input class="f-input" id="fLeaderName" placeholder="Team Leader Name"/>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">Impact</label>
+        <select class="f-select" id="fImpact">
+          <option value="5">⭐⭐⭐⭐⭐ Critical</option>
+          <option value="4">⭐⭐⭐⭐ High</option>
+          <option value="3" selected>⭐⭐⭐ Medium</option>
+          <option value="2">⭐⭐ Low</option>
+        </select>
+      </div>
+      <div class="f-group">
+        <label class="f-lbl">💡 Proposed By</label>
+        <select class="f-select" id="fProposedBy">
+          <option value="">— Select Member —</option>
+        </select>
+      </div>
+      <div class="sec-lbl">🔍 Details</div>
+      <div class="f-group full">
+        <label class="f-lbl">Current Problem</label>
+        <textarea class="f-textarea" id="fProb" placeholder="What was the problem?"></textarea>
+      </div>
+      <div class="f-group full">
+        <label class="f-lbl">Solution Applied</label>
+        <textarea class="f-textarea" id="fSol" placeholder="How was it solved?"></textarea>
+      </div>
+      <div class="f-group full">
+        <label class="f-lbl">Benefit Achieved</label>
+        <textarea class="f-textarea" id="fBen" placeholder="What benefit was achieved?"></textarea>
+      </div>
+      <div class="sec-lbl">📸 Before / After Photos</div>
+      <div class="img-grid">
+        <div>
+          <span class="img-type-tag before-tag">📷 BEFORE</span>
+          <div class="upload-area" id="bArea">
+            <input type="file" accept="image/*" id="bFile"/>
+            <div class="u-ico">📷</div>
+            <div class="u-lbl">Before Photo</div>
+          </div>
+          <div class="prev-wrap" id="bPrev"><img id="bImg" src="" alt=""/><button class="rm-btn" id="rmB">✕</button></div>
+          <div class="up-status" id="bStat"></div>
+          <input class="cap-input" id="bCap" placeholder="Before description..."/>
+        </div>
+        <div>
+          <span class="img-type-tag after-tag">✨ AFTER</span>
+          <div class="upload-area" id="aArea">
+            <input type="file" accept="image/*" id="aFile"/>
+            <div class="u-ico">✨</div>
+            <div class="u-lbl">After Photo</div>
+          </div>
+          <div class="prev-wrap" id="aPrev"><img id="aImg" src="" alt=""/><button class="rm-btn" id="rmA">✕</button></div>
+          <div class="up-status" id="aStat"></div>
+          <input class="cap-input" id="aCap" placeholder="After description..."/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelEntry">Cancel</button>
+    <button class="btn btn-primary" id="saveBtn">💾 Save</button>
+  </div>
+</div>
+</div>
+
+<!-- PHOTO VIEW MODAL -->
+<div class="overlay" id="photoOvl">
+<div class="modal photo-modal">
+  <div class="modal-hdr">
+    <div class="modal-title" id="photoTitle">Before / After Photo</div>
+    <button class="cls-btn" id="closePhoto">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="photo-pair">
+      <div class="pcard"><div class="pcard-hdr before">📷 BEFORE</div><div id="pBefore"></div><div class="pcard-cap" id="pBCap"></div></div>
+      <div class="pcard"><div class="pcard-hdr after">✨ AFTER</div><div id="pAfter"></div><div class="pcard-cap" id="pACap"></div></div>
+    </div>
+    <div class="det-rows" id="detRows"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="closePhoto2">Close</button>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="overlay" id="adminOvl">
+<div class="modal" style="max-width:500px">
+  <div class="modal-hdr">
+    <div class="modal-title">🔒 Admin Panel</div>
+    <button class="cls-btn" id="closeAdmin">✕</button>
+  </div>
+  <div class="modal-body">
+    <div id="adminLoginSec">
+      <div class="f-group">
+        <label class="f-lbl">Admin Password</label>
+        <input class="f-input" id="adminPassIn" type="password" placeholder="Enter Password..."/>
+        <div class="pass-err" id="adminPassErr">❌ Wrong Password!</div>
+      </div>
+    </div>
+    <div id="adminLoggedSec" style="display:none">
+      <p style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:16px">📅 Admin mode active</p>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px" id="pendingApprovalTitle">⏳ Kaizen pending approval:</div>
+      <div id="pendingApprovalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 All Teams' Passwords:</div>
+      <div id="teamPassList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto"></div>
+      <div class="f-group" style="margin-bottom:14px">
+        <label class="f-lbl">Home Page Watermark Logo</label>
+        <div class="logo-upload-row">
+          <img id="adminLogoPrev" class="logo-preview" src="" alt="" style="display:none"/>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer">
+            📁 Choose Logo
+            <input type="file" accept="image/*" id="adminLogoFile" style="display:none"/>
+          </label>
+          <button class="btn btn-danger btn-sm" id="removeLogoBtn" style="display:none">🗑 Remove</button>
+        </div>
+      </div>
+      <div class="f-group" style="margin-bottom:12px">
+        <label class="f-lbl">Change Admin Password</label>
+        <input class="f-input" id="newAdminPass" type="password" placeholder="New Password (leave empty = no change)"/>
+      </div>
+      <button class="btn btn-danger btn-sm" id="adminLogoutBtn">🔒 Logout</button>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" id="cancelAdmin">Cancel</button>
+    <button class="btn btn-primary" id="adminActBtn">Login</button>
+  </div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, query, orderBy, serverTimestamp, where, getDocs, setDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const CLOUD_NAME   = "dhdllytiv";
+const CLOUD_PRESET = "kaizen_upload";
+const CLOUD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+const app = initializeApp({
+  apiKey:"AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
+  authDomain:"dbl-kaizen.firebaseapp.com",
+  projectId:"dbl-kaizen",
+  storageBucket:"dbl-kaizen.firebasestorage.app",
+  messagingSenderId:"447302057753",
+  appId:"1:447302057753:web:a1acdf6991612a18d9cf88"
+});
+const db = getFirestore(app);
+
+let isAdmin      = false;
+let teamUnlocked = false; // becomes true when the team unlocks itself using the leader password — grants Edit/Delete/Status permission
+let adminPass    = "eco@sr123";
+let currentTeam  = null;
+let currentTeamId= null;
+let allTeams     = [];
+let teamEntries  = [];
+let allApproved  = [];
+let editId       = null;
+let bFileObj=null, aFileObj=null, bUrl="", aUrl="";
+let pendingTeamId= null;
+let unsubTeam    = null;
+let editingTeamId= null;
+// New team form state
+let ntLeaderFileObj=null, ntLeaderUrl="";
+let ntMembers=[]; // [{name, fileObj, url, previewSrc}]
+let siteSettings = {};
+let pendingLogoFile = null;
+let pendingLogoRemoved = false;
+let teamSearchTerm = "";
+
+function showPage(id){
+  document.getElementById("welcomePage").style.display = id==="welcomePage"?"flex":"none";
+  document.querySelector("header.hdr").style.display = id==="welcomePage"?"none":"block";
+  if(id!=="welcomePage"){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  document.getElementById("logoutBtn").style.display = id==="welcomePage"?"none":"flex";
+}
+showPage("welcomePage");
+function openModal(id){document.getElementById(id).classList.add("on");}
+function closeModal(id){document.getElementById(id).classList.remove("on");}
+["entryOvl","photoOvl","adminOvl","newTeamOvl","teamLoginOvl","leaderUnlockOvl"].forEach(id=>{
+  document.getElementById(id).addEventListener("click",e=>{if(e.target.id===id)closeModal(id);});
+});
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),3200);
+}
+function openLB(src){document.getElementById("lbImg").src=src;document.getElementById("lightbox").classList.add("on");}
+window.closeLB=()=>document.getElementById("lightbox").classList.remove("on");
+
+async function uploadImg(file,type){
+  const el=document.getElementById(type+"Stat");
+  if(el){el.className="up-status uploading";el.textContent="⏳ Uploading...";}
+  try{
+    const fd=new FormData();
+    fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
+    const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
+    const j=await r.json();
+    if(j.secure_url){
+      if(el){el.className="up-status done";el.textContent="📅 Done!";setTimeout(()=>{el.className="up-status";},2500);}
+      return j.secure_url;
+    }
+    throw new Error(j.error?.message||"Upload failed");
+  }catch(e){
+    if(el){el.className="up-status error";el.textContent="❌ "+e.message;}
+    throw e;
+  }
+}
+
+async function uploadImgDirect(file){
+  const fd=new FormData();
+  fd.append("file",file);fd.append("upload_preset",CLOUD_PRESET);fd.append("folder","kaizen_dbl");
+  const r=await fetch(CLOUD_URL,{method:"POST",body:fd});
+  const j=await r.json();
+  if(j.secure_url) return j.secure_url;
+  throw new Error(j.error?.message||"Upload failed");
+}
+
+function showPrev(t,src){
+  document.getElementById(t+"Area").style.display="none";
+  document.getElementById(t+"Prev").style.display="block";
+  document.getElementById(t+"Img").src=src;
+}
+function resetPrev(t){
+  document.getElementById(t+"Area").style.display="flex";
+  document.getElementById(t+"Prev").style.display="none";
+  document.getElementById(t+"Img").src="";
+  document.getElementById(t+"Stat").className="up-status";
+  if(t==="b"){bFileObj=null;bUrl="";}else{aFileObj=null;aUrl="";}
+}
+document.getElementById("bFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;bFileObj=f;
+  const r=new FileReader();r.onload=ev=>showPrev("b",ev.target.result);r.readAsDataURL(f);
+});
+document.getElementById("aFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;aFileObj=f;
+  const r=new FileReader();r.onload=ev=>showPrev("a",ev.target.result);r.readAsDataURL(f);
+});
+document.getElementById("rmB").addEventListener("click",()=>resetPrev("b"));
+document.getElementById("rmA").addEventListener("click",()=>resetPrev("a"));
+
+// ── LIVE CLOCK ──────────────────────────────────────────────────────
+const BN_DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const BN_MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function updateLiveClock(){
+  const now=new Date(),pad=n=>String(n).padStart(2,"0");
+  let h=now.getHours();const ampm=h>=12?"PM":"AM";h=h%12;if(h===0)h=12;
+  const de=document.getElementById("lcDate"),te=document.getElementById("lcTime");
+  if(de)de.textContent=`${BN_DAYS[now.getDay()]}, ${now.getDate()} ${BN_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  if(te)te.textContent=`${pad(h)}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${ampm}`;
+}
+updateLiveClock();setInterval(updateLiveClock,1000);
+
+// ── SITE SETTINGS (HOME WATERMARK LOGO) ─────────────────────────────
+onSnapshot(doc(db,"kaizen_settings","main"), snap=>{
+  siteSettings = snap.exists() ? snap.data() : {};
+  applyHomeWatermark();
+}, err=>{console.error("settings load error:",err);});
+
+function applyHomeWatermark(){
+  const url=siteSettings.logoUrl||"";
+  const hl=document.getElementById("hdrLogoImg");
+  const ww=document.getElementById("wlcWatermark");
+  const side=document.getElementById("wlcSide");
+  if(url){
+    hl.src=url; hl.style.display="block";
+    ww.src=url; side.classList.add("show");
+  }else{
+    hl.style.display="none"; hl.src="";
+    ww.src=""; side.classList.remove("show");
+  }
+}
+
+// ── LOAD TEAMS ──────────────────────────────────────────────────────
+onSnapshot(query(collection(db,"kaizen_teams"),orderBy("createdAt","asc")),snap=>{
+  allTeams=snap.docs.map(d=>({id:d.id,...d.data()}));
+  teamsLoaded=true;
+  renderTeamCards();
+  renderApprovedHome();
+  renderAdminPassList();
+  populateAdminTeamSelect();
+  document.getElementById("loadingCover").style.display="none";
+  // if currently on welcome page, keep it (don't redirect)
+},err=>{
+  console.error("teams load error:",err);
+  document.getElementById("loadingCover").style.display="none";
+  showToast("❌ Failed to load teams: "+err.message);
+});
+
+// APPROVED KAIZEN — all teams realtime
+// NOTE: only where() is used here, orderBy() is omitted because in Firestore
+// if there's no composite index, using where+orderBy together makes the query silently fail
+// and the list never loads — it just keeps showing "Loading". Sorting is now done client-side.
+// On the home page only entries with status === "Complete" are shown.
+onSnapshot(
+  collection(db,"kaizen_entries"),
+  snap=>{
+    allApproved=snap.docs.map(d=>({id:d.id,...d.data()})).filter(e=>e.status==="Complete");
+    allApproved.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    renderApprovedHome();
+  },
+  err=>{console.error("entries error:",err);showToast("❌ Data load error: "+err.message);}
+);
+
+// pending listener removed — approval system no longer needed
+function updateAdminPendingDot(){
+  // pending dot removed — no approval system
+  const dot=document.getElementById("adminPendingDot");
+  if(dot) dot.style.display="none";
+}
+// One-time fix: update old entries that have approved:false
+async function fixOldEntries(){
+  try{
+    const snap=await getDocs(query(collection(db,"kaizen_entries"),where("approved","==",false)));
+    if(snap.size>0){
+      const updates=snap.docs.map(d=>updateDoc(doc(db,"kaizen_entries",d.id),{approved:true}));
+      await Promise.all(updates);
+      console.log(`Fixed ${snap.size} old entries`);
+    }
+  }catch(e){console.log("Fix entries:",e.message);}
+}
+fixOldEntries();
+function renderPendingApprovalList(){
+  // removed — no approval system
+}
+
+// ── RENDER TEAM CARDS ──────────────────────────────────────────────
+function renderTeamCards(){
+  const grid=document.getElementById("teamsGrid");
+  const term=teamSearchTerm.trim().toLowerCase();
+  const filtered=term
+    ? allTeams.filter(t=>(t.name||"").toLowerCase().includes(term)||(t.division||"").toLowerCase().includes(term)||(t.leaderName||"").toLowerCase().includes(term))
+    : allTeams;
+  const countEl=document.getElementById("teamSearchCount");
+  if(countEl){
+    if(term){
+      countEl.style.display="block";
+      countEl.textContent=filtered.length?`🔎 ${filtered.length} team(s) found`:`😕 No team found for "${teamSearchTerm}"`;
+    }else{
+      countEl.style.display="none";
+    }
+  }
+  let h=`<div class="add-team-card" id="addTeamCard"><div class="atc-ico">➕</div><span>Create a new team.</span></div>`;
+  filtered.forEach(t=>{
+    const members=t.members||[];
+    const memberNames=members.slice(0,3).map(m=>m.name).join(", ")+(members.length>3?` +${members.length-3}`:"");
+    const avHtml=t.leaderUrl
+      ?`<img src="${t.leaderUrl}" alt="${t.leaderName||''}" loading="lazy"/>`
+      :``;
+    h+=`<div class="team-card" data-tid="${t.id}">
+      <div class="tc-avatar">${avHtml}</div>
+      <div class="tc-info">
+        <div class="tc-name">${t.name}</div>
+        ${t.division?`<div class="tc-meta">${t.division}</div>`:""}
+        ${t.leaderName?`<div class="tc-leader">👑 ${t.leaderName}</div>`:""}
+        ${memberNames?`<div class="tc-members">👥 ${memberNames}</div>`:""}
+      </div>
+      ${isAdmin?`<div style="display:flex;gap:4px;flex-shrink:0">
+        <button class="btn btn-ghost btn-sm" style="padding:3px 6px" title="Edit" onclick="event.stopPropagation();openEditTeam('${t.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" style="padding:3px 6px" title="Delete" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑</button>
+      </div>`:`<div class="tc-arrow">›</div>`}
+    </div>`;
+  });
+  grid.innerHTML=h;
+  document.getElementById("addTeamCard").addEventListener("click",()=>{
+    resetNewTeamForm();openModal("newTeamOvl");
+  });
+  grid.querySelectorAll(".team-card").forEach(c=>{
+    c.addEventListener("click",()=>handleTeamClick(c.dataset.tid));
+  });
+}
+const teamSrchIn=document.getElementById("teamSearchInput");
+const teamSrchClr=document.getElementById("teamSearchClear");
+if(teamSrchIn)teamSrchIn.addEventListener("input",e=>{
+  teamSearchTerm=e.target.value;
+  if(teamSrchClr)teamSrchClr.style.display=teamSearchTerm?"block":"none";
+  renderTeamCards();
+});
+if(teamSrchClr)teamSrchClr.addEventListener("click",()=>{
+  teamSearchTerm="";
+  if(teamSrchIn)teamSrchIn.value="";
+  teamSrchClr.style.display="none";
+  renderTeamCards();
+});
+
+// ── APPROVED HOME — TEAM WISE ──────────────────────────────────────
+let homeKaizenViewTeamId=null; // null = showing team list, a team's id = showing that team's detail
+function renderApprovedHome(){
+  const wrap=document.getElementById("teamKaizenBlocks");
+  if(!allApproved.length){
+    homeKaizenViewTeamId=null;
+    wrap.innerHTML=`<div class="empty"><div class="eico">📅</div><p>No completed Kaizen yet</p></div>`;
+    return;
+  }
+  // group by teamId
+  const grouped={};
+  allApproved.forEach(e=>{
+    const tid=e.teamId||"unknown";
+    if(!grouped[tid])grouped[tid]=[];
+    grouped[tid].push(e);
+  });
+  if(homeKaizenViewTeamId&&grouped[homeKaizenViewTeamId]){
+    renderHomeTeamDetail(wrap,homeKaizenViewTeamId,grouped[homeKaizenViewTeamId]);
+  }else{
+    homeKaizenViewTeamId=null;
+    renderHomeTeamList(wrap,grouped);
+  }
+}
+let kaizenTeamSearchTerm="";
+function renderHomeTeamList(wrap,grouped){
+  const term=kaizenTeamSearchTerm.trim().toLowerCase();
+  const allTids=Object.keys(grouped);
+  const filteredTids=term
+    ? allTids.filter(tid=>{
+        const team=allTeams.find(t=>t.id===tid);
+        const tname=(team?.name||grouped[tid][0]?.teamName||"").toLowerCase();
+        return tname.includes(term);
+      })
+    : allTids;
+
+  // search count
+  const countEl=document.getElementById("kaizenTeamSearchCount");
+  if(term){
+    countEl.style.display="block";
+    countEl.textContent=filteredTids.length
+      ?`🔎 ${filteredTids.length} team(s) found`
+      :`😕 No team found for "${kaizenTeamSearchTerm}"`;
+  }else{
+    countEl.style.display="none";
+  }
+
+  if(!filteredTids.length){
+    wrap.innerHTML=`<div class="empty" style="padding:32px 20px"><div class="eico">🔍</div><p>No teams found</p></div>`;
+    return;
+  }
+
+  let h=`<div class="home-team-list">`;
+  filteredTids.forEach(tid=>{
+    const items=grouped[tid];
+    const team=allTeams.find(t=>t.id===tid);
+    const tname=team?.name||items[0]?.teamName||"Unknown Team";
+    const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
+    h+=`<div class="htc-card" data-hometid="${tid}">
+      <div class="htc-avatar">${avHtml}</div>
+      <div class="htc-info">
+        <div class="htc-name">${tname}</div>
+        <div class="htc-count-pill">✅ ${items.length} Complete</div>
+      </div>
+      ${isAdmin?`<button class="htc-del-btn" data-ahdelall="${tid}" onclick="event.stopPropagation()">🗑 Delete All</button>`:""}
+      <div class="htc-arrow">›</div>
+    </div>`;
+  });
+  h+=`</div>`;
+  wrap.innerHTML=h;
+  wrap.querySelectorAll("[data-hometid]").forEach(row=>{
+    row.addEventListener("click",()=>{homeKaizenViewTeamId=row.dataset.hometid;renderApprovedHome();});
+  });
+  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
+    b.addEventListener("click",()=>deleteAllTeamKaizen(b.dataset.ahdelall));
+  });
+}
+function renderHomeTeamDetail(wrap,tid,items){
+  const team=allTeams.find(t=>t.id===tid);
+  const tname=team?.name||items[0]?.teamName||"Unknown Team";
+  const avHtml=team?.leaderUrl?`<img src="${team.leaderUrl}" alt="" loading="lazy"/>`:"";
+  const otherTeams=allTeams.filter(t=>t.id!==tid);
+  let h=`<div class="tkb-hdr" style="border-radius:10px 10px 0 0;margin-bottom:0">
+      <button class="btn btn-outline btn-sm" id="homeTeamBackBtn" style="flex-shrink:0">← Back</button>
+      <div class="tkb-avatar">${avHtml}</div>
+      <div class="tkb-name">${tname}</div>
+      <span class="tkb-count">${items.length} Complete</span>
+      ${isAdmin?`<button class="tkb-delall" data-ahdelall="${tid}">🗑 Delete All</button>`:""}
+    </div>
+    <div class="tkb-body open" style="border-radius:0 0 10px 10px">
+      <table><thead><tr>
+        <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Status</th><th>Impact</th><th>Date</th><th>Photos</th>
+        ${isAdmin?"<th>Action</th>":""}
+      </tr></thead><tbody>
+      ${items.map((e,i)=>{
+        const hp=!!(e.bUrl||e.aUrl);
+        return `<tr>
+          <td class="td-no">${i+1}</td>
+          <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,55)+"..."):""}</small></td>
+          <td style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap">${e.leaderName?`👑 ${e.leaderName}`:"-"}</td>
+          <td>${stBadge(getStatus(e))}</td>
+          <td style="font-size:12px">${stars(e.impact)}</td>
+          <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+          <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-ahid="${e.id}">${hp?"📸 ":"📷 None"}</button></td>
+          ${isAdmin?`<td><div style="display:flex;align-items:center;gap:4px">
+            <select class="ah-move-sel" data-ahmove="${e.id}">
+              <option value="">↔ Move</option>
+              ${otherTeams.map(t=>`<option value="${t.id}">${t.name}</option>`).join("")}
+            </select>
+            <button class="ico-btn del" data-ahdel="${e.id}" title="Delete">🗑️</button>
+          </div></td>`:""}
+        </tr>`;
+      }).join("")}
+      </tbody></table>
+    </div>`;
+  wrap.innerHTML=h;
+  document.getElementById("homeTeamBackBtn").addEventListener("click",()=>{homeKaizenViewTeamId=null;renderApprovedHome();});
+  wrap.querySelectorAll("[data-ahid]").forEach(b=>{
+    b.addEventListener("click",()=>viewPhotos(b.dataset.ahid,allApproved));
+  });
+  wrap.querySelectorAll("[data-ahdel]").forEach(b=>{
+    b.addEventListener("click",()=>doDelete(b.dataset.ahdel));
+  });
+  wrap.querySelectorAll("[data-ahdelall]").forEach(b=>{
+    b.addEventListener("click",()=>{homeKaizenViewTeamId=null;deleteAllTeamKaizen(b.dataset.ahdelall);});
+  });
+  wrap.querySelectorAll("[data-ahmove]").forEach(sel=>{
+    sel.addEventListener("click",e=>e.stopPropagation());
+    sel.addEventListener("change",()=>{
+      const newTid=sel.value;
+      if(newTid) moveKaizenToTeam(sel.dataset.ahmove,newTid);
+      sel.value="";
+    });
+  });
+}
+
+document.getElementById("toggleApprovedBtn").addEventListener("click",()=>{
+  const w=document.getElementById("approvedHomeWrap");
+  const btn=document.getElementById("toggleApprovedBtn");
+  if(w.style.display==="none"){w.style.display="block";btn.textContent="🔼 Hide";}
+  else{w.style.display="none";btn.textContent="📋View ";}
+});
+document.getElementById("kaizenTeamSearch").addEventListener("input",e=>{
+  kaizenTeamSearchTerm=e.target.value;
+  document.getElementById("kaizenTeamSearchClear").style.display=kaizenTeamSearchTerm?"block":"none";
+  renderApprovedHome();
+});
+document.getElementById("kaizenTeamSearchClear").addEventListener("click",()=>{
+  kaizenTeamSearchTerm="";
+  document.getElementById("kaizenTeamSearch").value="";
+  document.getElementById("kaizenTeamSearchClear").style.display="none";
+  renderApprovedHome();
+});
+
+// ── WELCOME PAGE LOGIN ───────────────────────────────────────────────
+let teamsLoaded = false;
+function doWelcomeLogin(){
+  const uname = document.getElementById("wlcUser").value.trim();
+  const pass  = document.getElementById("wlcPass").value;
+  const errEl = document.getElementById("wlcErr");
+  const btn   = document.getElementById("wlcLoginBtn");
+  errEl.style.display="none";
+  if(!uname||!pass){errEl.textContent="❌ Please enter both username and password.";errEl.style.display="block";return;}
+
+  // If teams not loaded yet, show loading
+  if(!teamsLoaded && uname.toLowerCase()!=="admin"){
+    btn.disabled=true; btn.textContent="⏳ Loading...";
+    const wait=setInterval(()=>{
+      if(teamsLoaded){clearInterval(wait);btn.disabled=false;btn.textContent="🔓 Login";doWelcomeLogin();}
+    },300);
+    return;
+  }
+
+  // Admin login
+  if(uname.toLowerCase()==="admin" && pass===adminPass){
+    isAdmin=true;
+    document.getElementById("adminBadge").style.display="flex";
+    document.getElementById("adminBtn").style.display="inline-flex";
+    document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
+    document.getElementById("homeCols").style.display="grid";
+    showPage("homePage");
+    renderTeamCards();renderApprovedHome();
+    return;
+  }
+
+  // Team login — username = team name (case-insensitive)
+  const team = allTeams.find(t=>t.name.trim().toLowerCase()===uname.toLowerCase());
+  if(team && pass===team.password){
+    isAdmin=false;
+    document.getElementById("adminBadge").style.display="none";
+    document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+    enterTeam(team);
+    return;
+  }
+
+  // Failed
+  errEl.textContent="❌ Invalid username or password. Please try again.";
+  errEl.style.display="block";
+  document.getElementById("wlcPass").value="";
+}
+document.getElementById("wlcLoginBtn").addEventListener("click",doWelcomeLogin);
+document.getElementById("wlcUser").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("wlcPass").focus();});
+document.getElementById("wlcPass").addEventListener("keydown",e=>{if(e.key==="Enter")doWelcomeLogin();});
+document.getElementById("wlcNewTeamBtn").addEventListener("click",()=>{
+  resetNewTeamForm();openModal("newTeamOvl");
+});
+
+// Logout
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  isAdmin=false;
+  teamUnlocked=false;
+  currentTeam=null;currentTeamId=null;teamEntries=[];
+  document.getElementById("adminBadge").style.display="none";
+  document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+  document.getElementById("adminBtn").style.display="inline-flex";
+  document.getElementById("homeCols").style.display="none";
+  document.getElementById("wlcUser").value="";
+  document.getElementById("wlcPass").value="";
+  document.getElementById("wlcErr").style.display="none";
+  // hide all pages
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  showPage("welcomePage");
+});
+
+// ── TEAM LOGIN ──────────────────────────────────────────────────────
+function handleTeamClick(tid){
+  const team=allTeams.find(t=>t.id===tid);if(!team)return;
+  if(isAdmin){enterTeam(team);}
+  else{
+    pendingTeamId=tid;
+    document.getElementById("teamLoginTitle").textContent=`🔒 ${team.name}`;
+    document.getElementById("teamPassIn").value="";
+    document.getElementById("teamPassErr").style.display="none";
+    openModal("teamLoginOvl");
+  }
+}
+function enterTeam(team){
+  currentTeam=team;currentTeamId=team.id;
+  teamUnlocked=false; // re-entering the team should not keep the previous unlock state
+  document.getElementById("teamNameDisp").textContent=team.name;
+  document.getElementById("teamSubDisp").textContent=team.division||"Kizen Tracker";
+  const ld=document.getElementById("teamLeaderDisp");
+  ld.textContent=team.leaderName?`👑 Leader : ${team.leaderName}`:"";
+  const av=document.getElementById("teamAvatarDisp");
+  if(team.leaderUrl){av.innerHTML=`<img src="${team.leaderUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
+  else{av.textContent="";}
+  renderTeamMembersBar(team.members||[]);
+  document.getElementById("teamTblTitle").textContent=`📋 ${team.name} — Kaizen List`;
+  // Admin button & home cols visibility
+  document.getElementById("adminBtn").style.display = isAdmin?"inline-flex":"none";
+  document.getElementById("homeCols").style.display = isAdmin?"grid":"none";
+  updateLockBadge();
+  showPage("teamPage");
+  subscribeTeamEntries(team.id);
+}
+// ── TEAM LEADER UNLOCK (Edit/Delete/Status permission via leader password) ─
+function updateLockBadge(){
+  const wrap=document.getElementById("teamAvatarWrap");
+  const badge=document.getElementById("teamLockBadge");
+  if(!wrap||!badge)return;
+  if(isAdmin){
+    // In Admin mode all permissions are already available, so no need to show the lock badge
+    wrap.style.display="none";
+    return;
+  }
+  wrap.style.display="block";
+  if(teamUnlocked){
+    badge.textContent="🔓";
+    badge.classList.add("unlocked");
+    wrap.title="Unlocked — Edit/Delete/Status is active. Click again to Lock.";
+  }else{
+    badge.textContent="🔒";
+    badge.classList.remove("unlocked");
+    wrap.title="Unlock Edit/Delete/Status with the Team Leader Password";
+  }
+}
+document.getElementById("teamAvatarWrap").addEventListener("click",()=>{
+  if(isAdmin)return;
+  if(teamUnlocked){
+    // if already unlocked, clicking again will lock it
+    teamUnlocked=false;
+    updateLockBadge();
+    renderTeamTable();
+    showToast("🔒 Locked again — Edit/Delete/Status has been disabled.");
+    return;
+  }
+  document.getElementById("leaderUnlockPass").value="";
+  document.getElementById("leaderUnlockErr").style.display="none";
+  openModal("leaderUnlockOvl");
+});
+function doLeaderUnlock(){
+  if(!currentTeam)return;
+  if(!currentTeam.leaderPassword){
+    document.getElementById("leaderUnlockErr").textContent="⚠️ A Leader Password has not been set for this team yet. Ask the Admin to set it via Edit Team.";
+    document.getElementById("leaderUnlockErr").style.display="block";
+    return;
+  }
+  const val=document.getElementById("leaderUnlockPass").value;
+  if(val && val===currentTeam.leaderPassword){
+    teamUnlocked=true;
+    document.getElementById("leaderUnlockErr").style.display="none";
+    closeModal("leaderUnlockOvl");
+    updateLockBadge();
+    renderTeamTable();
+    showToast("🔓 Unlocked! You can now Edit/Delete/Update Status.");
+  }else{
+    document.getElementById("leaderUnlockErr").textContent="❌ Wrong Password!";
+    document.getElementById("leaderUnlockErr").style.display="block";
+    document.getElementById("leaderUnlockPass").value="";
+  }
+}
+document.getElementById("doLeaderUnlockBtn").addEventListener("click",doLeaderUnlock);
+document.getElementById("leaderUnlockPass").addEventListener("keydown",e=>{if(e.key==="Enter")doLeaderUnlock();});
+document.getElementById("closeLeaderUnlock").addEventListener("click",()=>closeModal("leaderUnlockOvl"));
+document.getElementById("cancelLeaderUnlock").addEventListener("click",()=>closeModal("leaderUnlockOvl"));
+function renderTeamMembersBar(members){
+  const row=document.getElementById("teamMembersDisp");
+  if(!members.length){row.innerHTML="";return;}
+  row.innerHTML=members.map(m=>{
+    const avHtml=m.url?`<img src="${m.url}" alt="" loading="lazy"/>`:`👤`;
+    return `<div class="member-chip">
+      <div class="member-chip-av">${avHtml}</div>
+      <span class="member-chip-name">${m.name}</span>
+    </div>`;
+  }).join("");
+}
+function subscribeTeamEntries(tid){
+  if(unsubTeam)unsubTeam();
+  // NOTE: using where("teamId",...) + orderBy("createdAt",...) together requires a Firestore
+  // composite index; without that index this listener silently fails, and the
+  // Kaizen list never loads any data — it just keeps showing "Loading...". orderBy is removed here
+  // and sorting is done client-side instead, so it works without needing an index.
+  unsubTeam=onSnapshot(
+    query(collection(db,"kaizen_entries"),where("teamId","==",tid)),
+    snap=>{
+      teamEntries=snap.docs.map(d=>({id:d.id,...d.data()}));
+      teamEntries.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      renderTeamTable();updateStats();
+    },
+    err=>{
+      console.error("team entries error:",err);
+      document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">⚠️</div><p style="font-weight:600;margin-bottom:4px">There was a problem loading the data</p><p>${err.message}</p></div>`;
+      showToast("❌ Failed to load Kaizen list: "+err.message);
+    }
+  );
+}
+document.getElementById("doTeamLoginBtn").addEventListener("click",doTeamLogin);
+document.getElementById("teamPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doTeamLogin();});
+function doTeamLogin(){
+  const team=allTeams.find(t=>t.id===pendingTeamId);if(!team)return;
+  if(document.getElementById("teamPassIn").value===team.password){
+    document.getElementById("teamPassErr").style.display="none";
+    closeModal("teamLoginOvl");enterTeam(team);
+  }else{
+    document.getElementById("teamPassErr").style.display="block";
+    document.getElementById("teamPassIn").value="";
+  }
+}
+document.getElementById("closeTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
+document.getElementById("cancelTeamLogin").addEventListener("click",()=>closeModal("teamLoginOvl"));
+
+// ── NEW TEAM FORM ────────────────────────────────────────────────────
+function resetNewTeamForm(){
+  editingTeamId=null;
+  ["ntName","ntPass","ntPass2","ntLeaderName","ntLeaderPass"].forEach(id=>document.getElementById(id).value="");
+  ntLeaderFileObj=null;ntLeaderUrl="";ntMembers=[];
+  document.getElementById("ntLeaderArea").style.display="flex";
+  document.getElementById("ntLeaderPrev").style.display="none";
+  document.getElementById("ntLeaderImg").src="";
+  document.getElementById("ntLeaderStat").className="up-status";
+  document.getElementById("newTeamModalTitle").textContent="➕ Create a new team.";
+  document.getElementById("newTeamInfoBox").textContent="If you create a new team, you will set the password for that team.";
+  document.getElementById("ntPassLbl").innerHTML="Team Password <span>*</span>";
+  document.getElementById("ntPass2Lbl").innerHTML="Confirm password <span>*</span>";
+  document.getElementById("ntPass").placeholder="Set a password for the team.";
+  document.getElementById("ntLeaderPassLbl").innerHTML="Leader Password (Edit/Delete Unlock) <span>*</span>";
+  document.getElementById("ntLeaderPass").placeholder="Only the Leader will know this password";
+  document.getElementById("saveNewTeamBtn").textContent="📅 Create a team";
+  renderMemberListEdit();
+}
+function openEditTeam(tid){
+  const t=allTeams.find(x=>x.id===tid);if(!t)return;
+  resetNewTeamForm();
+  editingTeamId=tid;
+  document.getElementById("ntName").value=t.name||"";
+  document.getElementById("ntLeaderName").value=t.leaderName||"";
+  ntLeaderUrl=t.leaderUrl||"";
+  if(ntLeaderUrl){
+    document.getElementById("ntLeaderArea").style.display="none";
+    document.getElementById("ntLeaderPrev").style.display="block";
+    document.getElementById("ntLeaderImg").src=ntLeaderUrl;
+  }
+  ntMembers=(t.members||[]).map(m=>({name:m.name||"",fileObj:null,url:m.url||"",previewSrc:m.url||""}));
+  renderMemberListEdit();
+  document.getElementById("newTeamModalTitle").textContent="✏️ Edit Team";
+  document.getElementById("newTeamInfoBox").textContent="Leave blank if you don't want to change the password — the old password will remain.";
+  document.getElementById("ntPassLbl").textContent="New Team Password (optional)";
+  document.getElementById("ntPass2Lbl").textContent="Confirm Password (optional)";
+  document.getElementById("ntPass").placeholder="Leave blank if not changing";
+  document.getElementById("ntLeaderPassLbl").textContent="New Leader Password (optional)";
+  document.getElementById("ntLeaderPass").placeholder=t.leaderPassword?"Leave blank if not changing":"Not set yet — type here to set it";
+  document.getElementById("saveNewTeamBtn").textContent="💾 Save Changes";
+  openModal("newTeamOvl");
+}
+window.openEditTeam=openEditTeam;
+async function deleteTeam(tid){
+  const t=allTeams.find(x=>x.id===tid);if(!t)return;
+  if(!confirm(`Are you sure you want to delete the "${t.name}" team?\n\n⚠️ All Kaizen entries for this team will also be permanently deleted.`))return;
+  try{
+    const entrySnap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
+    await Promise.all(entrySnap.docs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
+    await deleteDoc(doc(db,"kaizen_teams",tid));
+    showToast("🗑 Team and all entries deleted");
+    if(currentTeamId===tid){
+      if(unsubTeam){unsubTeam();unsubTeam=null;}
+      currentTeam=null;currentTeamId=null;teamEntries=[];
+      showPage("homePage");
+    }
+  }catch(e){showToast("❌ Failed to delete: "+e.message);}
+}
+window.deleteTeam=deleteTeam;
+document.getElementById("ntLeaderFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;
+  ntLeaderFileObj=f;
+  const r=new FileReader();r.onload=ev=>{
+    document.getElementById("ntLeaderArea").style.display="none";
+    document.getElementById("ntLeaderPrev").style.display="block";
+    document.getElementById("ntLeaderImg").src=ev.target.result;
+  };r.readAsDataURL(f);
+});
+document.getElementById("rmLeader").addEventListener("click",()=>{
+  ntLeaderFileObj=null;ntLeaderUrl="";
+  document.getElementById("ntLeaderArea").style.display="flex";
+  document.getElementById("ntLeaderPrev").style.display="none";
+  document.getElementById("ntLeaderImg").src="";
+});
+document.getElementById("addMemberBtn").addEventListener("click",()=>{
+  ntMembers.push({name:"",fileObj:null,url:"",previewSrc:""});
+  renderMemberListEdit();
+});
+function renderMemberListEdit(){
+  const list=document.getElementById("ntMemberList");
+  if(!ntMembers.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">No members added yet</div>`;return;}
+  list.innerHTML=ntMembers.map((m,i)=>`
+    <div class="member-item" data-mi="${i}">
+      <div class="member-av-wrap" title="Add photo">
+        ${m.previewSrc?`<img src="${m.previewSrc}" alt=""/>`:`👤`}
+        <input type="file" accept="image/*" class="member-file-in" data-mi="${i}"/>
+      </div>
+      <input class="member-name-in" placeholder="Member name..." value="${m.name}" data-mi="${i}"/>
+      <button class="member-del-btn" data-mi="${i}">✕</button>
+    </div>
+  `).join("");
+  list.querySelectorAll(".member-name-in").forEach(inp=>{
+    inp.addEventListener("input",e=>{ntMembers[+e.target.dataset.mi].name=e.target.value;});
+  });
+  list.querySelectorAll(".member-file-in").forEach(inp=>{
+    inp.addEventListener("change",e=>{
+      const f=e.target.files[0];if(!f)return;
+      const idx=+e.target.dataset.mi;
+      ntMembers[idx].fileObj=f;
+      const r=new FileReader();r.onload=ev=>{ntMembers[idx].previewSrc=ev.target.result;renderMemberListEdit();};
+      r.readAsDataURL(f);
+    });
+  });
+  list.querySelectorAll(".member-del-btn").forEach(btn=>{
+    btn.addEventListener("click",e=>{ntMembers.splice(+e.target.dataset.mi,1);renderMemberListEdit();});
+  });
+}
+
+document.getElementById("saveNewTeamBtn").addEventListener("click",async()=>{
+  const name=document.getElementById("ntName").value.trim();
+  const p1=document.getElementById("ntPass").value;
+  const p2=document.getElementById("ntPass2").value;
+  const leaderName=document.getElementById("ntLeaderName").value.trim();
+  const leaderPass=document.getElementById("ntLeaderPass").value;
+  if(!name){showToast("⚠️ Please enter a team name");return;}
+  if(!leaderName){showToast("⚠️ Enter the leader's name");return;}
+  if(!editingTeamId && !p1){showToast("⚠️ Please enter a Password");return;}
+  if(!editingTeamId && !leaderPass){showToast("⚠️ Please enter a Leader Password");return;}
+  if(p1!==p2){showToast("❌ Passwords do not match!");return;}
+  const btn=document.getElementById("saveNewTeamBtn");
+  btn.disabled=true;btn.textContent=editingTeamId?"⏳ Saving...":"⏳ Creating...";
+  try{
+    // upload leader photo (uploads if a new photo is given, otherwise keeps the old url/blank)
+    let leaderUrl=ntLeaderUrl;
+    if(ntLeaderFileObj){
+      showToast("⏳ Uploading leader's photo...");
+      leaderUrl=await uploadImgDirect(ntLeaderFileObj);
+    }
+    // upload member photos (uses the old url if there's no new photo)
+    const membersData=[];
+    for(const m of ntMembers){
+      if(!m.name.trim())continue;
+      let mUrl=m.url||"";
+      if(m.fileObj){mUrl=await uploadImgDirect(m.fileObj);}
+      membersData.push({name:m.name.trim(),url:mUrl});
+    }
+    if(editingTeamId){
+      const updateData={name,leaderName,leaderUrl,members:membersData};
+      if(p1)updateData.password=p1;
+      if(leaderPass)updateData.leaderPassword=leaderPass;
+      await updateDoc(doc(db,"kaizen_teams",editingTeamId),updateData);
+      showToast("📅 Team updated!");
+      if(currentTeamId===editingTeamId){
+        currentTeam={...currentTeam,...updateData};
+        document.getElementById("teamLeaderDisp").textContent=leaderName?`👑 Leader: ${leaderName}`:"";
+        renderTeamMembersBar(membersData);
+      }
+    }else{
+      const newRef = await addDoc(collection(db,"kaizen_teams"),{
+        name,password:p1,
+        icon:"",color:"#2E86C1",
+        leaderName,leaderUrl,leaderPassword:leaderPass,
+        members:membersData,
+        createdAt:serverTimestamp()
+      });
+      showToast("📅 New team created! Logging in...");
+      closeModal("newTeamOvl");
+      resetNewTeamForm();
+      // auto-login into the newly created team
+      const waitForTeam=setInterval(()=>{
+        const t=allTeams.find(x=>x.id===newRef.id);
+        if(t){clearInterval(waitForTeam);isAdmin=false;enterTeam(t);}
+      },300);
+      btn.disabled=false;btn.textContent="📅 Create a team";
+      return;
+    }
+    closeModal("newTeamOvl");
+    resetNewTeamForm();
+  }catch(e){showToast("❌ "+e.message);}
+  btn.disabled=false;btn.textContent=editingTeamId?"💾 Save Changes":"📅 Create a team";
+});
+document.getElementById("closeNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
+document.getElementById("cancelNewTeam").addEventListener("click",()=>closeModal("newTeamOvl"));
+
+// ── KAIZEN SAVE ──────────────────────────────────────────────────────
+document.getElementById("newKaizenBtn").addEventListener("click",openNewEntry);
+document.getElementById("saveBtn").addEventListener("click",doSave);
+document.getElementById("cancelEntry").addEventListener("click",()=>closeModal("entryOvl"));
+document.getElementById("closeEntry").addEventListener("click",()=>closeModal("entryOvl"));
+
+function openNewEntry(){
+  editId=null;bFileObj=null;aFileObj=null;bUrl="";aUrl="";
+  document.getElementById("entryTitle").textContent="New Kaizen  Entry";
+  ["fTitle","fProb","fSol","fBen","bCap","aCap"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fDate").value=new Date().toISOString().split("T")[0];
+  document.getElementById("fLeaderName").value=currentTeam?.leaderName||"";
+  document.getElementById("fImpact").value="3";
+  document.getElementById("bStat").className="up-status";
+  document.getElementById("aStat").className="up-status";
+  // populate Proposed By dropdown with current team members
+  const pbSel=document.getElementById("fProposedBy");
+  pbSel.innerHTML=`<option value="">— Select Member —</option>`;
+  if(currentTeam){
+    const members=currentTeam.members||[];
+    if(currentTeam.leaderName) pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
+    members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
+  }
+  resetPrev("b");resetPrev("a");
+  openModal("entryOvl");
+}
+
+async function doSave(){
+  const title=document.getElementById("fTitle").value.trim();
+  if(!title){showToast("⚠️ Please enter a title");return;}
+  const leaderName=document.getElementById("fLeaderName").value.trim();
+  if(!leaderName){showToast("⚠️ Please enter the team leader's name");return;}
+  const btn=document.getElementById("saveBtn");
+  btn.disabled=true;btn.textContent="⏳ Saving...";
+  try{
+    let finalB=bUrl,finalA=aUrl;
+    if(bFileObj)finalB=await uploadImg(bFileObj,"b");
+    if(aFileObj)finalA=await uploadImg(aFileObj,"a");
+    const tid=currentTeamId;
+    const teamObj=allTeams.find(t=>t.id===tid);
+    // There's no Status field in this form — a new Entry's default status is "Planned", and editing keeps the previous status unchanged
+    // (status is changed from the dropdown in the team's Kaizen List, not from this form)
+    const existing=editId?teamEntries.find(x=>x.id===editId):null;
+    const data={
+      title,
+      date:document.getElementById("fDate").value,
+      status:existing?getStatus(existing):"Planned",
+      leaderName,
+      impact:document.getElementById("fImpact").value,
+      problem:document.getElementById("fProb").value.trim(),
+      solution:document.getElementById("fSol").value.trim(),
+      benefit:document.getElementById("fBen").value.trim(),
+      bCap:document.getElementById("bCap").value.trim(),
+      aCap:document.getElementById("aCap").value.trim(),
+      bUrl:finalB,aUrl:finalA,
+      teamId:tid,
+      teamName:teamObj?.name||"",
+      proposedBy:document.getElementById("fProposedBy").value||"",
+      approved:true,
+    };
+    if(editId){
+      await updateDoc(doc(db,"kaizen_entries",editId),{...data,updatedAt:serverTimestamp()});
+      showToast("📅 Updated!");
+    }else{
+      await addDoc(collection(db,"kaizen_entries"),{...data,createdAt:serverTimestamp()});
+      showToast(isAdmin?"📅 Kaizen added!":"📅 Entry added!");
+    }
+    closeModal("entryOvl");
+  }catch(e){showToast("❌ "+e.message);}
+  btn.disabled=false;btn.textContent="💾 Save";
+}
+
+// ── RENDER TEAM TABLE ─────────────────────────────────────────────
+function renderTeamTable(){
+  const srchEl=document.getElementById("srch");
+  const fsEl=document.getElementById("fStatus");
+  const srch=srchEl?srchEl.value.toLowerCase():"";
+  const fs=fsEl?fsEl.value:"";
+  const list=teamEntries.filter(e=>{
+    const ms=!srch||(e.title||"").toLowerCase().includes(srch)||(e.problem||"").toLowerCase().includes(srch);
+    return ms&&(!fs||getStatus(e)===fs);
+  });
+  document.getElementById("tblCount").textContent=`${list.length} Entries`;
+  if(!list.length){
+    document.getElementById("tblWrap").innerHTML=`<div class="empty"><div class="eico">🗂️</div><p style="font-weight:600;margin-bottom:4px">No entries yet</p><p>Click the + New Kaizen button</p></div>`;
+    return;
+  }
+  const canEdit = isAdmin||teamUnlocked;
+  let h=`<table><thead><tr>
+    <th>No.</th><th>Kaizen Point</th><th>👑 Leader</th><th>Proposed By</th><th>Status</th><th>Impact</th>
+    <th>Date</th><th>Photos</th>
+    ${canEdit?"<th>Action</th>":""}
+  </tr></thead><tbody>`;
+  list.forEach((e,i)=>{
+    const hp=!!(e.bUrl||e.aUrl);
+    const st=getStatus(e);
+    h+=`<tr>
+      <td class="td-no">${i+1}</td>
+      <td class="td-title">${e.title||"-"}<small>${e.problem?(e.problem.substring(0,50)+"..."):""}</small></td>
+      <td style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap">${e.leaderName?`👑 ${e.leaderName}`:"-"}</td>
+      <td style="font-size:12px;font-weight:600;color:var(--purple)">${e.proposedBy?`💡 ${e.proposedBy}`:"-"}</td>
+      <td>
+        <select class="flt st-sel" data-stid="${e.id}" style="font-size:11px;padding:4px 6px" ${canEdit?"":"disabled title=\"🔒 Unlock with the Leader Password to change Edit/Status\""}>
+          <option value="Planned" ${st==="Planned"?"selected":""}>📅 Planned</option>
+          <option value="In Progress" ${st==="In Progress"?"selected":""}>⏳ In Progress</option>
+          <option value="Complete" ${st==="Complete"?"selected":""}>✅ Complete</option>
+        </select>
+      </td>
+      <td style="font-size:12px">${stars(e.impact)}</td>
+      <td style="color:var(--muted);font-size:12px">${e.date||"-"}</td>
+      <td><button class="pic-btn ${hp?"has-pic":"no-pic"}" data-pid="${e.id}">${hp?"📸 View":"📷 None"}</button></td>
+      ${canEdit?`<td><div class="act-btns">
+        <button class="ico-btn edit" data-eid="${e.id}" title="Edit">✏️</button>
+        <button class="ico-btn del" data-did="${e.id}" title="Delete">🗑️</button>
+      </div></td>`:""}
+    </tr>`;
+  });
+  h+="</tbody></table>";
+  document.getElementById("tblWrap").innerHTML=h;
+  document.getElementById("tblWrap").querySelectorAll("[data-pid]").forEach(b=>b.addEventListener("click",()=>viewPhotos(b.dataset.pid,teamEntries)));
+  document.getElementById("tblWrap").querySelectorAll("[data-eid]").forEach(b=>b.addEventListener("click",()=>doEdit(b.dataset.eid)));
+  document.getElementById("tblWrap").querySelectorAll("[data-did]").forEach(b=>b.addEventListener("click",()=>doDelete(b.dataset.did)));
+  document.getElementById("tblWrap").querySelectorAll("[data-stid]").forEach(sel=>{
+    sel.addEventListener("change",()=>{
+      if(!(isAdmin||teamUnlocked)){
+        showToast("⚠️ Unlock with the Team Leader Password to change Status");
+        renderTeamTable();
+        return;
+      }
+      updateEntryStatus(sel.dataset.stid,sel.value);
+    });
+  });
+  const pb=document.getElementById("pendingBadgeDisp");
+  if(pb){if(pending>0&&isAdmin){pb.style.display="flex";pb.textContent=`⏳ ${pending} Pending`;}
+  else pb.style.display="none";}
+}
+
+async function updateEntryStatus(id,newStatus){
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{status:newStatus,updatedAt:serverTimestamp()});
+    showToast(`✅ Status updated: ${newStatus}`);
+  }catch(e){showToast("❌ "+e.message);}
+}
+function updateStats(){
+  const s=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  s("sTotal",teamEntries.length);
+  s("sDone",teamEntries.filter(x=>getStatus(x)==="Planned").length);
+  s("sPending",teamEntries.filter(x=>getStatus(x)==="In Progress").length);
+  s("sCompleteTotal",teamEntries.filter(x=>getStatus(x)==="Complete").length);
+  s("sPic",teamEntries.filter(x=>x.bUrl||x.aUrl).length);
+}
+
+// ── APPROVE ─────────────────────────────────────────────────────────
+async function approveKaizen(id){
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{approved:true,approvedAt:serverTimestamp()});
+    showToast("📅 Kaizen Approved! It will appear on the home page.");
+  }catch(e){showToast("❌ "+e.message);}
+}
+
+// ── DELETE / EDIT ─────────────────────────────────────────────────
+async function doDelete(id){
+  if(!(isAdmin||teamUnlocked)){showToast("⚠️ Unlock with the Team Leader Password to Edit/Delete");return;}
+  if(!confirm("Are you sure you want to delete this?"))return;
+  try{await deleteDoc(doc(db,"kaizen_entries",id));showToast("🗑 Deleted successfully");}
+  catch(e){showToast("❌ "+e.message);}
+}
+
+// ── MOVE KAIZEN TO ANOTHER TEAM (admin only, from home screen) ─────
+async function moveKaizenToTeam(id,newTeamId){
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  const team=allTeams.find(t=>t.id===newTeamId);
+  if(!team){showToast("❌ Team not found");return;}
+  if(!confirm(`Move this Kaizen to "${team.name}" team?`))return;
+  try{
+    await updateDoc(doc(db,"kaizen_entries",id),{teamId:newTeamId,teamName:team.name});
+    showToast(`📅 Moved to "${team.name}" team!`);
+  }catch(e){showToast("❌ "+e.message);}
+}
+
+// ── DELETE ALL KAIZEN OF A TEAM (or unassigned/unknown entries), admin only ─
+async function deleteAllTeamKaizen(tid){
+  if(!isAdmin){showToast("⚠️ Please enable Admin mode");return;}
+  const team=allTeams.find(t=>t.id===tid);
+  const tname=team?.name||"Unknown Team";
+  if(!confirm(`⚠️ All Kaizen entries for "${tname}" will be permanently deleted. This cannot be undone. Confirm?`))return;
+  try{
+    showToast("⏳ Deleting...");
+    let targetDocs=[];
+    if(tid==="unknown"){
+      const validIds=new Set(allTeams.map(t=>t.id));
+      const all=await getDocs(collection(db,"kaizen_entries"));
+      targetDocs=all.docs.filter(d=>{const data=d.data();return !data.teamId||!validIds.has(data.teamId);});
+    }else{
+      const snap=await getDocs(query(collection(db,"kaizen_entries"),where("teamId","==",tid)));
+      targetDocs=snap.docs;
+    }
+    await Promise.all(targetDocs.map(d=>deleteDoc(doc(db,"kaizen_entries",d.id))));
+    showToast(`🗑 ${targetDocs.length} entries deleted`);
+    if(currentTeamId===tid) renderTeamTable();
+  }catch(e){showToast("❌ Failed to delete: "+e.message);}
+}
+function doEdit(id){
+  if(!(isAdmin||teamUnlocked)){showToast("⚠️ Unlock with the Team Leader Password to Edit");return;}
+  const e=teamEntries.find(x=>x.id===id);if(!e)return;
+  editId=id;bFileObj=null;aFileObj=null;bUrl=e.bUrl||"";aUrl=e.aUrl||"";
+  document.getElementById("entryTitle").textContent="✏️ Edit Entry";
+  document.getElementById("fTitle").value=e.title||"";
+  document.getElementById("fDate").value=e.date||"";
+  document.getElementById("fLeaderName").value=e.leaderName||currentTeam?.leaderName||"";
+  document.getElementById("fImpact").value=e.impact||"3";
+  document.getElementById("fProb").value=e.problem||"";
+  document.getElementById("fSol").value=e.solution||"";
+  document.getElementById("fBen").value=e.benefit||"";
+  document.getElementById("bCap").value=e.bCap||"";
+  document.getElementById("aCap").value=e.aCap||"";
+  // restore proposedBy
+  const pbSel=document.getElementById("fProposedBy");
+  pbSel.innerHTML=`<option value="">— Select Member —</option>`;
+  if(currentTeam){
+    const members=currentTeam.members||[];
+    if(currentTeam.leaderName) pbSel.innerHTML+=`<option value="${currentTeam.leaderName}">👑 ${currentTeam.leaderName} (Leader)</option>`;
+    members.forEach(m=>{ if(m.name) pbSel.innerHTML+=`<option value="${m.name}">👤 ${m.name}</option>`; });
+  }
+  pbSel.value=e.proposedBy||"";
+  if(e.bUrl)showPrev("b",e.bUrl);else resetPrev("b");
+  if(e.aUrl)showPrev("a",e.aUrl);else resetPrev("a");
+  openModal("entryOvl");
+}
+
+// ── PHOTO VIEW ───────────────────────────────────────────────────────
+function viewPhotos(id,list){
+  const e=list.find(x=>x.id===id);if(!e)return;
+  document.getElementById("photoTitle").textContent=e.title||"Photos";
+  const mkI=(url,lb)=>url
+    ?`<img src="${url}" alt="${lb}" style="width:100%;height:240px;object-fit:contain;background:#F8FAFC;display:block;cursor:zoom-in" onclick="openLB('${url}')">`
+    :`<div class="no-img"><span style="font-size:32px">${lb==="Before"?"📷":"✨"}</span><span>No image</span></div>`;
+  document.getElementById("pBefore").innerHTML=mkI(e.bUrl,"Before");
+  document.getElementById("pAfter").innerHTML=mkI(e.aUrl,"After");
+  document.getElementById("pBCap").textContent=e.bCap||"No description";
+  document.getElementById("pACap").textContent=e.aCap||"No description";
+  const is={5:"⭐⭐⭐⭐⭐ Critical",4:"⭐⭐⭐⭐ High",3:"⭐⭐⭐ Medium",2:"⭐⭐ Low"};
+  document.getElementById("detRows").innerHTML=`
+    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:8px">Details</div>
+    ${dr("Team",e.teamName||"-")}
+    ${dr("Date",e.date||"-")}
+    ${e.proposedBy?dr("Proposed By",`💡 ${e.proposedBy}`):""}
+    ${dr("Status",stBadge(getStatus(e)))}
+    ${dr("Impact",is[e.impact]||"-")}
+    ${e.problem?dr("Problem",e.problem):""}
+    ${e.solution?dr("Solution",e.solution):""}
+    ${e.benefit?dr("Benefit",e.benefit):""}
+  `;
+  openModal("photoOvl");
+}
+function dr(k,v){return`<div class="det-row"><div class="det-k">${k}</div><div style="font-size:13px;color:var(--text)">${v}</div></div>`;}
+window.openLB=openLB;
+document.getElementById("closePhoto").addEventListener("click",()=>closeModal("photoOvl"));
+document.getElementById("closePhoto2").addEventListener("click",()=>closeModal("photoOvl"));
+
+// ── ADMIN ─────────────────────────────────────────────────────────
+function renderAdminPassList(){
+  const list=document.getElementById("teamPassList");
+  if(!allTeams.length){list.innerHTML=`<div style="font-size:12px;color:var(--muted)">No teams yet</div>`;return;}
+  list.innerHTML=allTeams.map(t=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border);gap:8px">
+      <div style="min-width:0">
+        <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.name}</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.division||""}${t.leaderName?" · 👤 "+t.leaderName:""}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <code style="font-size:12px;background:var(--gold-lt);color:var(--gold);padding:3px 8px;border-radius:6px" title="Team Password">${t.password}</code>
+        <code style="font-size:12px;background:#E0F2FE;color:#0369A1;padding:3px 8px;border-radius:6px" title="Leader Password">${t.leaderPassword?"👑 "+t.leaderPassword:"👑 ❌ Not set"}</code>
+        <button class="btn btn-ghost btn-sm" style="padding:5px 8px" title="Edit team" onclick="openEditTeam('${t.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" style="padding:5px 8px" title="Delete team" onclick="deleteTeam('${t.id}')">🗑</button>
+      </div>
+    </div>
+  `).join("");
+}
+function populateAdminTeamSelect(){
+  // fAdminTeam field removed — no longer needed
+}
+document.getElementById("adminBtn").addEventListener("click",()=>{
+  document.getElementById("adminPassIn").value="";
+  document.getElementById("adminPassErr").style.display="none";
+  if(isAdmin){
+    document.getElementById("adminLoginSec").style.display="none";
+    document.getElementById("adminLoggedSec").style.display="block";
+    document.getElementById("adminActBtn").textContent="💾 Save Settings";
+    renderPendingApprovalList();
+    populateAdminLogoPreview();
+  }else{
+    document.getElementById("adminLoginSec").style.display="block";
+    document.getElementById("adminLoggedSec").style.display="none";
+    document.getElementById("adminActBtn").textContent="Login";
+  }
+  openModal("adminOvl");
+});
+document.getElementById("adminActBtn").addEventListener("click",()=>{
+  if(isAdmin)saveAdminSettings();else doAdminLogin();
+});
+document.getElementById("adminPassIn").addEventListener("keydown",e=>{if(e.key==="Enter")doAdminLogin();});
+function doAdminLogin(){
+  if(document.getElementById("adminPassIn").value===adminPass){
+    isAdmin=true;
+    document.getElementById("adminPassErr").style.display="none";
+    document.getElementById("adminLoginSec").style.display="none";
+    document.getElementById("adminLoggedSec").style.display="block";
+    document.getElementById("adminActBtn").textContent="💾 Save Settings";
+    document.getElementById("adminBadge").style.display="flex";
+    document.getElementById("adminBtn").innerHTML="🔓 <span>Admin</span>";
+    renderAdminPassList();
+    renderTeamCards();
+    renderPendingApprovalList();
+    renderApprovedHome();
+    updateAdminPendingDot();
+    populateAdminLogoPreview();
+    if(currentTeam)renderTeamTable();
+  }else{
+    document.getElementById("adminPassErr").style.display="block";
+    document.getElementById("adminPassIn").value="";
+  }
+}
+
+// ── HOME WATERMARK LOGO MANAGEMENT ──────────────────────────────────
+function populateAdminLogoPreview(){
+  pendingLogoFile=null; pendingLogoRemoved=false;
+  const prev=document.getElementById("adminLogoPrev");
+  const rmBtn=document.getElementById("removeLogoBtn");
+  if(siteSettings.logoUrl){
+    prev.src=siteSettings.logoUrl; prev.style.display="block";
+    rmBtn.style.display="inline-flex";
+  }else{
+    prev.src=""; prev.style.display="none";
+    rmBtn.style.display="none";
+  }
+}
+document.getElementById("adminLogoFile").addEventListener("change",e=>{
+  const f=e.target.files[0]; if(!f) return;
+  pendingLogoFile=f; pendingLogoRemoved=false;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById("adminLogoPrev").src=ev.target.result;
+    document.getElementById("adminLogoPrev").style.display="block";
+    document.getElementById("removeLogoBtn").style.display="inline-flex";
+  };
+  r.readAsDataURL(f);
+});
+document.getElementById("removeLogoBtn").addEventListener("click",()=>{
+  pendingLogoFile=null; pendingLogoRemoved=true;
+  document.getElementById("adminLogoPrev").src="";
+  document.getElementById("adminLogoPrev").style.display="none";
+  document.getElementById("removeLogoBtn").style.display="none";
+});
+
+async function saveAdminSettings(){
+  const btn=document.getElementById("adminActBtn");
+  const p=document.getElementById("newAdminPass").value;
+  if(p){adminPass=p;document.getElementById("newAdminPass").value="";}
+  btn.disabled=true; btn.textContent="⏳ Saving...";
+  try{
+    if(pendingLogoFile){
+      const url=await uploadImgDirect(pendingLogoFile);
+      await setDoc(doc(db,"kaizen_settings","main"),{logoUrl:url},{merge:true});
+    }else if(pendingLogoRemoved){
+      await setDoc(doc(db,"kaizen_settings","main"),{logoUrl:""},{merge:true});
+    }
+    pendingLogoFile=null; pendingLogoRemoved=false;
+    showToast("📅 Settings saved");
+    closeModal("adminOvl");
+  }catch(e){
+    showToast("❌ "+e.message);
+  }
+  btn.disabled=false; btn.textContent="💾 Save Settings";
+}
+document.getElementById("adminLogoutBtn").addEventListener("click",()=>{
+  isAdmin=false;
+  teamUnlocked=false;
+  document.getElementById("adminBadge").style.display="none";
+  document.getElementById("adminBtn").innerHTML="🔒 <span>Admin</span>";
+  document.getElementById("adminLoginSec").style.display="block";
+  document.getElementById("adminLoggedSec").style.display="none";
+  document.getElementById("adminActBtn").textContent="Login";
+  if(currentTeam)renderTeamTable();
+  renderTeamCards();
+  renderApprovedHome();
+  updateAdminPendingDot();
+  closeModal("adminOvl");
+  // go back to welcome page on admin logout
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  currentTeam=null;currentTeamId=null;teamEntries=[];
+  document.getElementById("homeCols").style.display="none";
+  document.getElementById("wlcUser").value="";
+  document.getElementById("wlcPass").value="";
+  document.getElementById("wlcErr").style.display="none";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  showPage("welcomePage");
+  showToast("🔒 Logged out");
+});
+document.getElementById("closeAdmin").addEventListener("click",()=>closeModal("adminOvl"));
+document.getElementById("cancelAdmin").addEventListener("click",()=>closeModal("adminOvl"));
+
+// ── EXPORT (Excel .xlsx with embedded photos) ───────────────────────
+async function fetchImageForExcel(url,maxW=260,maxH=190){
+  const resp=await fetch(url);
+  if(!resp.ok) throw new Error("HTTP "+resp.status);
+  const blob=await resp.blob();
+  const bitmap=await createImageBitmap(blob);
+  const scale=Math.min(maxW/bitmap.width,maxH/bitmap.height);
+  const cw=Math.max(1,Math.round(bitmap.width*scale));
+  const ch=Math.max(1,Math.round(bitmap.height*scale));
+  const canvas=document.createElement("canvas");
+  canvas.width=cw;canvas.height=ch;
+  canvas.getContext("2d").drawImage(bitmap,0,0,cw,ch);
+  const outBlob=await new Promise(res=>canvas.toBlob(res,"image/jpeg",0.88));
+  const buffer=await outBlob.arrayBuffer();
+  return {buffer,width:cw,height:ch};
+}
+
+document.getElementById("teamExportBtn").addEventListener("click",async()=>{
+  if(typeof ExcelJS==="undefined"){showToast("⚠️ Excel library failed to load. Check your internet connection.");return;}
+  if(!currentTeam){showToast("⚠️ No team selected");return;}
+  if(!teamEntries.length){showToast("⚠️ No Kaizen data to export");return;}
+
+  const btn=document.getElementById("teamExportBtn");
+  const origLabel=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML="⏳ Exporting...";
+  showToast("⏳ Preparing Excel export, please wait...");
+
+  try{
+    const wb=new ExcelJS.Workbook();
+    wb.creator="Kizen Tracker";
+    wb.created=new Date();
+    const ws=wb.addWorksheet("Kaizen List",{views:[{state:"frozen",ySplit:8}]});
+
+    const colDefs=[
+      {header:"No.",width:6},
+      {header:"Kaizen Title",width:24},
+      {header:"Problem",width:32},
+      {header:"Solution",width:32},
+      {header:"Benefit",width:28},
+      {header:"Proposed By",width:16},
+      {header:"Leader",width:16},
+      {header:"Status",width:14},
+      {header:"Impact",width:18},
+      {header:"Date",width:13},
+      {header:"Approved",width:11},
+      {header:"Before Photo",width:38},
+      {header:"After Photo",width:38},
+    ];
+    const totalCols=colDefs.length;
+    colDefs.forEach((c,i)=>{ws.getColumn(i+1).width=c.width;});
+
+    // ── Banner row ──
+    ws.mergeCells(1,1,1,totalCols);
+    const banner=ws.getCell(1,1);
+    banner.value="📋 KAIZEN IMPROVEMENT REPORT";
+    banner.font={bold:true,size:18,color:{argb:"FFFFFFFF"}};
+    banner.alignment={horizontal:"center",vertical:"middle"};
+    banner.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF0D1B2A"}};
+    ws.getRow(1).height=32;
+
+    // ── Team / Leader / Members info rows ──
+    function infoRow(rowNum,label,value){
+      ws.mergeCells(rowNum,1,rowNum,totalCols);
+      const c=ws.getCell(rowNum,1);
+      c.value=`${label}:  ${value}`;
+      c.font={bold:true,size:12,color:{argb:"FF0D1B2A"}};
+      c.alignment={horizontal:"left",vertical:"middle"};
+      c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF5F0E6"}};
+      ws.getRow(rowNum).height=20;
+    }
+    const memberNames=(currentTeam.members||[]).map(m=>m.name).filter(Boolean).join(", ")||"-";
+    infoRow(2,"Team",currentTeam.name||"-");
+    infoRow(3,"Division",currentTeam.division||"-");
+    infoRow(4,"Team Leader",currentTeam.leaderName?`👑 ${currentTeam.leaderName}`:"-");
+    infoRow(5,"Team Members",memberNames);
+    infoRow(6,"Export Date",new Date().toLocaleString());
+    // row 7 left blank as a visual spacer
+
+    // ── Table header row ──
+    const headerRowNum=8;
+    const headerRow=ws.getRow(headerRowNum);
+    colDefs.forEach((c,i)=>{
+      const cell=headerRow.getCell(i+1);
+      cell.value=c.header;
+      cell.font={bold:true,size:11,color:{argb:"FFFFFFFF"}};
+      cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+      cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFB08D57"}};
+      cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}};
+    });
+    headerRow.height=22;
+
+    const impactLabels={1:"⭐ Very Low",2:"⭐⭐ Low",3:"⭐⭐⭐ Medium",4:"⭐⭐⭐⭐ High",5:"⭐⭐⭐⭐⭐ Critical"};
+    const statusEmoji={"Planned":"📅 Planned","In Progress":"⏳ In Progress","Complete":"✅ Complete"};
+    const thinBorder={top:{style:"thin",color:{argb:"FFDDDDDD"}},left:{style:"thin",color:{argb:"FFDDDDDD"}},bottom:{style:"thin",color:{argb:"FFDDDDDD"}},right:{style:"thin",color:{argb:"FFDDDDDD"}}};
+
+    const dataStartRow=headerRowNum+1;
+    for(let i=0;i<teamEntries.length;i++){
+      const e=teamEntries[i];
+      const rowNum=dataStartRow+i;
+      const st=getStatus(e);
+      const hasB=!!e.bUrl, hasA=!!e.aUrl;
+      const rowHeight=(hasB||hasA)?150:Math.max(40,Math.min(120,((e.problem||"").length+(e.solution||"").length)/3));
+      const row=ws.getRow(rowNum);
+      row.height=rowHeight;
+
+      const values=[i+1,e.title||"-",e.problem||"-",e.solution||"-",e.benefit||"-",
+        e.proposedBy||"-",e.leaderName||"-",statusEmoji[st]||st,impactLabels[e.impact]||(e.impact||"-"),
+        e.date||"-",e.approved?"Yes":"No","",""];
+      values.forEach((v,ci)=>{
+        const cell=row.getCell(ci+1);
+        cell.value=v;
+        cell.alignment={vertical:"top",horizontal:(ci===0?"center":"left"),wrapText:[1,2,3,4].includes(ci)};
+        cell.font={size:10};
+        cell.border=thinBorder;
+      });
+      row.getCell(1).alignment={vertical:"middle",horizontal:"center"};
+
+      if((i+1)%5===0||i===teamEntries.length-1){
+        showToast(`⏳ Exporting photos... (${i+1}/${teamEntries.length})`);
+      }
+
+      if(hasB){
+        try{
+          const img=await fetchImageForExcel(e.bUrl);
+          const imgId=wb.addImage({buffer:img.buffer,extension:"jpeg"});
+          ws.addImage(imgId,{tl:{col:11.05,row:rowNum-1+0.05},ext:{width:img.width,height:img.height}});
+        }catch(err){
+          row.getCell(12).value="(photo unavailable)";
+        }
+      }
+      if(hasA){
+        try{
+          const img=await fetchImageForExcel(e.aUrl);
+          const imgId=wb.addImage({buffer:img.buffer,extension:"jpeg"});
+          ws.addImage(imgId,{tl:{col:12.05,row:rowNum-1+0.05},ext:{width:img.width,height:img.height}});
+        }catch(err){
+          row.getCell(13).value="(photo unavailable)";
+        }
+      }
+    }
+
+    const buffer=await wb.xlsx.writeBuffer();
+    const blob=new Blob([buffer],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+    const a=document.createElement("a");
+    const safeName=(currentTeam.name||"Export").replace(/[^a-zA-Z0-9_\- ]/g,"").trim()||"Export";
+    const dateStr=new Date().toISOString().slice(0,10);
+    a.href=URL.createObjectURL(blob);
+    a.download=`Kaizen_${safeName}_${dateStr}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast("📅 Export complete!");
+  }catch(err){
+    console.error(err);
+    showToast("❌ Export failed: "+err.message);
+  }finally{
+    btn.disabled=false;btn.innerHTML=origLabel;
+  }
+});
+
+// ── HOME BTN ──────────────────────────────────────────────────────
+const homeBtnEl=document.getElementById("homeBtn");
+if(homeBtnEl)homeBtnEl.addEventListener("click",()=>{
+  if(unsubTeam){unsubTeam();unsubTeam=null;}
+  teamUnlocked=false;
+  currentTeam=null;currentTeamId=null;teamEntries=[];
+  showPage("homePage");
+});
+
+// ── SEARCH / FILTER ───────────────────────────────────────────────
+const srchEl=document.getElementById("srch");
+const fStatusEl=document.getElementById("fStatus");
+if(srchEl)srchEl.addEventListener("input",renderTeamTable);
+if(fStatusEl)fStatusEl.addEventListener("change",renderTeamTable);
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function getStatus(e){return e.status||"Planned";}
+function stBadge(s){
+  const m={"Planned":["b-green","📅 Planned"],"In Progress":["b-orange","⏳ In Progress"],"Complete":["b-blue","✅ Complete"]};
+  const [cls,lbl]=m[s]||["b-gray",s];
+  return `<span class="badge ${cls}">${lbl}</span>`;
+}
+function stars(v){return{5:"⭐⭐⭐⭐⭐",4:"⭐⭐⭐⭐",3:"⭐⭐⭐",2:"⭐⭐",1:"⭐"}[v]||"-";}
+</script>
+</body>
+</html>
