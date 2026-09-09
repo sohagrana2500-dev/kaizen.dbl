@@ -239,13 +239,65 @@
         @media (max-width:700px) { .dashboard { padding:12px 10px 32px; } .header { position:relative; top:0; align-items:flex-start; gap:12px; flex-direction:column; } .header > div { width:100%; flex-wrap:wrap; } .header button { flex:1; min-width:105px; } .welcome-banner { padding:28px 20px; } .welcome-banner h2 { font-size:22px; } .category-grid { grid-template-columns:repeat(2, 1fr); gap:10px; } .data-section, .summary-section, .chart-section { padding:16px; } .data-header { align-items:flex-start; } .controls { width:100%; } .controls input[type=text] { width:100%; min-width:0; } .controls button, .file-btn { flex:1; } }
         @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; } }
 
+        /* ══ KAIZEN-STYLE LOGIN / SIGNUP (matches kaizen.html) ══ */
+        :root{
+          --wlc-navy:#0A1A2F; --wlc-blue:#143C5C; --wlc-accent:#2E86C1; --wlc-gold:#C9A65A;
+          --wlc-red:#922B21; --wlc-red-lt:#FADBD8; --wlc-border:#DDE3EA; --wlc-muted:#64748B; --wlc-text:#1A202C;
+        }
+        #loginScreen.wlc-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--wlc-navy) 0%,var(--wlc-blue) 50%,#1B4F72 100%);padding:24px;position:relative;overflow:hidden;font-family:'Hind Siliguri',sans-serif;}
+        #loginScreen.wlc-page::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+        .wlc-box{background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.35);padding:40px 36px;width:100%;max-width:420px;position:relative;z-index:1;}
+        .wlc-logo{text-align:center;margin-bottom:24px;}
+        .wlc-logo-icon{width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--wlc-navy),var(--wlc-accent));display:inline-flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:12px;box-shadow:0 8px 24px rgba(46,134,193,.35);}
+        .wlc-title{font-size:22px;font-weight:800;color:var(--wlc-navy);margin-bottom:4px;}
+        .wlc-sub{font-size:13px;color:var(--wlc-muted);}
+        .wlc-form{display:flex;flex-direction:column;gap:14px;}
+        .wlc-field{display:flex;flex-direction:column;gap:5px;}
+        .wlc-lbl{font-size:12px;font-weight:600;color:var(--wlc-text);letter-spacing:.3px;}
+        .wlc-inp-wrap{position:relative;}
+        .wlc-inp-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--wlc-muted);font-size:15px;pointer-events:none;}
+        .wlc-inp{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--wlc-border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:.2s;background:#FAFBFC;color:var(--wlc-text);}
+        .wlc-inp:focus{border-color:var(--wlc-accent);box-shadow:0 0 0 3px rgba(46,134,193,.12);background:#fff;}
+        .wlc-err{font-size:12px;color:var(--wlc-red);font-weight:600;display:none;padding:8px 12px;background:var(--wlc-red-lt);border-radius:8px;border:1px solid rgba(146,43,33,.15);}
+        .wlc-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--wlc-accent),#1B6FA8);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;margin-top:4px;letter-spacing:.3px;}
+        .wlc-btn:hover{background:linear-gradient(135deg,#1f6fa0,#144f7a);box-shadow:0 6px 20px rgba(46,134,193,.35);}
+        .wlc-btn:disabled{opacity:.6;cursor:not-allowed;}
+        .wlc-divider{display:flex;align-items:center;gap:10px;margin:4px 0;}
+        .wlc-divider::before,.wlc-divider::after{content:"";flex:1;height:1px;background:var(--wlc-border);}
+        .wlc-divider span{font-size:11px;color:var(--wlc-muted);white-space:nowrap;}
+        .wlc-new-team-btn{width:100%;padding:11px;background:transparent;color:var(--wlc-accent);border:1.5px solid var(--wlc-accent);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.18s;}
+        .wlc-new-team-btn:hover{background:#EFF6FF;}
+        .wlc-note{text-align:center;font-size:11.5px;color:var(--wlc-muted);margin-top:18px;line-height:1.5;padding-top:14px;border-top:1px dashed var(--wlc-border);}
+        .wlc-footer{text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.45);}
+        /* role badge + admin-only elements in dashboard header */
+        .role-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;background:#EFF6FF;color:#1B4F72;border:1px solid #C9E2F5;}
+        .role-badge.admin{background:#FEF9E7;color:#8a6a06;border-color:#F3E3A8;}
+        /* Admin user-management modal */
+        .pdadm-ovl{display:none;position:fixed;inset:0;background:rgba(10,26,47,.55);z-index:99998;align-items:center;justify-content:center;padding:16px;}
+        .pdadm-ovl.on{display:flex;}
+        .pdadm-box{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:86vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+        .pdadm-hdr{padding:18px 22px;border-bottom:1px solid var(--wlc-border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;}
+        .pdadm-hdr h3{font-size:16px;color:var(--wlc-navy);}
+        .pdadm-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--wlc-muted);}
+        .pdadm-body{padding:20px 22px;}
+        .pdadm-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--wlc-border);border-radius:10px;margin-bottom:8px;}
+        .pdadm-uname{font-weight:700;font-size:13.5px;color:var(--wlc-text);}
+        .pdadm-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
+        .pdadm-status.active{background:#D5F5E3;color:#1E8449;}
+        .pdadm-status.inactive{background:var(--wlc-red-lt);color:var(--wlc-red);}
+        .pdadm-actions{display:flex;gap:6px;}
+        .pdadm-actions button{border:none;border-radius:7px;padding:6px 10px;font-size:11.5px;font-weight:600;cursor:pointer;}
+        .pdadm-btn-toggle{background:#FEF9E7;color:#8a6a06;}
+        .pdadm-btn-reset{background:#EFF6FF;color:#1B4F72;}
+        .pdadm-btn-del{background:var(--wlc-red-lt);color:var(--wlc-red);}
     </style>
 </head>
 <body>
 
 <!-- ══ APP SWITCHER WIDGET ══ -->
-<div id="ccswWidget" style="position:fixed;bottom:18px;right:18px;z-index:99999;font-family:'Hind Siliguri',sans-serif;">
-  <button id="ccswToggle" title="অ্যাপ পরিবর্তন করুন" style="width:52px;height:52px;border-radius:50%;background:#14213d;color:#fff;border:2px solid #C9A65A;box-shadow:0 4px 14px rgba(0,0,0,.35);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🔀</button>
+<div id="ccswWidget" style="position:fixed;bottom:18px;right:18px;z-index:99999;font-family:'Hind Siliguri',sans-serif;text-align:center;">
+  <div style="background:#0A1A2F;color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:nowrap;">আমাদের আরও অ্যাপস দেখতে ক্লিক করুন</div>
+  <button id="ccswToggle" title="অ্যাপ পরিবর্তন করুন" style="width:52px;height:52px;border-radius:50%;background:#14213d;color:#fff;border:2px solid #C9A65A;box-shadow:0 4px 14px rgba(0,0,0,.35);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;">🔀</button>
   <div id="ccswMenu" style="display:none;position:absolute;bottom:62px;right:0;background:#fff;border-radius:12px;box-shadow:0 10px 32px rgba(0,0,0,.25);padding:8px;min-width:200px;border:1px solid #DDE3EA;">
     <a href="index.html" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1A202C;font-size:13px;font-weight:600;">🏠 লঞ্চার হোম</a>
     <a href="kaizen.html" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1A202C;font-size:13px;font-weight:600;">📋 Kaizen</a>
@@ -269,21 +321,76 @@
 })();
 </script>
 
-    <div class="login-container" id="loginScreen">
-        <div class="login-box">
-            <h1>Production Dashboard</h1>
-            <p>আপনার ডাটা সুরক্ষিত রাখতে লগইন করুন</p>
-            <input type="password" id="password" placeholder="পাসওয়ার্ড লিখুন" onkeypress="if(event.key==='Enter') login()">
-            <button onclick="login()">লগইন করুন</button>
-            <div class="error" id="loginError">পাসওয়ার্ড ভুল! আবার চেষ্টা করুন।</div>        </div>
+    <div class="wlc-page" id="loginScreen">
+      <div class="wlc-box">
+        <div class="wlc-logo">
+          <div class="wlc-logo-icon">📊</div>
+          <div class="wlc-title">Production Dashboard</div>
+          <div class="wlc-sub">Color City Ltd — উৎপাদন ব্যবস্থাপনা সিস্টেম</div>
+        </div>
+
+        <div class="wlc-form" id="pdLoginFormSec">
+          <div class="wlc-field">
+            <label class="wlc-lbl">ইউজারনেম</label>
+            <div class="wlc-inp-wrap">
+              <span class="wlc-inp-ico">👤</span>
+              <input class="wlc-inp" id="pdUser" type="text" placeholder="ইউজারনেম লিখুন..." autocomplete="off"/>
+            </div>
+          </div>
+          <div class="wlc-field">
+            <label class="wlc-lbl">পাসওয়ার্ড</label>
+            <div class="wlc-inp-wrap">
+              <span class="wlc-inp-ico">🔑</span>
+              <input class="wlc-inp" id="password" type="password" placeholder="পাসওয়ার্ড লিখুন..." onkeypress="if(event.key==='Enter'){ event.preventDefault(); window.pdLogin(); }"/>
+            </div>
+          </div>
+          <div class="wlc-err" id="loginError">❌ ইউজারনেম বা পাসওয়ার্ড ভুল! আবার চেষ্টা করুন।</div>
+          <button class="wlc-btn" id="pdLoginBtn" onclick="window.pdLogin()">🔓 লগইন করুন</button>
+          <div class="wlc-divider"><span>or</span></div>
+          <button class="wlc-new-team-btn" id="pdShowSignup">➕ নতুন অ্যাকাউন্ট তৈরি করুন</button>
+        </div>
+
+        <div class="wlc-form" id="pdSignupFormSec" style="display:none">
+          <div class="wlc-field">
+            <label class="wlc-lbl">নতুন ইউজারনেম</label>
+            <div class="wlc-inp-wrap">
+              <span class="wlc-inp-ico">👤</span>
+              <input class="wlc-inp" id="pdNewUser" type="text" placeholder="ইউজারনেম বাছাই করুন (ইংরেজি অক্ষর/সংখ্যা)..." autocomplete="off"/>
+            </div>
+          </div>
+          <div class="wlc-field">
+            <label class="wlc-lbl">পাসওয়ার্ড</label>
+            <div class="wlc-inp-wrap">
+              <span class="wlc-inp-ico">🔑</span>
+              <input class="wlc-inp" id="pdNewPass" type="password" placeholder="পাসওয়ার্ড দিন (কমপক্ষে ৪ অক্ষর)..."/>
+            </div>
+          </div>
+          <div class="wlc-field">
+            <label class="wlc-lbl">পাসওয়ার্ড আবার লিখুন</label>
+            <div class="wlc-inp-wrap">
+              <span class="wlc-inp-ico">🔑</span>
+              <input class="wlc-inp" id="pdNewPass2" type="password" placeholder="পাসওয়ার্ড নিশ্চিত করুন..." onkeypress="if(event.key==='Enter'){ event.preventDefault(); window.pdSignup(); }"/>
+            </div>
+          </div>
+          <div class="wlc-err" id="pdSignupErr"></div>
+          <button class="wlc-btn" id="pdSignupBtn" onclick="window.pdSignup()">✅ অ্যাকাউন্ট তৈরি করুন</button>
+          <div class="wlc-divider"><span>or</span></div>
+          <button class="wlc-new-team-btn" id="pdShowLogin">🔙 লগইনে ফিরে যান</button>
+        </div>
+
+        <div class="wlc-note">🔒 নতুন অ্যাকাউন্ট শুধুমাত্র <b>ভিউয়ার</b> — ডাটা দেখা যাবে, কিন্তু নতুন ডাটা যোগ/মুছে ফেলা যাবে না। সেই এক্সেস শুধু <b>অ্যাডমিন</b>-এর জন্য।</div>
+      </div>
+      <div class="wlc-footer">Production Dashboard — Color City Ltd</div>
     </div>
 
     <div class="dashboard" id="dashboard">
         <div class="header">
             <h1><span aria-hidden="true">📊</span> Production Dashboard <span class="saved-badge" style="font-size:10px; padding:4px 8px; margin-left:4px;">LOCAL</span></h1>
-            <div style="display:flex; gap:8px; align-items:center;">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span class="role-badge" id="roleBadge">👁 Viewer</span>
+                <button class="backup-btn only-admin" id="userAdminBtn" onclick="window.openUserAdmin()" title="ভিউয়ার অ্যাকাউন্ট ম্যানেজ করুন" style="display:none">👥 ইউজার ম্যানেজমেন্ট</button>
                 <button class="backup-btn" onclick="exportAllData()" title="সব ডাটার একটি ব্যাকআপ ফাইল ডাউনলোড করুন">⬇️ ব্যাকআপ নিন</button>
-                <button class="backup-btn" onclick="document.getElementById('restoreInput').click()" title="আগের ব্যাকআপ ফাইল থেকে ডাটা ফিরিয়ে আনুন">⬆️ রিস্টোর করুন</button>
+                <button class="backup-btn only-admin" onclick="document.getElementById('restoreInput').click()" title="আগের ব্যাকআপ ফাইল থেকে ডাটা ফিরিয়ে আনুন" style="display:none">⬆️ রিস্টোর করুন</button>
                 <input type="file" id="restoreInput" accept="application/json" style="display:none;" onchange="importAllData(event)">
                 <button onclick="logout()">লগআউট</button>
             </div>
@@ -303,8 +410,8 @@
                 <h2 id="categoryTitle">Category Data</h2>
                 <div class="controls">
                     <button class="back-btn" onclick="goBack()">← ফিরে যান</button>
-                    <button class="file-btn" onclick="document.getElementById('fileInput').click()">📂 ফাইল যোগ/আপডেট করুন</button>
-                    <button class="danger-btn" onclick="clearCategoryData()">🗑️ সব মুছে ফেলুন</button>
+                    <button class="file-btn only-admin" onclick="document.getElementById('fileInput').click()" style="display:none">📂 ফাইল যোগ/আপডেট করুন</button>
+                    <button class="danger-btn only-admin" onclick="clearCategoryData()" style="display:none">🗑️ সব মুছে ফেলুন</button>
                     <input type="text" id="searchInput" placeholder="সার্চ করুন..." oninput="filterTable()">
                 </div>
             </div>
@@ -385,7 +492,7 @@
         const DB_VERSION = 1;
         const CATEGORIES = ["CW", "Breakdown", "Efficiency", "FLT", "HW", "Supervisor", "Wastage"];
 
-        const BRAND_CATALOG_HTML = "<!DOCTYPE html>\n<html lang=\"bn\">\n<head>\n<meta charset=\"UTF-8\">\n<title>eco \u2014 Brand Catalog Manager</title>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\"><\/script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js\"><\/script>\n<style>\n  :root{\n    --paper:#f6f4ee;\n    --ink:#1c2b24;\n    --leaf:#2f6b45;\n    --leaf-dark:#1f4c31;\n    --gold:#c98a2c;\n    --line:#d8d3c4;\n    --card:#ffffff;\n    --muted:#8a8a7a;\n    --danger:#b23a3a;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--paper);\n    font-family:'Segoe UI','Noto Sans Bengali',sans-serif;\n    color:var(--ink);\n  }\n  .wrap{\n    max-width:1100px;\n    margin:0 auto;\n    padding:28px 20px 60px;\n  }\n  header{\n    text-align:center;\n    margin-bottom:22px;\n  }\n  header .eyebrow{\n    font-size:12px;\n    letter-spacing:2px;\n    color:var(--leaf);\n    text-transform:uppercase;\n    margin-bottom:4px;\n  }\n  header h1{\n    font-size:28px;\n    margin:0;\n  }\n  header h1 .eco{color:var(--leaf);}\n  header .sub{\n    font-size:13.5px;\n    color:var(--muted);\n    margin-top:4px;\n  }\n\n  .tabs{\n    display:flex;\n    gap:8px;\n    justify-content:center;\n    margin-bottom:24px;\n    flex-wrap:wrap;\n  }\n  .tab-btn{\n    border:1px solid var(--line);\n    background:#fff;\n    color:var(--ink);\n    padding:10px 22px;\n    border-radius:999px;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n    transition:background .15s, color .15s;\n  }\n  .tab-btn.active{\n    background:var(--leaf);\n    color:#fff;\n    border-color:var(--leaf);\n  }\n\n  .panel{display:none;}\n  .panel.active{display:block;}\n\n  .form-card{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:14px;\n    padding:26px;\n    max-width:560px;\n    margin:0 auto;\n  }\n  label{\n    display:block;\n    font-size:13px;\n    font-weight:600;\n    margin:16px 0 6px;\n  }\n  label:first-child{margin-top:0;}\n  input[type=text], textarea{\n    width:100%;\n    padding:10px 12px;\n    border:1px solid var(--line);\n    border-radius:8px;\n    font-size:14px;\n    font-family:inherit;\n    background:#fdfcf9;\n  }\n  textarea{resize:vertical; min-height:70px;}\n\n  .drop{\n    border:2px dashed var(--line);\n    border-radius:10px;\n    padding:18px;\n    text-align:center;\n    cursor:pointer;\n    background:#fdfcf9;\n    font-size:13px;\n    color:var(--muted);\n  }\n  .drop:hover{border-color:var(--leaf);}\n  .drop img{\n    max-width:140px;\n    max-height:140px;\n    border-radius:50%;\n    display:block;\n    margin:0 auto 8px;\n    object-fit:contain;\n  }\n\n  .submit-btn{\n    margin-top:20px;\n    width:100%;\n    padding:12px;\n    background:var(--leaf);\n    color:#fff;\n    border:none;\n    border-radius:8px;\n    font-size:15px;\n    font-weight:700;\n    cursor:pointer;\n  }\n  .submit-btn:hover{background:var(--leaf-dark);}\n  .submit-btn:disabled{background:#b7c9bd; cursor:not-allowed;}\n\n  .msg{\n    text-align:center;\n    font-size:13px;\n    margin-top:10px;\n    min-height:18px;\n  }\n  .msg.error{color:var(--danger);}\n  .msg.ok{color:var(--leaf);}\n\n  .toolbar{\n    display:flex;\n    justify-content:space-between;\n    align-items:center;\n    flex-wrap:wrap;\n    gap:10px;\n    margin-bottom:18px;\n  }\n  .toolbar .count{\n    font-size:13px;\n    color:var(--muted);\n  }\n  .dl-buttons{display:flex; gap:8px;}\n  .dl-btn{\n    padding:8px 16px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    font-size:13px;\n    font-weight:600;\n    cursor:pointer;\n  }\n  .dl-btn.pdf{border-color:#b23a3a55; color:#b23a3a;}\n  .dl-btn.xlsx{border-color:#1e6b3a55; color:#1e6b3a;}\n  .dl-btn:hover{background:#f4f1ea;}\n  .dl-btn:disabled{opacity:.4; cursor:not-allowed;}\n\n  .grid{\n    display:grid;\n    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));\n    gap:16px;\n  }\n  .item-card{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:12px;\n    padding:14px;\n    display:flex;\n    gap:12px;\n    align-items:flex-start;\n    position:relative;\n  }\n  .item-card img{\n    width:60px;\n    height:60px;\n    border-radius:50%;\n    object-fit:contain;\n    background:#fdfcf9;\n    border:1px solid var(--line);\n    flex-shrink:0;\n  }\n  .item-info .name{\n    font-weight:700;\n    font-size:14px;\n  }\n  .item-info .desc{\n    font-size:12px;\n    color:var(--muted);\n    margin-top:3px;\n    line-height:1.35;\n  }\n  .del-btn{\n    position:absolute;\n    top:8px;\n    right:8px;\n    border:none;\n    background:none;\n    color:var(--muted);\n    font-size:15px;\n    cursor:pointer;\n    line-height:1;\n  }\n  .del-btn:hover{color:var(--danger);}\n\n  .empty-state{\n    text-align:center;\n    color:var(--muted);\n    font-size:14px;\n    padding:60px 10px;\n  }\n\n  /* Serial list table */\n  .serial-table-wrap{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:14px;\n    overflow:hidden;\n  }\n  .serial-table{\n    width:100%;\n    border-collapse:collapse;\n  }\n  .serial-table th,\n  .serial-table td{\n    padding:12px 16px;\n    text-align:left;\n    border-bottom:1px solid var(--line);\n    font-size:14px;\n  }\n  .serial-table th{\n    background:#f0ede5;\n    font-weight:700;\n    color:var(--ink);\n    font-size:13px;\n  }\n  .serial-table tr:last-child td{border-bottom:none;}\n  .serial-table tbody tr{\n    cursor:grab;\n    transition:background .12s, opacity .12s;\n  }\n  .serial-table tbody tr:hover td{background:#faf9f5;}\n  .serial-table tbody tr.dragging{\n    opacity:.45;\n    background:#e8f0eb;\n  }\n  .serial-table tbody tr.drag-over-top td{\n    box-shadow:inset 0 3px 0 0 var(--leaf);\n  }\n  .serial-table tbody tr.drag-over-bottom td{\n    box-shadow:inset 0 -3px 0 0 var(--leaf);\n  }\n  .serial-table tbody tr:active{cursor:grabbing;}\n  .serial-table .sl{width:70px; text-align:center; color:var(--muted); font-weight:600;}\n  .serial-table .name-cell{font-weight:600;}\n  .serial-table .rank-cell{width:100px; text-align:center;}\n  .drag-handle{\n    display:inline-flex;\n    align-items:center;\n    justify-content:center;\n    width:28px;\n    height:28px;\n    border-radius:6px;\n    color:var(--muted);\n    font-size:16px;\n    letter-spacing:-2px;\n    user-select:none;\n  }\n  .rank-btns{\n    display:inline-flex;\n    gap:4px;\n    align-items:center;\n  }\n  .rank-btn{\n    width:28px;\n    height:28px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    color:var(--ink);\n    font-size:12px;\n    font-weight:700;\n    cursor:pointer;\n    line-height:1;\n    padding:0;\n  }\n  .rank-btn:hover:not(:disabled){\n    background:var(--leaf);\n    color:#fff;\n    border-color:var(--leaf);\n  }\n  .rank-btn:disabled{\n    opacity:.3;\n    cursor:not-allowed;\n  }\n  .view-btn{\n    padding:6px 14px;\n    border-radius:999px;\n    border:1px solid var(--leaf);\n    background:#fff;\n    color:var(--leaf);\n    font-size:13px;\n    font-weight:600;\n    cursor:pointer;\n    transition:background .15s, color .15s;\n  }\n  .view-btn:hover{\n    background:var(--leaf);\n    color:#fff;\n  }\n\n  /* Crop modal */\n  .modal-overlay{\n    display:none;\n    position:fixed;\n    inset:0;\n    background:rgba(28,43,36,.55);\n    align-items:center;\n    justify-content:center;\n    z-index:100;\n    padding:16px;\n  }\n  .modal-overlay.open{display:flex;}\n  .crop-box{\n    background:#fff;\n    border-radius:14px;\n    padding:22px;\n    max-width:380px;\n    width:100%;\n    text-align:center;\n  }\n  .crop-box h3{\n    margin:0 0 4px;\n    font-size:16px;\n  }\n  .crop-box .hint{\n    font-size:12px;\n    color:var(--muted);\n    margin-bottom:14px;\n  }\n  .crop-circle-wrap{\n    position:relative;\n    width:280px;\n    height:280px;\n    margin:0 auto 16px;\n    border-radius:50%;\n    overflow:hidden;\n    background:#eee;\n    cursor:grab;\n    touch-action:none;\n  }\n  .crop-circle-wrap:active{cursor:grabbing;}\n  .crop-circle-wrap canvas{\n    display:block;\n    width:100%;\n    height:100%;\n  }\n  .crop-circle-wrap::after{\n    content:'';\n    position:absolute;\n    inset:0;\n    border-radius:50%;\n    box-shadow:inset 0 0 0 2px rgba(47,107,69,.9);\n    pointer-events:none;\n  }\n  .zoom-row{\n    display:flex;\n    align-items:center;\n    gap:10px;\n    margin-bottom:18px;\n  }\n  .zoom-row span{font-size:16px; color:var(--muted);}\n  .zoom-row input[type=range]{flex:1;}\n  .crop-actions{\n    display:flex;\n    gap:10px;\n  }\n  .crop-actions button{\n    flex:1;\n    padding:10px;\n    border-radius:8px;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n    border:1px solid var(--line);\n  }\n  #crop-confirm{background:var(--leaf); color:#fff; border-color:var(--leaf);}\n  #crop-confirm:hover{background:var(--leaf-dark);}\n  #crop-cancel{background:#fff; color:var(--ink);}\n  #crop-cancel:hover{background:#f4f1ea;}\n\n  /* Sticker view modal */\n  .sticker-box{\n    background:#fff;\n    border-radius:18px;\n    padding:28px 24px 22px;\n    max-width:340px;\n    width:100%;\n    text-align:center;\n    box-shadow:0 12px 40px rgba(0,0,0,.18);\n  }\n  .sticker-box .sticker-img-wrap{\n    width:220px;\n    height:220px;\n    margin:0 auto 16px;\n    border-radius:50%;\n    overflow:hidden;\n    border:3px solid var(--leaf);\n    background:#fdfcf9;\n    display:flex;\n    align-items:center;\n    justify-content:center;\n  }\n  .sticker-box .sticker-img-wrap img{\n    width:100%;\n    height:100%;\n    object-fit:contain;\n  }\n  .sticker-box .sticker-name{\n    font-size:18px;\n    font-weight:700;\n    margin:0 0 6px;\n    color:var(--ink);\n  }\n  .sticker-box .sticker-desc{\n    font-size:13px;\n    color:var(--muted);\n    margin:0 0 18px;\n    line-height:1.4;\n  }\n  .sticker-box .sticker-sl{\n    font-size:12px;\n    color:var(--leaf);\n    font-weight:600;\n    margin-bottom:12px;\n    letter-spacing:.5px;\n  }\n  .sticker-close{\n    width:100%;\n    padding:10px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n  }\n  .sticker-close:hover{background:#f4f1ea;}\n</style>\n</head>\n<body>\n\n<div class=\"wrap\">\n  <header>\n    <div class=\"eyebrow\">Color City Ltd</div>\n    <h1><span class=\"eco\">eco</span> Brand Catalog Manager</h1>\n    <div class=\"sub\">\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae \u0993 \u099b\u09ac\u09bf \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8, \u09b8\u0982\u0997\u09cd\u09b0\u09b9 \u09a5\u09c7\u0995\u09c7 PDF \u09ac\u09be Excel \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1 \u0995\u09b0\u09c1\u09a8</div>\n    <div class=\"sub\" style=\"margin-top:2px; font-size:11.5px;\">\u09a1\u09c7\u099f\u09be \u098f\u0987 \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7 (\u09b2\u09cb\u0995\u09be\u09b2 \u09b8\u09cd\u099f\u09cb\u09b0\u09c7\u099c) \u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09bf\u09a4 \u09a5\u09be\u0995\u09c7 \u2014 \u098f\u0995\u0987 \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7 \u09aa\u09b0\u09c7 \u0986\u09ac\u09be\u09b0 \u0996\u09c1\u09b2\u09b2\u09c7\u0993 \u09a5\u09c7\u0995\u09c7 \u09af\u09be\u09ac\u09c7</div>\n  </header>\n\n  <div class=\"tabs\">\n    <button class=\"tab-btn active\" data-tab=\"add\">\u2795 \u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8</button>\n    <button class=\"tab-btn\" data-tab=\"catalog\">\ud83d\udcda \u09b8\u0982\u0997\u09cd\u09b0\u09b9</button>\n    <button class=\"tab-btn\" data-tab=\"serial\">\ud83d\udd22 \u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2 \u09a4\u09be\u09b2\u09bf\u0995\u09be</button>\n  </div>\n\n  <!-- ADD TAB -->\n  <div class=\"panel active\" id=\"panel-add\">\n    <div class=\"form-card\">\n      <label for=\"f-name\">\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae *</label>\n      <input type=\"text\" id=\"f-name\" placeholder=\"\u09af\u09c7\u09ae\u09a8: ecoSPUN\">\n\n      <label>\u099b\u09ac\u09bf *</label>\n      <div class=\"drop\" id=\"drop-zone\">\n        <div id=\"drop-placeholder\">\u099b\u09ac\u09bf \u09b8\u09bf\u09b2\u09c7\u0995\u09cd\u099f \u0995\u09b0\u09a4\u09c7 \u0995\u09cd\u09b2\u09bf\u0995 \u0995\u09b0\u09c1\u09a8</div>\n        <img id=\"preview-img\" style=\"display:none;\">\n      </div>\n      <input type=\"file\" id=\"f-image\" accept=\"image/*\" style=\"display:none;\">\n\n      <label for=\"f-desc\">\u09ac\u09bf\u09ac\u09b0\u09a3 (\u0990\u099a\u09cd\u099b\u09bf\u0995)</label>\n      <textarea id=\"f-desc\" placeholder=\"\u09b8\u0982\u0995\u09cd\u09b7\u09bf\u09aa\u09cd\u09a4 \u09ac\u09bf\u09ac\u09b0\u09a3 \u09b2\u09bf\u0996\u09c1\u09a8...\"></textarea>\n\n      <button class=\"submit-btn\" id=\"submit-btn\">\u09b8\u0982\u0997\u09cd\u09b0\u09b9\u09c7 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8</button>\n      <div class=\"msg\" id=\"form-msg\"></div>\n    </div>\n  </div>\n\n  <!-- CATALOG TAB -->\n  <div class=\"panel\" id=\"panel-catalog\">\n    <div class=\"toolbar\">\n      <div class=\"count\" id=\"item-count\">\u09e6\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7</div>\n      <div class=\"dl-buttons\">\n        <button class=\"dl-btn pdf\" id=\"dl-pdf\">\u2b07 PDF \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1</button>\n        <button class=\"dl-btn xlsx\" id=\"dl-xlsx\">\u2b07 Excel \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1</button>\n      </div>\n    </div>\n    <div class=\"grid\" id=\"grid\"></div>\n    <div class=\"empty-state\" id=\"empty-state\" style=\"display:none;\">\u098f\u0996\u09a8\u09cb \u0995\u09cb\u09a8\u09cb \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u09af\u09cb\u0997 \u0995\u09b0\u09be \u09b9\u09af\u09bc\u09a8\u09bf\u0964 \"\u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8\" \u099f\u09cd\u09af\u09be\u09ac\u09c7 \u0997\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1 \u0995\u09b0\u09c1\u09a8\u0964</div>\n  </div>\n\n  <!-- SERIAL LIST TAB -->\n  <div class=\"panel\" id=\"panel-serial\">\n    <div class=\"toolbar\">\n      <div class=\"count\" id=\"serial-count\">\u09e6\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7</div>\n      <div class=\"count\" style=\"font-size:12px;\">\u283f \u09a7\u09b0\u09c7 \u099f\u09c7\u09a8\u09c7 \u0989\u09aa\u09b0\u09c7-\u09a8\u09bf\u099a\u09c7 \u09b8\u09be\u099c\u09be\u09a8, \u0985\u09a5\u09ac\u09be \u25b2 \u25bc \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8</div>\n    </div>\n    <div class=\"serial-table-wrap\" id=\"serial-table-wrap\">\n      <table class=\"serial-table\">\n        <thead>\n          <tr>\n            <th class=\"sl\">\u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2</th>\n            <th>\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae</th>\n            <th class=\"rank-cell\">\u09b8\u09be\u099c\u09be\u09a8</th>\n            <th style=\"width:110px; text-align:center;\">\u09b8\u09cd\u099f\u09bf\u0995\u09be\u09b0</th>\n          </tr>\n        </thead>\n        <tbody id=\"serial-tbody\">\n        </tbody>\n      </table>\n    </div>\n    <div class=\"empty-state\" id=\"serial-empty\" style=\"display:none;\">\u098f\u0996\u09a8\u09cb \u0995\u09cb\u09a8\u09cb \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u09af\u09cb\u0997 \u0995\u09b0\u09be \u09b9\u09af\u09bc\u09a8\u09bf\u0964 \"\u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8\" \u099f\u09cd\u09af\u09be\u09ac\u09c7 \u0997\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1 \u0995\u09b0\u09c1\u09a8\u0964</div>\n  </div>\n</div>\n\n<!-- Crop / adjust modal -->\n<div class=\"modal-overlay\" id=\"crop-modal\">\n  <div class=\"crop-box\">\n    <h3>\u099b\u09ac\u09bf \u0985\u09cd\u09af\u09be\u09a1\u099c\u09be\u09b8\u09cd\u099f \u0995\u09b0\u09c1\u09a8</h3>\n    <div class=\"hint\">\u099f\u09c7\u09a8\u09c7 (drag) \u09b8\u09b0\u09be\u09a8 \u098f\u09ac\u0982 \u09b8\u09cd\u09b2\u09be\u0987\u09a1\u09be\u09b0 \u09a6\u09bf\u09af\u09bc\u09c7 \u099b\u09cb\u099f-\u09ac\u09a1\u09bc \u0995\u09b0\u09c1\u09a8</div>\n    <div class=\"crop-circle-wrap\" id=\"crop-wrap\">\n      <canvas id=\"crop-canvas\" width=\"280\" height=\"280\"></canvas>\n    </div>\n    <div class=\"zoom-row\">\n      <span>\u2014</span>\n      <input type=\"range\" id=\"zoom-slider\" min=\"100\" max=\"400\" value=\"100\">\n      <span>+</span>\n    </div>\n    <div class=\"crop-actions\">\n      <button id=\"crop-cancel\">\u09ac\u09be\u09a4\u09bf\u09b2</button>\n      <button id=\"crop-confirm\">\u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8</button>\n    </div>\n  </div>\n</div>\n\n<!-- Sticker view modal -->\n<div class=\"modal-overlay\" id=\"sticker-modal\">\n  <div class=\"sticker-box\">\n    <div class=\"sticker-sl\" id=\"sticker-sl\"></div>\n    <div class=\"sticker-img-wrap\">\n      <img id=\"sticker-img\" src=\"\" alt=\"\u09b8\u09cd\u099f\u09bf\u0995\u09be\u09b0\">\n    </div>\n    <div class=\"sticker-name\" id=\"sticker-name\"></div>\n    <div class=\"sticker-desc\" id=\"sticker-desc\"></div>\n    <button class=\"sticker-close\" id=\"sticker-close\">\u09ac\u09a8\u09cd\u09a7 \u0995\u09b0\u09c1\u09a8</button>\n  </div>\n</div>\n\n<script>\nlet items = [];\nlet pendingImage = null;\n\nconst STORAGE_KEY = 'brand-catalog-items';\n\nasync function loadItems(){\n  try{\n    const raw = localStorage.getItem(STORAGE_KEY);\n    items = raw ? JSON.parse(raw) : [];\n  }catch(e){\n    items = [];\n  }\n  renderGrid();\n  renderSerialList();\n}\n\nasync function saveItems(){\n  try{\n    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));\n  }catch(e){\n    console.error('Local storage save failed', e);\n    alert('\u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09a3 \u09ac\u09cd\u09af\u09b0\u09cd\u09a5 \u09b9\u09af\u09bc\u09c7\u099b\u09c7\u0964 \u09b9\u09af\u09bc\u09a4\u09cb \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7\u09b0 \u09b8\u09cd\u099f\u09cb\u09b0\u09c7\u099c \u09aa\u09c2\u09b0\u09cd\u09a3 \u09b9\u09af\u09bc\u09c7 \u0997\u09c7\u099b\u09c7 (\u099b\u09ac\u09bf \u0985\u09a8\u09c7\u0995 \u09ac\u09a1\u09bc \u09ac\u09be \u09b8\u0982\u0996\u09cd\u09af\u09be \u0985\u09a8\u09c7\u0995 \u09ac\u09c7\u09b6\u09bf)\u0964');\n  }\n}\n\n// Tabs\ndocument.querySelectorAll('.tab-btn').forEach(btn=>{\n  btn.addEventListener('click', ()=> switchTab(btn.dataset.tab));\n});\nfunction switchTab(tab){\n  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));\n  document.getElementById('panel-add').classList.toggle('active', tab==='add');\n  document.getElementById('panel-catalog').classList.toggle('active', tab==='catalog');\n  document.getElementById('panel-serial').classList.toggle('active', tab==='serial');\n  if(tab === 'serial') renderSerialList();\n}\n\n// Image upload + resize\nconst dropZone = document.getElementById('drop-zone');\nconst fileInput = document.getElementById('f-image');\nconst previewImg = document.getElementById('preview-img');\nconst placeholder = document.getElementById('drop-placeholder');\n\ndropZone.addEventListener('click', ()=> fileInput.click());\nfileInput.addEventListener('change', (e)=>{\n  const file = e.target.files[0];\n  if(!file) return;\n  const reader = new FileReader();\n  reader.onload = (ev)=>{\n    const img = new Image();\n    img.onload = ()=> openCropModal(img);\n    img.src = ev.target.result;\n  };\n  reader.readAsDataURL(file);\n});\n\n/* ---- Crop / zoom / pan modal ---- */\nconst cropModal = document.getElementById('crop-modal');\nconst cropCanvas = document.getElementById('crop-canvas');\nconst cropCtx = cropCanvas.getContext('2d');\nconst zoomSlider = document.getElementById('zoom-slider');\nconst CROP_SIZE = 280;\n\nlet cropImg = null;\nlet baseScale = 1;\nlet zoomFactor = 1;\nlet offX = 0, offY = 0;\nlet dragging = false, lastX = 0, lastY = 0;\n\nfunction openCropModal(img){\n  cropImg = img;\n  baseScale = Math.max(CROP_SIZE / img.width, CROP_SIZE / img.height);\n  zoomFactor = 1;\n  zoomSlider.value = 100;\n  const drawnW = img.width * baseScale, drawnH = img.height * baseScale;\n  offX = (CROP_SIZE - drawnW) / 2;\n  offY = (CROP_SIZE - drawnH) / 2;\n  drawCrop();\n  cropModal.classList.add('open');\n}\n\nfunction drawCrop(){\n  const scale = baseScale * zoomFactor;\n  const drawnW = cropImg.width * scale, drawnH = cropImg.height * scale;\n  cropCtx.clearRect(0,0,CROP_SIZE,CROP_SIZE);\n  cropCtx.fillStyle = '#ffffff';\n  cropCtx.fillRect(0,0,CROP_SIZE,CROP_SIZE);\n  cropCtx.drawImage(cropImg, offX, offY, drawnW, drawnH);\n}\n\nfunction clampOffset(){\n  const scale = baseScale * zoomFactor;\n  const drawnW = cropImg.width * scale, drawnH = cropImg.height * scale;\n  offX = Math.min(0, Math.max(CROP_SIZE - drawnW, offX));\n  offY = Math.min(0, Math.max(CROP_SIZE - drawnH, offY));\n}\n\nzoomSlider.addEventListener('input', ()=>{\n  const oldScale = baseScale * zoomFactor;\n  const cx = CROP_SIZE/2, cy = CROP_SIZE/2;\n  // image-space point currently at canvas center\n  const imgCx = (cx - offX) / oldScale;\n  const imgCy = (cy - offY) / oldScale;\n\n  zoomFactor = zoomSlider.value / 100;\n  const newScale = baseScale * zoomFactor;\n  offX = cx - imgCx * newScale;\n  offY = cy - imgCy * newScale;\n  clampOffset();\n  drawCrop();\n});\n\nconst wrapEl = document.getElementById('crop-wrap');\nfunction startDrag(x,y){ dragging = true; lastX = x; lastY = y; }\nfunction moveDrag(x,y){\n  if(!dragging) return;\n  offX += (x - lastX);\n  offY += (y - lastY);\n  lastX = x; lastY = y;\n  clampOffset();\n  drawCrop();\n}\nfunction endDrag(){ dragging = false; }\n\nwrapEl.addEventListener('mousedown', e=> startDrag(e.clientX, e.clientY));\nwindow.addEventListener('mousemove', e=> moveDrag(e.clientX, e.clientY));\nwindow.addEventListener('mouseup', endDrag);\n\nwrapEl.addEventListener('touchstart', e=>{\n  const t = e.touches[0];\n  startDrag(t.clientX, t.clientY);\n}, {passive:true});\nwrapEl.addEventListener('touchmove', e=>{\n  const t = e.touches[0];\n  moveDrag(t.clientX, t.clientY);\n}, {passive:true});\nwrapEl.addEventListener('touchend', endDrag);\n\ndocument.getElementById('crop-cancel').addEventListener('click', ()=>{\n  cropModal.classList.remove('open');\n  fileInput.value = '';\n});\n\ndocument.getElementById('crop-confirm').addEventListener('click', ()=>{\n  // bake final circular image (edge-to-edge circle) at good resolution\n  const OUT = 480;\n  const out = document.createElement('canvas');\n  out.width = OUT; out.height = OUT;\n  const octx = out.getContext('2d');\n  octx.fillStyle = '#ffffff';\n  octx.fillRect(0,0,OUT,OUT);\n  octx.save();\n  octx.beginPath();\n  octx.arc(OUT/2, OUT/2, OUT/2 - 2, 0, Math.PI*2);\n  octx.clip();\n  const f = OUT / CROP_SIZE;\n  const scale = baseScale * zoomFactor * f;\n  octx.drawImage(cropImg, offX*f, offY*f, cropImg.width*scale, cropImg.height*scale);\n  octx.restore();\n\n  pendingImage = out.toDataURL('image/jpeg', 0.85);\n  previewImg.src = pendingImage;\n  previewImg.style.display = 'block';\n  placeholder.style.display = 'none';\n  cropModal.classList.remove('open');\n});\n\n// Submit\ndocument.getElementById('submit-btn').addEventListener('click', async ()=>{\n  const name = document.getElementById('f-name').value.trim();\n  const desc = document.getElementById('f-desc').value.trim();\n  const msg = document.getElementById('form-msg');\n\n  if(!name){\n    msg.textContent = '\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae \u09b2\u09bf\u0996\u09c1\u09a8\u0964';\n    msg.className = 'msg error';\n    return;\n  }\n  if(!pendingImage){\n    msg.textContent = '\u098f\u0995\u099f\u09bf \u099b\u09ac\u09bf \u09b8\u09bf\u09b2\u09c7\u0995\u09cd\u099f \u0995\u09b0\u09c1\u09a8\u0964';\n    msg.className = 'msg error';\n    return;\n  }\n\n  const btn = document.getElementById('submit-btn');\n  btn.disabled = true;\n  btn.textContent = '\u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09a3 \u09b9\u099a\u09cd\u099b\u09c7...';\n\n  items.unshift({\n    id: Date.now().toString(),\n    name, desc,\n    image: pendingImage\n  });\n  await saveItems();\n\n  // reset form\n  document.getElementById('f-name').value = '';\n  document.getElementById('f-desc').value = '';\n  fileInput.value = '';\n  pendingImage = null;\n  previewImg.style.display = 'none';\n  placeholder.style.display = 'block';\n  btn.disabled = false;\n  btn.textContent = '\u09b8\u0982\u0997\u09cd\u09b0\u09b9\u09c7 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8';\n  msg.textContent = '';\n\n  renderGrid();\n  renderSerialList();\n  switchTab('catalog');\n});\n\n// Render catalog grid\nfunction renderGrid(){\n  const grid = document.getElementById('grid');\n  const empty = document.getElementById('empty-state');\n  const count = document.getElementById('item-count');\n  count.textContent = items.length + '\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7';\n\n  document.getElementById('dl-pdf').disabled = items.length === 0;\n  document.getElementById('dl-xlsx').disabled = items.length === 0;\n\n  if(items.length === 0){\n    grid.innerHTML = '';\n    empty.style.display = 'block';\n    return;\n  }\n  empty.style.display = 'none';\n\n  grid.innerHTML = items.map(it => `\n    <div class=\"item-card\">\n      <button class=\"del-btn\" data-id=\"${it.id}\" title=\"\u09ae\u09c1\u099b\u09c1\u09a8\">\u2715</button>\n      <img src=\"${it.image}\">\n      <div class=\"item-info\">\n        <div class=\"name\">${escapeHtml(it.name)}</div>\n        <div class=\"desc\">${escapeHtml(it.desc || '')}</div>\n      </div>\n    </div>\n  `).join('');\n\n  grid.querySelectorAll('.del-btn').forEach(b=>{\n    b.addEventListener('click', async ()=>{\n      items = items.filter(it => it.id !== b.dataset.id);\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n}\n\n// Serial list + drag & drop ranking\nlet dragFromIdx = null;\n\nfunction renderSerialList(){\n  const tbody = document.getElementById('serial-tbody');\n  const empty = document.getElementById('serial-empty');\n  const wrap = document.getElementById('serial-table-wrap');\n  const count = document.getElementById('serial-count');\n  count.textContent = items.length + '\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7';\n\n  if(items.length === 0){\n    tbody.innerHTML = '';\n    wrap.style.display = 'none';\n    empty.style.display = 'block';\n    return;\n  }\n  empty.style.display = 'none';\n  wrap.style.display = 'block';\n\n  tbody.innerHTML = items.map((it, i) => `\n    <tr draggable=\"true\" data-idx=\"${i}\">\n      <td class=\"sl\">${i + 1}</td>\n      <td class=\"name-cell\">${escapeHtml(it.name)}</td>\n      <td class=\"rank-cell\">\n        <div class=\"rank-btns\">\n          <span class=\"drag-handle\" title=\"\u099f\u09c7\u09a8\u09c7 \u09b8\u09be\u099c\u09be\u09a8\">\u283f</span>\n          <button class=\"rank-btn\" data-action=\"up\" data-idx=\"${i}\" title=\"\u0989\u09aa\u09b0\u09c7 \u09b8\u09b0\u09be\u09a8\" ${i === 0 ? 'disabled' : ''}>\u25b2</button>\n          <button class=\"rank-btn\" data-action=\"down\" data-idx=\"${i}\" title=\"\u09a8\u09bf\u099a\u09c7 \u09b8\u09b0\u09be\u09a8\" ${i === items.length - 1 ? 'disabled' : ''}>\u25bc</button>\n        </div>\n      </td>\n      <td style=\"text-align:center;\">\n        <button class=\"view-btn\" data-id=\"${it.id}\">\u09ad\u09bf\u0989</button>\n      </td>\n    </tr>\n  `).join('');\n\n  // View buttons\n  tbody.querySelectorAll('.view-btn').forEach(btn=>{\n    btn.addEventListener('click', (e)=>{\n      e.stopPropagation();\n      const item = items.find(it => it.id === btn.dataset.id);\n      if(item) openStickerModal(item, items.indexOf(item) + 1);\n    });\n  });\n\n  // Up / Down buttons (fallback)\n  tbody.querySelectorAll('.rank-btn').forEach(btn=>{\n    btn.addEventListener('click', async (e)=>{\n      e.stopPropagation();\n      const idx = parseInt(btn.dataset.idx, 10);\n      const action = btn.dataset.action;\n      if(action === 'up' && idx > 0){\n        [items[idx - 1], items[idx]] = [items[idx], items[idx - 1]];\n      } else if(action === 'down' && idx < items.length - 1){\n        [items[idx], items[idx + 1]] = [items[idx + 1], items[idx]];\n      } else {\n        return;\n      }\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n\n  // Drag & drop\n  const rows = tbody.querySelectorAll('tr');\n  rows.forEach(row=>{\n    row.addEventListener('dragstart', (e)=>{\n      // Don't start drag from buttons\n      if(e.target.closest('button') || e.target.closest('.view-btn')){\n        e.preventDefault();\n        return;\n      }\n      dragFromIdx = parseInt(row.dataset.idx, 10);\n      row.classList.add('dragging');\n      e.dataTransfer.effectAllowed = 'move';\n      e.dataTransfer.setData('text/plain', String(dragFromIdx));\n    });\n\n    row.addEventListener('dragend', ()=>{\n      row.classList.remove('dragging');\n      rows.forEach(r=>{\n        r.classList.remove('drag-over-top', 'drag-over-bottom');\n      });\n      dragFromIdx = null;\n    });\n\n    row.addEventListener('dragover', (e)=>{\n      e.preventDefault();\n      e.dataTransfer.dropEffect = 'move';\n      if(dragFromIdx === null) return;\n      const overIdx = parseInt(row.dataset.idx, 10);\n      if(overIdx === dragFromIdx) return;\n\n      rows.forEach(r=> r.classList.remove('drag-over-top', 'drag-over-bottom'));\n      const rect = row.getBoundingClientRect();\n      const mid = rect.top + rect.height / 2;\n      if(e.clientY < mid){\n        row.classList.add('drag-over-top');\n      } else {\n        row.classList.add('drag-over-bottom');\n      }\n    });\n\n    row.addEventListener('dragleave', ()=>{\n      row.classList.remove('drag-over-top', 'drag-over-bottom');\n    });\n\n    row.addEventListener('drop', async (e)=>{\n      e.preventDefault();\n      rows.forEach(r=> r.classList.remove('drag-over-top', 'drag-over-bottom'));\n      if(dragFromIdx === null) return;\n\n      const overIdx = parseInt(row.dataset.idx, 10);\n      if(overIdx === dragFromIdx) return;\n\n      const rect = row.getBoundingClientRect();\n      const mid = rect.top + rect.height / 2;\n      let toIdx = overIdx;\n      if(e.clientY >= mid) toIdx = overIdx + 1;\n\n      // Adjust when moving downward\n      if(dragFromIdx < toIdx) toIdx -= 1;\n      if(toIdx === dragFromIdx) return;\n\n      const [moved] = items.splice(dragFromIdx, 1);\n      items.splice(toIdx, 0, moved);\n\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n}\n\nfunction escapeHtml(str){\n  const d = document.createElement('div');\n  d.textContent = str;\n  return d.innerHTML;\n}\n\n/* ---- Sticker modal ---- */\nconst stickerModal = document.getElementById('sticker-modal');\ndocument.getElementById('sticker-close').addEventListener('click', ()=>{\n  stickerModal.classList.remove('open');\n});\nstickerModal.addEventListener('click', (e)=>{\n  if(e.target === stickerModal) stickerModal.classList.remove('open');\n});\n\nfunction openStickerModal(item, sl){\n  document.getElementById('sticker-sl').textContent = '\u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2 \u09a8\u0982: ' + sl;\n  document.getElementById('sticker-img').src = item.image;\n  document.getElementById('sticker-name').textContent = item.name;\n  document.getElementById('sticker-desc').textContent = item.desc || '';\n  stickerModal.classList.add('open');\n}\n\n// PDF export\ndocument.getElementById('dl-pdf').addEventListener('click', ()=>{\n  const { jsPDF } = window.jspdf;\n  const doc = new jsPDF({ unit:'mm', format:'a4' });\n  const pageW = 210, margin = 12;\n  const colW = (pageW - margin*2) / 3;\n  const imgSize = 22, rowH = 30;\n  let x = margin, y = 22, col = 0;\n\n  doc.setFontSize(16);\n  doc.text('eco \u2014 Our Used Brand', pageW/2, 14, { align:'center' });\n  doc.setFontSize(9);\n  doc.setTextColor(120);\n  doc.text('Color City Ltd', pageW/2, 19, { align:'center' });\n  doc.setTextColor(20);\n\n  items.forEach((it, i)=>{\n    if(y + rowH > 285){\n      doc.addPage();\n      y = 20; col = 0; x = margin;\n    }\n    try{\n      doc.addImage(it.image, 'JPEG', x, y, imgSize, imgSize);\n    }catch(e){}\n    doc.setFontSize(10);\n    doc.setFont(undefined, 'bold');\n    const nameLines = doc.splitTextToSize(it.name, colW - imgSize - 4);\n    doc.text(nameLines, x + imgSize + 3, y + 6);\n    doc.setFont(undefined, 'normal');\n    doc.setFontSize(8);\n    doc.setTextColor(110);\n    const descLines = doc.splitTextToSize(it.desc || '', colW - imgSize - 4);\n    doc.text(descLines.slice(0,3), x + imgSize + 3, y + 12);\n    doc.setTextColor(20);\n\n    col++;\n    if(col === 3){\n      col = 0; x = margin; y += rowH;\n    } else {\n      x += colW;\n    }\n  });\n\n  doc.save('eco_brand_catalog.pdf');\n});\n\n// Excel export\ndocument.getElementById('dl-xlsx').addEventListener('click', ()=>{\n  const rows = items.map((it, i)=>({\n    '\u0995\u09cd\u09b0\u09ae': i+1,\n    '\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae': it.name,\n    '\u09ac\u09bf\u09ac\u09b0\u09a3': it.desc || ''\n  }));\n  const ws = XLSX.utils.json_to_sheet(rows);\n  ws['!cols'] = [{wch:6},{wch:28},{wch:50}];\n  const wb = XLSX.utils.book_new();\n  XLSX.utils.book_append_sheet(wb, ws, 'Brands');\n  XLSX.writeFile(wb, 'eco_brand_catalog.xlsx');\n});\n\nloadItems();\n<\/script>\n\n</body>\n</html>\n";
+        const BRAND_CATALOG_HTML = "<!DOCTYPE html>\n<html lang=\"bn\">\n<head>\n<meta charset=\"UTF-8\">\n<title>eco \u2014 Brand Catalog Manager</title>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\"><\/script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js\"><\/script>\n<style>\n  :root{\n    --paper:#f6f4ee;\n    --ink:#1c2b24;\n    --leaf:#2f6b45;\n    --leaf-dark:#1f4c31;\n    --gold:#c98a2c;\n    --line:#d8d3c4;\n    --card:#ffffff;\n    --muted:#8a8a7a;\n    --danger:#b23a3a;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--paper);\n    font-family:'Segoe UI','Noto Sans Bengali',sans-serif;\n    color:var(--ink);\n  }\n  .wrap{\n    max-width:1100px;\n    margin:0 auto;\n    padding:28px 20px 60px;\n  }\n  header{\n    text-align:center;\n    margin-bottom:22px;\n  }\n  header .eyebrow{\n    font-size:12px;\n    letter-spacing:2px;\n    color:var(--leaf);\n    text-transform:uppercase;\n    margin-bottom:4px;\n  }\n  header h1{\n    font-size:28px;\n    margin:0;\n  }\n  header h1 .eco{color:var(--leaf);}\n  header .sub{\n    font-size:13.5px;\n    color:var(--muted);\n    margin-top:4px;\n  }\n\n  .tabs{\n    display:flex;\n    gap:8px;\n    justify-content:center;\n    margin-bottom:24px;\n    flex-wrap:wrap;\n  }\n  .tab-btn{\n    border:1px solid var(--line);\n    background:#fff;\n    color:var(--ink);\n    padding:10px 22px;\n    border-radius:999px;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n    transition:background .15s, color .15s;\n  }\n  .tab-btn.active{\n    background:var(--leaf);\n    color:#fff;\n    border-color:var(--leaf);\n  }\n\n  .panel{display:none;}\n  .panel.active{display:block;}\n\n  .form-card{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:14px;\n    padding:26px;\n    max-width:560px;\n    margin:0 auto;\n  }\n  label{\n    display:block;\n    font-size:13px;\n    font-weight:600;\n    margin:16px 0 6px;\n  }\n  label:first-child{margin-top:0;}\n  input[type=text], textarea{\n    width:100%;\n    padding:10px 12px;\n    border:1px solid var(--line);\n    border-radius:8px;\n    font-size:14px;\n    font-family:inherit;\n    background:#fdfcf9;\n  }\n  textarea{resize:vertical; min-height:70px;}\n\n  .drop{\n    border:2px dashed var(--line);\n    border-radius:10px;\n    padding:18px;\n    text-align:center;\n    cursor:pointer;\n    background:#fdfcf9;\n    font-size:13px;\n    color:var(--muted);\n  }\n  .drop:hover{border-color:var(--leaf);}\n  .drop img{\n    max-width:140px;\n    max-height:140px;\n    border-radius:50%;\n    display:block;\n    margin:0 auto 8px;\n    object-fit:contain;\n  }\n\n  .submit-btn{\n    margin-top:20px;\n    width:100%;\n    padding:12px;\n    background:var(--leaf);\n    color:#fff;\n    border:none;\n    border-radius:8px;\n    font-size:15px;\n    font-weight:700;\n    cursor:pointer;\n  }\n  .submit-btn:hover{background:var(--leaf-dark);}\n  .submit-btn:disabled{background:#b7c9bd; cursor:not-allowed;}\n\n  .msg{\n    text-align:center;\n    font-size:13px;\n    margin-top:10px;\n    min-height:18px;\n  }\n  .msg.error{color:var(--danger);}\n  .msg.ok{color:var(--leaf);}\n\n  .toolbar{\n    display:flex;\n    justify-content:space-between;\n    align-items:center;\n    flex-wrap:wrap;\n    gap:10px;\n    margin-bottom:18px;\n  }\n  .toolbar .count{\n    font-size:13px;\n    color:var(--muted);\n  }\n  .dl-buttons{display:flex; gap:8px;}\n  .dl-btn{\n    padding:8px 16px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    font-size:13px;\n    font-weight:600;\n    cursor:pointer;\n  }\n  .dl-btn.pdf{border-color:#b23a3a55; color:#b23a3a;}\n  .dl-btn.xlsx{border-color:#1e6b3a55; color:#1e6b3a;}\n  .dl-btn:hover{background:#f4f1ea;}\n  .dl-btn:disabled{opacity:.4; cursor:not-allowed;}\n\n  .grid{\n    display:grid;\n    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));\n    gap:16px;\n  }\n  .item-card{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:12px;\n    padding:14px;\n    display:flex;\n    gap:12px;\n    align-items:flex-start;\n    position:relative;\n  }\n  .item-card img{\n    width:60px;\n    height:60px;\n    border-radius:50%;\n    object-fit:contain;\n    background:#fdfcf9;\n    border:1px solid var(--line);\n    flex-shrink:0;\n  }\n  .item-info .name{\n    font-weight:700;\n    font-size:14px;\n  }\n  .item-info .desc{\n    font-size:12px;\n    color:var(--muted);\n    margin-top:3px;\n    line-height:1.35;\n  }\n  .del-btn{\n    position:absolute;\n    top:8px;\n    right:8px;\n    border:none;\n    background:none;\n    color:var(--muted);\n    font-size:15px;\n    cursor:pointer;\n    line-height:1;\n  }\n  .del-btn:hover{color:var(--danger);}\n\n  .empty-state{\n    text-align:center;\n    color:var(--muted);\n    font-size:14px;\n    padding:60px 10px;\n  }\n\n  /* Serial list table */\n  .serial-table-wrap{\n    background:var(--card);\n    border:1px solid var(--line);\n    border-radius:14px;\n    overflow:hidden;\n  }\n  .serial-table{\n    width:100%;\n    border-collapse:collapse;\n  }\n  .serial-table th,\n  .serial-table td{\n    padding:12px 16px;\n    text-align:left;\n    border-bottom:1px solid var(--line);\n    font-size:14px;\n  }\n  .serial-table th{\n    background:#f0ede5;\n    font-weight:700;\n    color:var(--ink);\n    font-size:13px;\n  }\n  .serial-table tr:last-child td{border-bottom:none;}\n  .serial-table tbody tr{\n    cursor:grab;\n    transition:background .12s, opacity .12s;\n  }\n  .serial-table tbody tr:hover td{background:#faf9f5;}\n  .serial-table tbody tr.dragging{\n    opacity:.45;\n    background:#e8f0eb;\n  }\n  .serial-table tbody tr.drag-over-top td{\n    box-shadow:inset 0 3px 0 0 var(--leaf);\n  }\n  .serial-table tbody tr.drag-over-bottom td{\n    box-shadow:inset 0 -3px 0 0 var(--leaf);\n  }\n  .serial-table tbody tr:active{cursor:grabbing;}\n  .serial-table .sl{width:70px; text-align:center; color:var(--muted); font-weight:600;}\n  .serial-table .name-cell{font-weight:600;}\n  .serial-table .rank-cell{width:100px; text-align:center;}\n  .drag-handle{\n    display:inline-flex;\n    align-items:center;\n    justify-content:center;\n    width:28px;\n    height:28px;\n    border-radius:6px;\n    color:var(--muted);\n    font-size:16px;\n    letter-spacing:-2px;\n    user-select:none;\n  }\n  .rank-btns{\n    display:inline-flex;\n    gap:4px;\n    align-items:center;\n  }\n  .rank-btn{\n    width:28px;\n    height:28px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    color:var(--ink);\n    font-size:12px;\n    font-weight:700;\n    cursor:pointer;\n    line-height:1;\n    padding:0;\n  }\n  .rank-btn:hover:not(:disabled){\n    background:var(--leaf);\n    color:#fff;\n    border-color:var(--leaf);\n  }\n  .rank-btn:disabled{\n    opacity:.3;\n    cursor:not-allowed;\n  }\n  .view-btn{\n    padding:6px 14px;\n    border-radius:999px;\n    border:1px solid var(--leaf);\n    background:#fff;\n    color:var(--leaf);\n    font-size:13px;\n    font-weight:600;\n    cursor:pointer;\n    transition:background .15s, color .15s;\n  }\n  .view-btn:hover{\n    background:var(--leaf);\n    color:#fff;\n  }\n\n  /* Crop modal */\n  .modal-overlay{\n    display:none;\n    position:fixed;\n    inset:0;\n    background:rgba(28,43,36,.55);\n    align-items:center;\n    justify-content:center;\n    z-index:100;\n    padding:16px;\n  }\n  .modal-overlay.open{display:flex;}\n  .crop-box{\n    background:#fff;\n    border-radius:14px;\n    padding:22px;\n    max-width:380px;\n    width:100%;\n    text-align:center;\n  }\n  .crop-box h3{\n    margin:0 0 4px;\n    font-size:16px;\n  }\n  .crop-box .hint{\n    font-size:12px;\n    color:var(--muted);\n    margin-bottom:14px;\n  }\n  .crop-circle-wrap{\n    position:relative;\n    width:280px;\n    height:280px;\n    margin:0 auto 16px;\n    border-radius:50%;\n    overflow:hidden;\n    background:#eee;\n    cursor:grab;\n    touch-action:none;\n  }\n  .crop-circle-wrap:active{cursor:grabbing;}\n  .crop-circle-wrap canvas{\n    display:block;\n    width:100%;\n    height:100%;\n  }\n  .crop-circle-wrap::after{\n    content:'';\n    position:absolute;\n    inset:0;\n    border-radius:50%;\n    box-shadow:inset 0 0 0 2px rgba(47,107,69,.9);\n    pointer-events:none;\n  }\n  .zoom-row{\n    display:flex;\n    align-items:center;\n    gap:10px;\n    margin-bottom:18px;\n  }\n  .zoom-row span{font-size:16px; color:var(--muted);}\n  .zoom-row input[type=range]{flex:1;}\n  .crop-actions{\n    display:flex;\n    gap:10px;\n  }\n  .crop-actions button{\n    flex:1;\n    padding:10px;\n    border-radius:8px;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n    border:1px solid var(--line);\n  }\n  #crop-confirm{background:var(--leaf); color:#fff; border-color:var(--leaf);}\n  #crop-confirm:hover{background:var(--leaf-dark);}\n  #crop-cancel{background:#fff; color:var(--ink);}\n  #crop-cancel:hover{background:#f4f1ea;}\n\n  /* Sticker view modal */\n  .sticker-box{\n    background:#fff;\n    border-radius:18px;\n    padding:28px 24px 22px;\n    max-width:340px;\n    width:100%;\n    text-align:center;\n    box-shadow:0 12px 40px rgba(0,0,0,.18);\n  }\n  .sticker-box .sticker-img-wrap{\n    width:220px;\n    height:220px;\n    margin:0 auto 16px;\n    border-radius:50%;\n    overflow:hidden;\n    border:3px solid var(--leaf);\n    background:#fdfcf9;\n    display:flex;\n    align-items:center;\n    justify-content:center;\n  }\n  .sticker-box .sticker-img-wrap img{\n    width:100%;\n    height:100%;\n    object-fit:contain;\n  }\n  .sticker-box .sticker-name{\n    font-size:18px;\n    font-weight:700;\n    margin:0 0 6px;\n    color:var(--ink);\n  }\n  .sticker-box .sticker-desc{\n    font-size:13px;\n    color:var(--muted);\n    margin:0 0 18px;\n    line-height:1.4;\n  }\n  .sticker-box .sticker-sl{\n    font-size:12px;\n    color:var(--leaf);\n    font-weight:600;\n    margin-bottom:12px;\n    letter-spacing:.5px;\n  }\n  .sticker-close{\n    width:100%;\n    padding:10px;\n    border-radius:8px;\n    border:1px solid var(--line);\n    background:#fff;\n    font-size:14px;\n    font-weight:600;\n    cursor:pointer;\n  }\n  .sticker-close:hover{background:#f4f1ea;}\n  body.pd-viewer-mode [data-tab=\"add\"]{display:none;}\n  body.pd-viewer-mode .del-btn{display:none;}\n</style>\n</head>\n<body>\n\n<div class=\"wrap\">\n  <header>\n    <div class=\"eyebrow\">Color City Ltd</div>\n    <h1><span class=\"eco\">eco</span> Brand Catalog Manager</h1>\n    <div class=\"sub\">\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae \u0993 \u099b\u09ac\u09bf \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8, \u09b8\u0982\u0997\u09cd\u09b0\u09b9 \u09a5\u09c7\u0995\u09c7 PDF \u09ac\u09be Excel \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1 \u0995\u09b0\u09c1\u09a8</div>\n    <div class=\"sub\" style=\"margin-top:2px; font-size:11.5px;\">\u09a1\u09c7\u099f\u09be \u098f\u0987 \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7 (\u09b2\u09cb\u0995\u09be\u09b2 \u09b8\u09cd\u099f\u09cb\u09b0\u09c7\u099c) \u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09bf\u09a4 \u09a5\u09be\u0995\u09c7 \u2014 \u098f\u0995\u0987 \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7 \u09aa\u09b0\u09c7 \u0986\u09ac\u09be\u09b0 \u0996\u09c1\u09b2\u09b2\u09c7\u0993 \u09a5\u09c7\u0995\u09c7 \u09af\u09be\u09ac\u09c7</div>\n  </header>\n\n  <div class=\"tabs\">\n    <button class=\"tab-btn active\" data-tab=\"add\">\u2795 \u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8</button>\n    <button class=\"tab-btn\" data-tab=\"catalog\">\ud83d\udcda \u09b8\u0982\u0997\u09cd\u09b0\u09b9</button>\n    <button class=\"tab-btn\" data-tab=\"serial\">\ud83d\udd22 \u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2 \u09a4\u09be\u09b2\u09bf\u0995\u09be</button>\n  </div>\n\n  <!-- ADD TAB -->\n  <div class=\"panel active\" id=\"panel-add\">\n    <div class=\"form-card\">\n      <label for=\"f-name\">\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae *</label>\n      <input type=\"text\" id=\"f-name\" placeholder=\"\u09af\u09c7\u09ae\u09a8: ecoSPUN\">\n\n      <label>\u099b\u09ac\u09bf *</label>\n      <div class=\"drop\" id=\"drop-zone\">\n        <div id=\"drop-placeholder\">\u099b\u09ac\u09bf \u09b8\u09bf\u09b2\u09c7\u0995\u09cd\u099f \u0995\u09b0\u09a4\u09c7 \u0995\u09cd\u09b2\u09bf\u0995 \u0995\u09b0\u09c1\u09a8</div>\n        <img id=\"preview-img\" style=\"display:none;\">\n      </div>\n      <input type=\"file\" id=\"f-image\" accept=\"image/*\" style=\"display:none;\">\n\n      <label for=\"f-desc\">\u09ac\u09bf\u09ac\u09b0\u09a3 (\u0990\u099a\u09cd\u099b\u09bf\u0995)</label>\n      <textarea id=\"f-desc\" placeholder=\"\u09b8\u0982\u0995\u09cd\u09b7\u09bf\u09aa\u09cd\u09a4 \u09ac\u09bf\u09ac\u09b0\u09a3 \u09b2\u09bf\u0996\u09c1\u09a8...\"></textarea>\n\n      <button class=\"submit-btn\" id=\"submit-btn\">\u09b8\u0982\u0997\u09cd\u09b0\u09b9\u09c7 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8</button>\n      <div class=\"msg\" id=\"form-msg\"></div>\n    </div>\n  </div>\n\n  <!-- CATALOG TAB -->\n  <div class=\"panel\" id=\"panel-catalog\">\n    <div class=\"toolbar\">\n      <div class=\"count\" id=\"item-count\">\u09e6\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7</div>\n      <div class=\"dl-buttons\">\n        <button class=\"dl-btn pdf\" id=\"dl-pdf\">\u2b07 PDF \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1</button>\n        <button class=\"dl-btn xlsx\" id=\"dl-xlsx\">\u2b07 Excel \u09a1\u09be\u0989\u09a8\u09b2\u09cb\u09a1</button>\n      </div>\n    </div>\n    <div class=\"grid\" id=\"grid\"></div>\n    <div class=\"empty-state\" id=\"empty-state\" style=\"display:none;\">\u098f\u0996\u09a8\u09cb \u0995\u09cb\u09a8\u09cb \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u09af\u09cb\u0997 \u0995\u09b0\u09be \u09b9\u09af\u09bc\u09a8\u09bf\u0964 \"\u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8\" \u099f\u09cd\u09af\u09be\u09ac\u09c7 \u0997\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1 \u0995\u09b0\u09c1\u09a8\u0964</div>\n  </div>\n\n  <!-- SERIAL LIST TAB -->\n  <div class=\"panel\" id=\"panel-serial\">\n    <div class=\"toolbar\">\n      <div class=\"count\" id=\"serial-count\">\u09e6\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7</div>\n      <div class=\"count\" style=\"font-size:12px;\">\u283f \u09a7\u09b0\u09c7 \u099f\u09c7\u09a8\u09c7 \u0989\u09aa\u09b0\u09c7-\u09a8\u09bf\u099a\u09c7 \u09b8\u09be\u099c\u09be\u09a8, \u0985\u09a5\u09ac\u09be \u25b2 \u25bc \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8</div>\n    </div>\n    <div class=\"serial-table-wrap\" id=\"serial-table-wrap\">\n      <table class=\"serial-table\">\n        <thead>\n          <tr>\n            <th class=\"sl\">\u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2</th>\n            <th>\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae</th>\n            <th class=\"rank-cell\">\u09b8\u09be\u099c\u09be\u09a8</th>\n            <th style=\"width:110px; text-align:center;\">\u09b8\u09cd\u099f\u09bf\u0995\u09be\u09b0</th>\n          </tr>\n        </thead>\n        <tbody id=\"serial-tbody\">\n        </tbody>\n      </table>\n    </div>\n    <div class=\"empty-state\" id=\"serial-empty\" style=\"display:none;\">\u098f\u0996\u09a8\u09cb \u0995\u09cb\u09a8\u09cb \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u09af\u09cb\u0997 \u0995\u09b0\u09be \u09b9\u09af\u09bc\u09a8\u09bf\u0964 \"\u09a8\u09a4\u09c1\u09a8 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8\" \u099f\u09cd\u09af\u09be\u09ac\u09c7 \u0997\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1 \u0995\u09b0\u09c1\u09a8\u0964</div>\n  </div>\n</div>\n\n<!-- Crop / adjust modal -->\n<div class=\"modal-overlay\" id=\"crop-modal\">\n  <div class=\"crop-box\">\n    <h3>\u099b\u09ac\u09bf \u0985\u09cd\u09af\u09be\u09a1\u099c\u09be\u09b8\u09cd\u099f \u0995\u09b0\u09c1\u09a8</h3>\n    <div class=\"hint\">\u099f\u09c7\u09a8\u09c7 (drag) \u09b8\u09b0\u09be\u09a8 \u098f\u09ac\u0982 \u09b8\u09cd\u09b2\u09be\u0987\u09a1\u09be\u09b0 \u09a6\u09bf\u09af\u09bc\u09c7 \u099b\u09cb\u099f-\u09ac\u09a1\u09bc \u0995\u09b0\u09c1\u09a8</div>\n    <div class=\"crop-circle-wrap\" id=\"crop-wrap\">\n      <canvas id=\"crop-canvas\" width=\"280\" height=\"280\"></canvas>\n    </div>\n    <div class=\"zoom-row\">\n      <span>\u2014</span>\n      <input type=\"range\" id=\"zoom-slider\" min=\"100\" max=\"400\" value=\"100\">\n      <span>+</span>\n    </div>\n    <div class=\"crop-actions\">\n      <button id=\"crop-cancel\">\u09ac\u09be\u09a4\u09bf\u09b2</button>\n      <button id=\"crop-confirm\">\u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8</button>\n    </div>\n  </div>\n</div>\n\n<!-- Sticker view modal -->\n<div class=\"modal-overlay\" id=\"sticker-modal\">\n  <div class=\"sticker-box\">\n    <div class=\"sticker-sl\" id=\"sticker-sl\"></div>\n    <div class=\"sticker-img-wrap\">\n      <img id=\"sticker-img\" src=\"\" alt=\"\u09b8\u09cd\u099f\u09bf\u0995\u09be\u09b0\">\n    </div>\n    <div class=\"sticker-name\" id=\"sticker-name\"></div>\n    <div class=\"sticker-desc\" id=\"sticker-desc\"></div>\n    <button class=\"sticker-close\" id=\"sticker-close\">\u09ac\u09a8\u09cd\u09a7 \u0995\u09b0\u09c1\u09a8</button>\n  </div>\n</div>\n\n<script>\nlet items = [];\nlet pendingImage = null;\n\nconst STORAGE_KEY = 'brand-catalog-items';\n\nasync function loadItems(){\n  try{\n    const raw = localStorage.getItem(STORAGE_KEY);\n    items = raw ? JSON.parse(raw) : [];\n  }catch(e){\n    items = [];\n  }\n  renderGrid();\n  renderSerialList();\n}\n\nasync function saveItems(){\n  try{\n    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));\n  }catch(e){\n    console.error('Local storage save failed', e);\n    alert('\u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09a3 \u09ac\u09cd\u09af\u09b0\u09cd\u09a5 \u09b9\u09af\u09bc\u09c7\u099b\u09c7\u0964 \u09b9\u09af\u09bc\u09a4\u09cb \u09ac\u09cd\u09b0\u09be\u0989\u099c\u09be\u09b0\u09c7\u09b0 \u09b8\u09cd\u099f\u09cb\u09b0\u09c7\u099c \u09aa\u09c2\u09b0\u09cd\u09a3 \u09b9\u09af\u09bc\u09c7 \u0997\u09c7\u099b\u09c7 (\u099b\u09ac\u09bf \u0985\u09a8\u09c7\u0995 \u09ac\u09a1\u09bc \u09ac\u09be \u09b8\u0982\u0996\u09cd\u09af\u09be \u0985\u09a8\u09c7\u0995 \u09ac\u09c7\u09b6\u09bf)\u0964');\n  }\n}\n\n// Tabs\ndocument.querySelectorAll('.tab-btn').forEach(btn=>{\n  btn.addEventListener('click', ()=> switchTab(btn.dataset.tab));\n});\nfunction switchTab(tab){\n  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));\n  document.getElementById('panel-add').classList.toggle('active', tab==='add');\n  document.getElementById('panel-catalog').classList.toggle('active', tab==='catalog');\n  document.getElementById('panel-serial').classList.toggle('active', tab==='serial');\n  if(tab === 'serial') renderSerialList();\n}\n\n// Image upload + resize\nconst dropZone = document.getElementById('drop-zone');\nconst fileInput = document.getElementById('f-image');\nconst previewImg = document.getElementById('preview-img');\nconst placeholder = document.getElementById('drop-placeholder');\n\ndropZone.addEventListener('click', ()=> fileInput.click());\nfileInput.addEventListener('change', (e)=>{\n  const file = e.target.files[0];\n  if(!file) return;\n  const reader = new FileReader();\n  reader.onload = (ev)=>{\n    const img = new Image();\n    img.onload = ()=> openCropModal(img);\n    img.src = ev.target.result;\n  };\n  reader.readAsDataURL(file);\n});\n\n/* ---- Crop / zoom / pan modal ---- */\nconst cropModal = document.getElementById('crop-modal');\nconst cropCanvas = document.getElementById('crop-canvas');\nconst cropCtx = cropCanvas.getContext('2d');\nconst zoomSlider = document.getElementById('zoom-slider');\nconst CROP_SIZE = 280;\n\nlet cropImg = null;\nlet baseScale = 1;\nlet zoomFactor = 1;\nlet offX = 0, offY = 0;\nlet dragging = false, lastX = 0, lastY = 0;\n\nfunction openCropModal(img){\n  cropImg = img;\n  baseScale = Math.max(CROP_SIZE / img.width, CROP_SIZE / img.height);\n  zoomFactor = 1;\n  zoomSlider.value = 100;\n  const drawnW = img.width * baseScale, drawnH = img.height * baseScale;\n  offX = (CROP_SIZE - drawnW) / 2;\n  offY = (CROP_SIZE - drawnH) / 2;\n  drawCrop();\n  cropModal.classList.add('open');\n}\n\nfunction drawCrop(){\n  const scale = baseScale * zoomFactor;\n  const drawnW = cropImg.width * scale, drawnH = cropImg.height * scale;\n  cropCtx.clearRect(0,0,CROP_SIZE,CROP_SIZE);\n  cropCtx.fillStyle = '#ffffff';\n  cropCtx.fillRect(0,0,CROP_SIZE,CROP_SIZE);\n  cropCtx.drawImage(cropImg, offX, offY, drawnW, drawnH);\n}\n\nfunction clampOffset(){\n  const scale = baseScale * zoomFactor;\n  const drawnW = cropImg.width * scale, drawnH = cropImg.height * scale;\n  offX = Math.min(0, Math.max(CROP_SIZE - drawnW, offX));\n  offY = Math.min(0, Math.max(CROP_SIZE - drawnH, offY));\n}\n\nzoomSlider.addEventListener('input', ()=>{\n  const oldScale = baseScale * zoomFactor;\n  const cx = CROP_SIZE/2, cy = CROP_SIZE/2;\n  // image-space point currently at canvas center\n  const imgCx = (cx - offX) / oldScale;\n  const imgCy = (cy - offY) / oldScale;\n\n  zoomFactor = zoomSlider.value / 100;\n  const newScale = baseScale * zoomFactor;\n  offX = cx - imgCx * newScale;\n  offY = cy - imgCy * newScale;\n  clampOffset();\n  drawCrop();\n});\n\nconst wrapEl = document.getElementById('crop-wrap');\nfunction startDrag(x,y){ dragging = true; lastX = x; lastY = y; }\nfunction moveDrag(x,y){\n  if(!dragging) return;\n  offX += (x - lastX);\n  offY += (y - lastY);\n  lastX = x; lastY = y;\n  clampOffset();\n  drawCrop();\n}\nfunction endDrag(){ dragging = false; }\n\nwrapEl.addEventListener('mousedown', e=> startDrag(e.clientX, e.clientY));\nwindow.addEventListener('mousemove', e=> moveDrag(e.clientX, e.clientY));\nwindow.addEventListener('mouseup', endDrag);\n\nwrapEl.addEventListener('touchstart', e=>{\n  const t = e.touches[0];\n  startDrag(t.clientX, t.clientY);\n}, {passive:true});\nwrapEl.addEventListener('touchmove', e=>{\n  const t = e.touches[0];\n  moveDrag(t.clientX, t.clientY);\n}, {passive:true});\nwrapEl.addEventListener('touchend', endDrag);\n\ndocument.getElementById('crop-cancel').addEventListener('click', ()=>{\n  cropModal.classList.remove('open');\n  fileInput.value = '';\n});\n\ndocument.getElementById('crop-confirm').addEventListener('click', ()=>{\n  // bake final circular image (edge-to-edge circle) at good resolution\n  const OUT = 480;\n  const out = document.createElement('canvas');\n  out.width = OUT; out.height = OUT;\n  const octx = out.getContext('2d');\n  octx.fillStyle = '#ffffff';\n  octx.fillRect(0,0,OUT,OUT);\n  octx.save();\n  octx.beginPath();\n  octx.arc(OUT/2, OUT/2, OUT/2 - 2, 0, Math.PI*2);\n  octx.clip();\n  const f = OUT / CROP_SIZE;\n  const scale = baseScale * zoomFactor * f;\n  octx.drawImage(cropImg, offX*f, offY*f, cropImg.width*scale, cropImg.height*scale);\n  octx.restore();\n\n  pendingImage = out.toDataURL('image/jpeg', 0.85);\n  previewImg.src = pendingImage;\n  previewImg.style.display = 'block';\n  placeholder.style.display = 'none';\n  cropModal.classList.remove('open');\n});\n\n// Submit\ndocument.getElementById('submit-btn').addEventListener('click', async ()=>{\n  const name = document.getElementById('f-name').value.trim();\n  const desc = document.getElementById('f-desc').value.trim();\n  const msg = document.getElementById('form-msg');\n\n  if(!name){\n    msg.textContent = '\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae \u09b2\u09bf\u0996\u09c1\u09a8\u0964';\n    msg.className = 'msg error';\n    return;\n  }\n  if(!pendingImage){\n    msg.textContent = '\u098f\u0995\u099f\u09bf \u099b\u09ac\u09bf \u09b8\u09bf\u09b2\u09c7\u0995\u09cd\u099f \u0995\u09b0\u09c1\u09a8\u0964';\n    msg.className = 'msg error';\n    return;\n  }\n\n  const btn = document.getElementById('submit-btn');\n  btn.disabled = true;\n  btn.textContent = '\u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09a3 \u09b9\u099a\u09cd\u099b\u09c7...';\n\n  items.unshift({\n    id: Date.now().toString(),\n    name, desc,\n    image: pendingImage\n  });\n  await saveItems();\n\n  // reset form\n  document.getElementById('f-name').value = '';\n  document.getElementById('f-desc').value = '';\n  fileInput.value = '';\n  pendingImage = null;\n  previewImg.style.display = 'none';\n  placeholder.style.display = 'block';\n  btn.disabled = false;\n  btn.textContent = '\u09b8\u0982\u0997\u09cd\u09b0\u09b9\u09c7 \u09af\u09cb\u0997 \u0995\u09b0\u09c1\u09a8';\n  msg.textContent = '';\n\n  renderGrid();\n  renderSerialList();\n  switchTab('catalog');\n});\n\n// Render catalog grid\nfunction renderGrid(){\n  const grid = document.getElementById('grid');\n  const empty = document.getElementById('empty-state');\n  const count = document.getElementById('item-count');\n  count.textContent = items.length + '\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7';\n\n  document.getElementById('dl-pdf').disabled = items.length === 0;\n  document.getElementById('dl-xlsx').disabled = items.length === 0;\n\n  if(items.length === 0){\n    grid.innerHTML = '';\n    empty.style.display = 'block';\n    return;\n  }\n  empty.style.display = 'none';\n\n  grid.innerHTML = items.map(it => `\n    <div class=\"item-card\">\n      <button class=\"del-btn\" data-id=\"${it.id}\" title=\"\u09ae\u09c1\u099b\u09c1\u09a8\">\u2715</button>\n      <img src=\"${it.image}\">\n      <div class=\"item-info\">\n        <div class=\"name\">${escapeHtml(it.name)}</div>\n        <div class=\"desc\">${escapeHtml(it.desc || '')}</div>\n      </div>\n    </div>\n  `).join('');\n\n  grid.querySelectorAll('.del-btn').forEach(b=>{\n    b.addEventListener('click', async ()=>{\n      items = items.filter(it => it.id !== b.dataset.id);\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n}\n\n// Serial list + drag & drop ranking\nlet dragFromIdx = null;\n\nfunction renderSerialList(){\n  const tbody = document.getElementById('serial-tbody');\n  const empty = document.getElementById('serial-empty');\n  const wrap = document.getElementById('serial-table-wrap');\n  const count = document.getElementById('serial-count');\n  count.textContent = items.length + '\u099f\u09bf \u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1 \u0986\u099b\u09c7';\n\n  if(items.length === 0){\n    tbody.innerHTML = '';\n    wrap.style.display = 'none';\n    empty.style.display = 'block';\n    return;\n  }\n  empty.style.display = 'none';\n  wrap.style.display = 'block';\n\n  tbody.innerHTML = items.map((it, i) => `\n    <tr draggable=\"true\" data-idx=\"${i}\">\n      <td class=\"sl\">${i + 1}</td>\n      <td class=\"name-cell\">${escapeHtml(it.name)}</td>\n      <td class=\"rank-cell\">\n        <div class=\"rank-btns\">\n          <span class=\"drag-handle\" title=\"\u099f\u09c7\u09a8\u09c7 \u09b8\u09be\u099c\u09be\u09a8\">\u283f</span>\n          <button class=\"rank-btn\" data-action=\"up\" data-idx=\"${i}\" title=\"\u0989\u09aa\u09b0\u09c7 \u09b8\u09b0\u09be\u09a8\" ${i === 0 ? 'disabled' : ''}>\u25b2</button>\n          <button class=\"rank-btn\" data-action=\"down\" data-idx=\"${i}\" title=\"\u09a8\u09bf\u099a\u09c7 \u09b8\u09b0\u09be\u09a8\" ${i === items.length - 1 ? 'disabled' : ''}>\u25bc</button>\n        </div>\n      </td>\n      <td style=\"text-align:center;\">\n        <button class=\"view-btn\" data-id=\"${it.id}\">\u09ad\u09bf\u0989</button>\n      </td>\n    </tr>\n  `).join('');\n\n  // View buttons\n  tbody.querySelectorAll('.view-btn').forEach(btn=>{\n    btn.addEventListener('click', (e)=>{\n      e.stopPropagation();\n      const item = items.find(it => it.id === btn.dataset.id);\n      if(item) openStickerModal(item, items.indexOf(item) + 1);\n    });\n  });\n\n  // Up / Down buttons (fallback)\n  tbody.querySelectorAll('.rank-btn').forEach(btn=>{\n    btn.addEventListener('click', async (e)=>{\n      e.stopPropagation();\n      const idx = parseInt(btn.dataset.idx, 10);\n      const action = btn.dataset.action;\n      if(action === 'up' && idx > 0){\n        [items[idx - 1], items[idx]] = [items[idx], items[idx - 1]];\n      } else if(action === 'down' && idx < items.length - 1){\n        [items[idx], items[idx + 1]] = [items[idx + 1], items[idx]];\n      } else {\n        return;\n      }\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n\n  // Drag & drop\n  const rows = tbody.querySelectorAll('tr');\n  rows.forEach(row=>{\n    row.addEventListener('dragstart', (e)=>{\n      // Don't start drag from buttons\n      if(e.target.closest('button') || e.target.closest('.view-btn')){\n        e.preventDefault();\n        return;\n      }\n      dragFromIdx = parseInt(row.dataset.idx, 10);\n      row.classList.add('dragging');\n      e.dataTransfer.effectAllowed = 'move';\n      e.dataTransfer.setData('text/plain', String(dragFromIdx));\n    });\n\n    row.addEventListener('dragend', ()=>{\n      row.classList.remove('dragging');\n      rows.forEach(r=>{\n        r.classList.remove('drag-over-top', 'drag-over-bottom');\n      });\n      dragFromIdx = null;\n    });\n\n    row.addEventListener('dragover', (e)=>{\n      e.preventDefault();\n      e.dataTransfer.dropEffect = 'move';\n      if(dragFromIdx === null) return;\n      const overIdx = parseInt(row.dataset.idx, 10);\n      if(overIdx === dragFromIdx) return;\n\n      rows.forEach(r=> r.classList.remove('drag-over-top', 'drag-over-bottom'));\n      const rect = row.getBoundingClientRect();\n      const mid = rect.top + rect.height / 2;\n      if(e.clientY < mid){\n        row.classList.add('drag-over-top');\n      } else {\n        row.classList.add('drag-over-bottom');\n      }\n    });\n\n    row.addEventListener('dragleave', ()=>{\n      row.classList.remove('drag-over-top', 'drag-over-bottom');\n    });\n\n    row.addEventListener('drop', async (e)=>{\n      e.preventDefault();\n      rows.forEach(r=> r.classList.remove('drag-over-top', 'drag-over-bottom'));\n      if(dragFromIdx === null) return;\n\n      const overIdx = parseInt(row.dataset.idx, 10);\n      if(overIdx === dragFromIdx) return;\n\n      const rect = row.getBoundingClientRect();\n      const mid = rect.top + rect.height / 2;\n      let toIdx = overIdx;\n      if(e.clientY >= mid) toIdx = overIdx + 1;\n\n      // Adjust when moving downward\n      if(dragFromIdx < toIdx) toIdx -= 1;\n      if(toIdx === dragFromIdx) return;\n\n      const [moved] = items.splice(dragFromIdx, 1);\n      items.splice(toIdx, 0, moved);\n\n      await saveItems();\n      renderGrid();\n      renderSerialList();\n    });\n  });\n}\n\nfunction escapeHtml(str){\n  const d = document.createElement('div');\n  d.textContent = str;\n  return d.innerHTML;\n}\n\n/* ---- Sticker modal ---- */\nconst stickerModal = document.getElementById('sticker-modal');\ndocument.getElementById('sticker-close').addEventListener('click', ()=>{\n  stickerModal.classList.remove('open');\n});\nstickerModal.addEventListener('click', (e)=>{\n  if(e.target === stickerModal) stickerModal.classList.remove('open');\n});\n\nfunction openStickerModal(item, sl){\n  document.getElementById('sticker-sl').textContent = '\u09b8\u09bf\u09b0\u09bf\u09df\u09be\u09b2 \u09a8\u0982: ' + sl;\n  document.getElementById('sticker-img').src = item.image;\n  document.getElementById('sticker-name').textContent = item.name;\n  document.getElementById('sticker-desc').textContent = item.desc || '';\n  stickerModal.classList.add('open');\n}\n\n// PDF export\ndocument.getElementById('dl-pdf').addEventListener('click', ()=>{\n  const { jsPDF } = window.jspdf;\n  const doc = new jsPDF({ unit:'mm', format:'a4' });\n  const pageW = 210, margin = 12;\n  const colW = (pageW - margin*2) / 3;\n  const imgSize = 22, rowH = 30;\n  let x = margin, y = 22, col = 0;\n\n  doc.setFontSize(16);\n  doc.text('eco \u2014 Our Used Brand', pageW/2, 14, { align:'center' });\n  doc.setFontSize(9);\n  doc.setTextColor(120);\n  doc.text('Color City Ltd', pageW/2, 19, { align:'center' });\n  doc.setTextColor(20);\n\n  items.forEach((it, i)=>{\n    if(y + rowH > 285){\n      doc.addPage();\n      y = 20; col = 0; x = margin;\n    }\n    try{\n      doc.addImage(it.image, 'JPEG', x, y, imgSize, imgSize);\n    }catch(e){}\n    doc.setFontSize(10);\n    doc.setFont(undefined, 'bold');\n    const nameLines = doc.splitTextToSize(it.name, colW - imgSize - 4);\n    doc.text(nameLines, x + imgSize + 3, y + 6);\n    doc.setFont(undefined, 'normal');\n    doc.setFontSize(8);\n    doc.setTextColor(110);\n    const descLines = doc.splitTextToSize(it.desc || '', colW - imgSize - 4);\n    doc.text(descLines.slice(0,3), x + imgSize + 3, y + 12);\n    doc.setTextColor(20);\n\n    col++;\n    if(col === 3){\n      col = 0; x = margin; y += rowH;\n    } else {\n      x += colW;\n    }\n  });\n\n  doc.save('eco_brand_catalog.pdf');\n});\n\n// Excel export\ndocument.getElementById('dl-xlsx').addEventListener('click', ()=>{\n  const rows = items.map((it, i)=>({\n    '\u0995\u09cd\u09b0\u09ae': i+1,\n    '\u09ac\u09cd\u09b0\u09cd\u09af\u09be\u09a8\u09cd\u09a1\u09c7\u09b0 \u09a8\u09be\u09ae': it.name,\n    '\u09ac\u09bf\u09ac\u09b0\u09a3': it.desc || ''\n  }));\n  const ws = XLSX.utils.json_to_sheet(rows);\n  ws['!cols'] = [{wch:6},{wch:28},{wch:50}];\n  const wb = XLSX.utils.book_new();\n  XLSX.utils.book_append_sheet(wb, ws, 'Brands');\n  XLSX.writeFile(wb, 'eco_brand_catalog.xlsx');\n});\n\nloadItems();\nlet pdRole = 'viewer';\nwindow.addEventListener('message', function(e){\n  if(e && e.data && e.data.type === 'pdRole'){\n    pdRole = e.data.role;\n    applyPdRoleUI();\n  }\n});\nfunction applyPdRoleUI(){\n  var isAdmin = pdRole === 'admin';\n  document.body.classList.toggle('pd-viewer-mode', !isAdmin);\n  if(!isAdmin){ switchTab('catalog'); }\n}\napplyPdRoleUI();\n<\/script>\n\n</body>\n</html>\n";
 
         function openBrandCatalog() {
             document.getElementById("categorySection").style.display = "none";
@@ -396,6 +503,11 @@
             sec.style.display = "block";
             var frame = document.getElementById("brandCatalogFrame");
             try {
+                frame.onload = function() {
+                    try {
+                        frame.contentWindow.postMessage({ type: "pdRole", role: (window.pdCurrentRole ? window.pdCurrentRole() : "viewer") }, "*");
+                    } catch (e2) {}
+                };
                 frame.srcdoc = BRAND_CATALOG_HTML;
                 frame.dataset.loaded = "1";
             } catch (e) {
@@ -585,27 +697,26 @@
             }
         }
 
-        async function login() {
-            var pass = document.getElementById("password").value;
-            if (pass === CORRECT_PASSWORD) {
-                try {
-                    await openDB();
-                    document.getElementById("loginScreen").style.display = "none";
-                    document.getElementById("dashboard").style.display = "block";
-                    document.getElementById("loginError").style.display = "none";
-                    await renderCategoryButtons();
-                } catch (err) {
-                    alert("ডাটাবেস খুলতে সমস্যা: " + err.message);
-                }
-            } else {
-                document.getElementById("loginError").style.display = "block";
-            }
-        }
+        // NOTE: password-only login() has been replaced by the Firebase-backed
+        // window.pdLogin()/window.pdSignup() functions defined in the module
+        // script near the end of <body>. openDB()/renderCategoryButtons() below
+        // are still used by that new flow.
+        window.pdEnterDashboardCore = async function() {
+            await openDB();
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+            document.getElementById("loginError").style.display = "none";
+            await renderCategoryButtons();
+        };
 
         function logout() {
             document.getElementById("dashboard").style.display = "none";
             document.getElementById("loginScreen").style.display = "flex";
             document.getElementById("password").value = "";
+            document.getElementById("pdUser") && (document.getElementById("pdUser").value = "");
+            sessionStorage.removeItem("pdRole");
+            sessionStorage.removeItem("pdUsername");
+            if (window.pdResetSession) window.pdResetSession();
             goBack();
         }
 
@@ -4597,5 +4708,277 @@
         }
 
     </script>
+
+<!-- ══ FIREBASE-BACKED LOGIN / SIGNUP / ROLE SYSTEM ══ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBpQCryJLH1da1whh-1pfSVIl9RvWnNOVI",
+  authDomain: "dbl-kaizen.firebaseapp.com",
+  projectId: "dbl-kaizen",
+  storageBucket: "dbl-kaizen.firebasestorage.app",
+  messagingSenderId: "447302057753",
+  appId: "1:447302057753:web:a1acdf6991612a18d9cf88"
+};
+const app = initializeApp(firebaseConfig, "pdApp");
+const db = getFirestore(app);
+
+const DEFAULT_ADMIN_PASS = "eco@sr123";
+const ADMIN_SETTINGS_DOC = doc(db, "app_settings", "production_dashboard");
+
+let currentRole = null;      // 'admin' | 'viewer'
+let currentUsername = null;
+
+async function getAdminPassword() {
+  try {
+    const snap = await getDoc(ADMIN_SETTINGS_DOC);
+    if (snap.exists() && snap.data().adminPassword) return snap.data().adminPassword;
+  } catch (e) { /* fall back to default */ }
+  return DEFAULT_ADMIN_PASS;
+}
+
+// ---- form toggle ----
+document.getElementById("pdShowSignup").addEventListener("click", function () {
+  document.getElementById("pdLoginFormSec").style.display = "none";
+  document.getElementById("pdSignupFormSec").style.display = "flex";
+});
+document.getElementById("pdShowLogin").addEventListener("click", function () {
+  document.getElementById("pdSignupFormSec").style.display = "none";
+  document.getElementById("pdLoginFormSec").style.display = "flex";
+});
+
+function setErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = "block";
+}
+function clearErr(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+// ---- login ----
+window.pdLogin = async function () {
+  const uRaw = document.getElementById("pdUser").value.trim();
+  const u = uRaw.toLowerCase();
+  const p = document.getElementById("password").value;
+  clearErr("loginError");
+
+  if (!u || !p) { setErr("loginError", "❌ ইউজারনেম ও পাসওয়ার্ড দিন।"); return; }
+
+  const btn = document.getElementById("pdLoginBtn");
+  btn.disabled = true; btn.textContent = "⏳ লগইন হচ্ছে...";
+
+  try {
+    if (u === "admin") {
+      const realAdminPass = await getAdminPassword();
+      if (p === realAdminPass) {
+        currentRole = "admin"; currentUsername = "admin";
+        await enterDashboard();
+      } else {
+        setErr("loginError", "❌ অ্যাডমিন পাসওয়ার্ড ভুল!");
+      }
+    } else {
+      const snap = await getDoc(doc(db, "pd_users", u));
+      if (!snap.exists()) {
+        setErr("loginError", "❌ এই ইউজারনেমে কোনো অ্যাকাউন্ট নেই। নতুন অ্যাকাউন্ট তৈরি করুন।");
+      } else {
+        const data = snap.data();
+        if (data.active === false) {
+          setErr("loginError", "❌ আপনার অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে। অ্যাডমিনের সাথে যোগাযোগ করুন।");
+        } else if (data.password !== p) {
+          setErr("loginError", "❌ পাসওয়ার্ড ভুল! আবার চেষ্টা করুন।");
+        } else {
+          currentRole = (data.role === "admin") ? "admin" : "viewer";
+          currentUsername = u;
+          await enterDashboard();
+        }
+      }
+    }
+  } catch (e) {
+    setErr("loginError", "❌ সার্ভার/ইন্টারনেট সমস্যা: " + e.message);
+  }
+  btn.disabled = false; btn.textContent = "🔓 লগইন করুন";
+};
+
+// ---- signup (always creates a viewer account) ----
+window.pdSignup = async function () {
+  const uRaw = document.getElementById("pdNewUser").value.trim();
+  const u = uRaw.toLowerCase();
+  const p1 = document.getElementById("pdNewPass").value;
+  const p2 = document.getElementById("pdNewPass2").value;
+  clearErr("pdSignupErr");
+
+  if (!u || !p1 || !p2) { setErr("pdSignupErr", "❌ সব ফিল্ড পূরণ করুন।"); return; }
+  if (u === "admin") { setErr("pdSignupErr", "❌ এই নামে অ্যাকাউন্ট তৈরি করা যাবে না।"); return; }
+  if (!/^[a-z0-9_.]{3,20}$/.test(u)) { setErr("pdSignupErr", "❌ ইউজারনেম শুধু ইংরেজি অক্ষর/সংখ্যায় (৩-২০ ক্যারেক্টার) হতে হবে।"); return; }
+  if (p1.length < 4) { setErr("pdSignupErr", "❌ পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে।"); return; }
+  if (p1 !== p2) { setErr("pdSignupErr", "❌ দুটি পাসওয়ার্ড মিলছে না।"); return; }
+
+  const btn = document.getElementById("pdSignupBtn");
+  btn.disabled = true; btn.textContent = "⏳ তৈরি হচ্ছে...";
+
+  try {
+    const ref = doc(db, "pd_users", u);
+    const existing = await getDoc(ref);
+    if (existing.exists()) {
+      setErr("pdSignupErr", "❌ এই ইউজারনেম আগে থেকেই আছে। অন্য নাম দিন।");
+    } else {
+      await setDoc(ref, {
+        username: uRaw, password: p1, role: "viewer", active: true, createdAt: serverTimestamp()
+      });
+      currentRole = "viewer"; currentUsername = u;
+      await enterDashboard();
+    }
+  } catch (e) {
+    setErr("pdSignupErr", "❌ সার্ভার/ইন্টারনেট সমস্যা: " + e.message);
+  }
+  btn.disabled = false; btn.textContent = "✅ অ্যাকাউন্ট তৈরি করুন";
+};
+
+async function enterDashboard() {
+  sessionStorage.setItem("pdRole", currentRole);
+  sessionStorage.setItem("pdUsername", currentUsername);
+  await window.pdEnterDashboardCore();
+  applyRolePermissions();
+}
+
+function applyRolePermissions() {
+  const isAdmin = currentRole === "admin";
+  document.querySelectorAll(".only-admin").forEach(function (el) {
+    el.style.display = isAdmin ? "" : "none";
+  });
+  const badge = document.getElementById("roleBadge");
+  if (badge) {
+    badge.textContent = isAdmin ? ("🔓 Admin") : ("👁 Viewer — " + currentUsername);
+    badge.classList.toggle("admin", isAdmin);
+  }
+}
+
+window.pdCurrentRole = function () { return currentRole; };
+window.pdCurrentUsername = function () { return currentUsername; };
+window.pdResetSession = function () { currentRole = null; currentUsername = null; };
+
+// ---- restore session across page reloads (same tab/browser) ----
+(function tryRestoreSession() {
+  const r = sessionStorage.getItem("pdRole");
+  const u = sessionStorage.getItem("pdUsername");
+  if (r && u) {
+    currentRole = r; currentUsername = u;
+    enterDashboard();
+  }
+})();
+
+// ---- Admin: user management panel ----
+window.openUserAdmin = async function () {
+  if (currentRole !== "admin") return;
+
+  let ovl = document.getElementById("pdAdmOvl");
+  if (!ovl) {
+    ovl = document.createElement("div");
+    ovl.id = "pdAdmOvl";
+    ovl.className = "pdadm-ovl";
+    document.body.appendChild(ovl);
+    ovl.addEventListener("click", function (e) { if (e.target === ovl) ovl.classList.remove("on"); });
+  }
+
+  ovl.innerHTML =
+    '<div class="pdadm-box">' +
+      '<div class="pdadm-hdr"><h3>👥 ইউজার ম্যানেজমেন্ট</h3><button class="pdadm-close" id="pdAdmCloseBtn">✕</button></div>' +
+      '<div class="pdadm-body">' +
+        '<div style="font-size:12px;font-weight:700;color:var(--wlc-navy);margin-bottom:10px;">📋 সকল ভিউয়ার অ্যাকাউন্ট:</div>' +
+        '<div id="pdAdmUserList">লোড হচ্ছে...</div>' +
+        '<div style="margin-top:22px;padding-top:16px;border-top:1px dashed var(--wlc-border);">' +
+          '<label class="wlc-lbl" style="display:block;margin-bottom:6px;">🔑 অ্যাডমিন পাসওয়ার্ড পরিবর্তন করুন</label>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<input class="wlc-inp" style="padding:9px 12px;" id="pdNewAdminPass" type="password" placeholder="নতুন অ্যাডমিন পাসওয়ার্ড (খালি রাখলে অপরিবর্তিত)"/>' +
+            '<button class="wlc-btn" style="width:auto;padding:9px 16px;margin-top:0;" id="pdSaveAdminPass">সেভ</button>' +
+          '</div>' +
+          '<div class="wlc-err" id="pdAdminPassMsg" style="margin-top:8px;"></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  ovl.classList.add("on");
+  document.getElementById("pdAdmCloseBtn").addEventListener("click", function () { ovl.classList.remove("on"); });
+  document.getElementById("pdSaveAdminPass").addEventListener("click", async function () {
+    const val = document.getElementById("pdNewAdminPass").value;
+    const msg = document.getElementById("pdAdminPassMsg");
+    if (!val) { msg.textContent = "❌ নতুন পাসওয়ার্ড লিখুন।"; msg.style.display = "block"; return; }
+    try {
+      await setDoc(ADMIN_SETTINGS_DOC, { adminPassword: val }, { merge: true });
+      msg.style.color = "#1E8449";
+      msg.textContent = "✅ অ্যাডমিন পাসওয়ার্ড পরিবর্তন হয়েছে।";
+      msg.style.display = "block";
+      document.getElementById("pdNewAdminPass").value = "";
+    } catch (e) {
+      msg.style.color = "#922B21";
+      msg.textContent = "❌ এরর: " + e.message;
+      msg.style.display = "block";
+    }
+  });
+
+  await renderUserAdminList();
+};
+
+async function renderUserAdminList() {
+  const listEl = document.getElementById("pdAdmUserList");
+  if (!listEl) return;
+  try {
+    const snaps = await getDocs(collection(db, "pd_users"));
+    if (snaps.empty) {
+      listEl.innerHTML = '<div style="font-size:13px;color:var(--wlc-muted);padding:10px 0;">এখনো কোনো ভিউয়ার অ্যাকাউন্ট তৈরি হয়নি।</div>';
+      return;
+    }
+    let html = "";
+    snaps.forEach(function (d) {
+      const data = d.data();
+      const uname = d.id;
+      const active = data.active !== false;
+      html +=
+        '<div class="pdadm-row">' +
+          '<div><div class="pdadm-uname">' + (data.username || uname) + '</div>' +
+          '<span class="pdadm-status ' + (active ? "active" : "inactive") + '">' + (active ? "সক্রিয়" : "নিষ্ক্রিয়") + '</span></div>' +
+          '<div class="pdadm-actions">' +
+            '<button class="pdadm-btn-toggle" data-act="toggle" data-u="' + uname + '" data-active="' + active + '">' + (active ? "নিষ্ক্রিয় করুন" : "সক্রিয় করুন") + '</button>' +
+            '<button class="pdadm-btn-reset" data-act="reset" data-u="' + uname + '">পাসওয়ার্ড রিসেট</button>' +
+            '<button class="pdadm-btn-del" data-act="del" data-u="' + uname + '">মুছে ফেলুন</button>' +
+          '</div>' +
+        '</div>';
+    });
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll("button").forEach(function (btn) {
+      btn.addEventListener("click", async function () {
+        const act = btn.dataset.act;
+        const u = btn.dataset.u;
+        if (act === "toggle") {
+          const nowActive = btn.dataset.active === "true";
+          await updateDoc(doc(db, "pd_users", u), { active: !nowActive });
+          await renderUserAdminList();
+        } else if (act === "reset") {
+          const np = prompt("👤 " + u + " এর জন্য নতুন পাসওয়ার্ড দিন:");
+          if (np && np.length >= 4) {
+            await updateDoc(doc(db, "pd_users", u), { password: np });
+            alert("✅ পাসওয়ার্ড পরিবর্তন হয়েছে।");
+          } else if (np !== null) {
+            alert("❌ পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে।");
+          }
+        } else if (act === "del") {
+          if (confirm("আপনি কি নিশ্চিত যে '" + u + "' অ্যাকাউন্টটি মুছে ফেলতে চান?")) {
+            await deleteDoc(doc(db, "pd_users", u));
+            await renderUserAdminList();
+          }
+        }
+      });
+    });
+  } catch (e) {
+    listEl.innerHTML = '<div style="color:#922B21;font-size:13px;">এরর: ' + e.message + '</div>';
+  }
+}
+</script>
 </body>
 </html>
