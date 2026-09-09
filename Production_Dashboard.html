@@ -542,6 +542,20 @@
             setTimeout(function() { el.style.display = "none"; }, 4500);
         }
 
+        function waitForCloud(maxMs) {
+            maxMs = maxMs || 4000;
+            return new Promise(function(resolve) {
+                if (typeof window.pdCloudSaveFile === "function") { resolve(true); return; }
+                var t0 = Date.now();
+                var timer = setInterval(function() {
+                    if (typeof window.pdCloudSaveFile === "function" || Date.now() - t0 > maxMs) {
+                        clearInterval(timer);
+                        resolve(typeof window.pdCloudSaveFile === "function");
+                    }
+                }, 50);
+            });
+        }
+
         function openDB() {
             return new Promise(function(resolve, reject) {
                 var request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -560,9 +574,21 @@
             });
         }
 
-        function saveFileToDB(category, fileName, fileHeaders, fileData, size) {
+        async function saveFileToDB(category, fileName, fileHeaders, fileData, size) {
+            // Prefer Firestore (cloud) so data persists across devices/browsers
+            await waitForCloud(3000);
+            if (typeof window.pdCloudSaveFile === "function") {
+                try {
+                    await window.pdCloudSaveFile(category, fileName, fileHeaders, fileData, size);
+                } catch (cloudErr) {
+                    console.warn("Cloud save failed, falling back to local IndexedDB:", cloudErr);
+                    // fall through to local
+                }
+            }
+            // Also keep a local IndexedDB copy for offline/speed
             return new Promise(function(resolve, reject) {
                 try {
+                    if (!db) { resolve(true); return; }
                     var id = category + "|||" + fileName;
                     var tx = db.transaction("files", "readwrite");
                     var store = tx.objectStore("files");
@@ -579,14 +605,50 @@
                     req.onsuccess = function() { resolve(true); };
                     req.onerror = function() { reject(req.error); };
                 } catch (e) {
-                    reject(e);
+                    // If local also fails but cloud succeeded, still OK
+                    if (typeof window.pdCloudSaveFile === "function") resolve(true);
+                    else reject(e);
                 }
             });
         }
 
-        function getFilesByCategory(category) {
+        async function getFilesByCategory(category) {
+            // Prefer cloud data so all users/devices see the same files
+            await waitForCloud(3000);
+            if (typeof window.pdCloudGetFilesByCategory === "function") {
+                try {
+                    var cloudList = await window.pdCloudGetFilesByCategory(category);
+                    if (cloudList && cloudList.length > 0) {
+                        // refresh local cache in background
+                        try {
+                            if (db) {
+                                for (var i = 0; i < cloudList.length; i++) {
+                                    var f = cloudList[i];
+                                    var id = category + "|||" + f.fileName;
+                                    var tx = db.transaction("files", "readwrite");
+                                    var store = tx.objectStore("files");
+                                    store.put({
+                                        id: id,
+                                        category: category,
+                                        fileName: f.fileName,
+                                        headers: f.headers || [],
+                                        data: f.data || [],
+                                        size: f.size || 0,
+                                        savedAt: f.savedAt || new Date().toISOString()
+                                    });
+                                }
+                            }
+                        } catch (cacheErr) { /* ignore cache errors */ }
+                        return cloudList;
+                    }
+                } catch (cloudErr) {
+                    console.warn("Cloud load failed, trying local IndexedDB:", cloudErr);
+                }
+            }
+            // Fallback: local IndexedDB
             return new Promise(function(resolve, reject) {
                 try {
+                    if (!db) { resolve([]); return; }
                     var tx = db.transaction("files", "readonly");
                     var store = tx.objectStore("files");
                     var index = store.index("category");
@@ -599,14 +661,26 @@
             });
         }
 
-        function deleteFileFromDB(category, fileName) {
+        async function deleteFileFromDB(category, fileName) {
+            if (typeof window.pdCloudDeleteFile === "function") {
+                try {
+                    await window.pdCloudDeleteFile(category, fileName);
+                } catch (cloudErr) {
+                    console.warn("Cloud delete failed:", cloudErr);
+                }
+            }
             return new Promise(function(resolve, reject) {
-                var id = category + "|||" + fileName;
-                var tx = db.transaction("files", "readwrite");
-                var store = tx.objectStore("files");
-                var req = store.delete(id);
-                req.onsuccess = function() { resolve(); };
-                req.onerror = function() { reject(req.error); };
+                try {
+                    if (!db) { resolve(); return; }
+                    var id = category + "|||" + fileName;
+                    var tx = db.transaction("files", "readwrite");
+                    var store = tx.objectStore("files");
+                    var req = store.delete(id);
+                    req.onsuccess = function() { resolve(); };
+                    req.onerror = function() { reject(req.error); };
+                } catch (e) {
+                    resolve(); // soft-fail local
+                }
             });
         }
 
@@ -617,9 +691,18 @@
             }
         }
 
-        function getAllFilesFromDB() {
+        async function getAllFilesFromDB() {
+            if (typeof window.pdCloudGetAllFiles === "function") {
+                try {
+                    var cloudList = await window.pdCloudGetAllFiles();
+                    if (cloudList && cloudList.length > 0) return cloudList;
+                } catch (cloudErr) {
+                    console.warn("Cloud getAll failed, trying local:", cloudErr);
+                }
+            }
             return new Promise(function(resolve, reject) {
                 try {
+                    if (!db) { resolve([]); return; }
                     var tx = db.transaction("files", "readonly");
                     var store = tx.objectStore("files");
                     var req = store.getAll();
@@ -1108,7 +1191,7 @@
             if (badge && Object.keys(loadedFiles).length > 0) badge.style.display = "inline";
 
             if (successCount > 0) {
-                showStatus(successCount + " টি ফাইল সেভ হয়েছে। সব ডাটা একসাথে দেখানো হচ্ছে।", false);
+                showStatus(successCount + " টি ফাইল ক্লাউডে সেভ হয়েছে। সব ডিভাইসে ডাটা দেখা যাবে।", false);
             }
             if (errorFiles.length > 0) {
                 showStatus("সমস্যা হয়েছে: " + errorFiles.join(", "), true);
@@ -4713,7 +4796,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, serverTimestamp
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, where, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -4726,6 +4809,156 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig, "pdApp");
 const db = getFirestore(app);
+
+// ── Cloud storage for production data files (Firestore) ──────────────
+// Document id: category___safeFileName  (/// not allowed in Firestore ids)
+function pdFileDocId(category, fileName) {
+  const safe = String(fileName).replace(/[\/\x00-\x1f]/g, "_").slice(0, 180);
+  return category + "___" + safe;
+}
+
+window.pdCloudSaveFile = async function(category, fileName, fileHeaders, fileData, size) {
+  const id = pdFileDocId(category, fileName);
+  const headers = fileHeaders || [];
+  const data = fileData || [];
+  // Firestore doc limit ~1 MiB. Split large tables into chunks of rows.
+  const CHUNK_ROWS = 800; // safe for typical production sheets
+  const approxBytes = JSON.stringify({ headers, data }).length;
+  if (approxBytes < 900000 && data.length <= CHUNK_ROWS) {
+    await setDoc(doc(db, "pd_files", id), {
+      id: id,
+      category: category,
+      fileName: fileName,
+      headers: headers,
+      data: data,
+      size: size || 0,
+      chunkCount: 1,
+      savedAt: new Date().toISOString(),
+      updatedAt: serverTimestamp()
+    });
+    return true;
+  }
+  // Multi-chunk write
+  const chunkCount = Math.ceil(data.length / CHUNK_ROWS) || 1;
+  // meta doc
+  await setDoc(doc(db, "pd_files", id), {
+    id: id,
+    category: category,
+    fileName: fileName,
+    headers: headers,
+    data: [], // empty on meta when chunked
+    size: size || 0,
+    chunkCount: chunkCount,
+    totalRows: data.length,
+    savedAt: new Date().toISOString(),
+    updatedAt: serverTimestamp()
+  });
+  for (let c = 0; c < chunkCount; c++) {
+    const slice = data.slice(c * CHUNK_ROWS, (c + 1) * CHUNK_ROWS);
+    await setDoc(doc(db, "pd_files", id + "__c" + c), {
+      parentId: id,
+      category: category,
+      fileName: fileName,
+      chunkIndex: c,
+      data: slice,
+      updatedAt: serverTimestamp()
+    });
+  }
+  return true;
+};
+
+window.pdCloudGetFilesByCategory = async function(category) {
+  const q = query(collection(db, "pd_files"), where("category", "==", category));
+  const snap = await getDocs(q);
+  const metas = [];
+  const chunksByParent = {};
+  snap.forEach(function(d) {
+    const data = d.data();
+    // chunk docs have parentId + chunkIndex
+    if (data.parentId != null && data.chunkIndex != null) {
+      if (!chunksByParent[data.parentId]) chunksByParent[data.parentId] = [];
+      chunksByParent[data.parentId].push(data);
+      return;
+    }
+    // skip pure chunk docs that somehow lack parentId
+    if (String(d.id).indexOf("__c") >= 0 && !data.headers) return;
+    metas.push({
+      id: data.id || d.id,
+      category: data.category,
+      fileName: data.fileName,
+      headers: data.headers || [],
+      data: data.data || [],
+      size: data.size || 0,
+      savedAt: data.savedAt || "",
+      chunkCount: data.chunkCount || 1
+    });
+  });
+  // reassemble chunks
+  for (let i = 0; i < metas.length; i++) {
+    const m = metas[i];
+    if (m.chunkCount > 1) {
+      const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
+      const rows = [];
+      for (let c = 0; c < chunks.length; c++) {
+        const part = chunks[c].data || [];
+        for (let r = 0; r < part.length; r++) rows.push(part[r]);
+      }
+      m.data = rows;
+    }
+  }
+  return metas;
+};
+
+window.pdCloudDeleteFile = async function(category, fileName) {
+  const id = pdFileDocId(category, fileName);
+  // delete meta
+  try { await deleteDoc(doc(db, "pd_files", id)); } catch (e) {}
+  // delete any chunks (best-effort: try common range)
+  for (let c = 0; c < 50; c++) {
+    try {
+      await deleteDoc(doc(db, "pd_files", id + "__c" + c));
+    } catch (e) { break; }
+  }
+};
+
+window.pdCloudGetAllFiles = async function() {
+  // reuse category logic by reading all then grouping — simple full scan
+  const snap = await getDocs(collection(db, "pd_files"));
+  const metas = [];
+  const chunksByParent = {};
+  snap.forEach(function(d) {
+    const data = d.data();
+    if (data.parentId != null && data.chunkIndex != null) {
+      if (!chunksByParent[data.parentId]) chunksByParent[data.parentId] = [];
+      chunksByParent[data.parentId].push(data);
+      return;
+    }
+    if (String(d.id).indexOf("__c") >= 0 && !data.headers) return;
+    metas.push({
+      id: data.id || d.id,
+      category: data.category,
+      fileName: data.fileName,
+      headers: data.headers || [],
+      data: data.data || [],
+      size: data.size || 0,
+      savedAt: data.savedAt || "",
+      chunkCount: data.chunkCount || 1
+    });
+  });
+  for (let i = 0; i < metas.length; i++) {
+    const m = metas[i];
+    if (m.chunkCount > 1) {
+      const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
+      const rows = [];
+      for (let c = 0; c < chunks.length; c++) {
+        const part = chunks[c].data || [];
+        for (let r = 0; r < part.length; r++) rows.push(part[r]);
+      }
+      m.data = rows;
+    }
+  }
+  return metas;
+};
 
 const DEFAULT_ADMIN_PASS = "eco@sr123";
 const ADMIN_SETTINGS_DOC = doc(db, "app_settings", "production_dashboard");
