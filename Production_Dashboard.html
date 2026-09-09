@@ -575,20 +575,25 @@
         }
 
         async function saveFileToDB(category, fileName, fileHeaders, fileData, size) {
-            // Prefer Firestore (cloud) so data persists across devices/browsers
+            var rowCount = (fileData && fileData.length) ? fileData.length : 0;
+            var cloudOk = false;
+            var cloudErrMsg = "";
             await waitForCloud(3000);
             if (typeof window.pdCloudSaveFile === "function") {
                 try {
                     await window.pdCloudSaveFile(category, fileName, fileHeaders, fileData, size);
+                    cloudOk = true;
+                    console.log("Cloud saved:", fileName, rowCount, "rows");
                 } catch (cloudErr) {
+                    cloudErrMsg = (cloudErr && cloudErr.message) ? cloudErr.message : String(cloudErr);
                     console.warn("Cloud save failed, falling back to local IndexedDB:", cloudErr);
-                    // fall through to local
+                    try { showStatus("⚠️ ক্লাউড সেভ ব্যর্থ (" + fileName + "): " + cloudErrMsg + " — লোকালে রাখা হয়েছে", true); } catch (e2) {}
                 }
             }
-            // Also keep a local IndexedDB copy for offline/speed
+            // Always keep a local IndexedDB copy
             return new Promise(function(resolve, reject) {
                 try {
-                    if (!db) { resolve(true); return; }
+                    if (!db) { resolve(cloudOk); return; }
                     var id = category + "|||" + fileName;
                     var tx = db.transaction("files", "readwrite");
                     var store = tx.objectStore("files");
@@ -605,47 +610,13 @@
                     req.onsuccess = function() { resolve(true); };
                     req.onerror = function() { reject(req.error); };
                 } catch (e) {
-                    // If local also fails but cloud succeeded, still OK
-                    if (typeof window.pdCloudSaveFile === "function") resolve(true);
+                    if (cloudOk) resolve(true);
                     else reject(e);
                 }
             });
         }
 
-        async function getFilesByCategory(category) {
-            // Prefer cloud data so all users/devices see the same files
-            await waitForCloud(3000);
-            if (typeof window.pdCloudGetFilesByCategory === "function") {
-                try {
-                    var cloudList = await window.pdCloudGetFilesByCategory(category);
-                    if (cloudList && cloudList.length > 0) {
-                        // refresh local cache in background
-                        try {
-                            if (db) {
-                                for (var i = 0; i < cloudList.length; i++) {
-                                    var f = cloudList[i];
-                                    var id = category + "|||" + f.fileName;
-                                    var tx = db.transaction("files", "readwrite");
-                                    var store = tx.objectStore("files");
-                                    store.put({
-                                        id: id,
-                                        category: category,
-                                        fileName: f.fileName,
-                                        headers: f.headers || [],
-                                        data: f.data || [],
-                                        size: f.size || 0,
-                                        savedAt: f.savedAt || new Date().toISOString()
-                                    });
-                                }
-                            }
-                        } catch (cacheErr) { /* ignore cache errors */ }
-                        return cloudList;
-                    }
-                } catch (cloudErr) {
-                    console.warn("Cloud load failed, trying local IndexedDB:", cloudErr);
-                }
-            }
-            // Fallback: local IndexedDB
+        async function getLocalFilesByCategory(category) {
             return new Promise(function(resolve, reject) {
                 try {
                     if (!db) { resolve([]); return; }
@@ -656,9 +627,97 @@
                     req.onsuccess = function() { resolve(req.result || []); };
                     req.onerror = function() { reject(req.error); };
                 } catch (e) {
-                    reject(e);
+                    resolve([]);
                 }
             });
+        }
+
+        function fileRowCount(f) {
+            return (f && f.data && f.data.length) ? f.data.length : 0;
+        }
+
+        async function cacheFilesLocally(category, list) {
+            if (!db || !list || !list.length) return;
+            try {
+                for (var i = 0; i < list.length; i++) {
+                    var f = list[i];
+                    if (fileRowCount(f) === 0) continue; // never overwrite local with empty
+                    var id = category + "|||" + f.fileName;
+                    var tx = db.transaction("files", "readwrite");
+                    var store = tx.objectStore("files");
+                    store.put({
+                        id: id,
+                        category: category,
+                        fileName: f.fileName,
+                        headers: f.headers || [],
+                        data: f.data || [],
+                        size: f.size || 0,
+                        savedAt: f.savedAt || new Date().toISOString()
+                    });
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        async function getFilesByCategory(category) {
+            await waitForCloud(3000);
+            var localList = [];
+            try { localList = await getLocalFilesByCategory(category); } catch (e) { localList = []; }
+
+            var cloudList = [];
+            if (typeof window.pdCloudGetFilesByCategory === "function") {
+                try {
+                    cloudList = await window.pdCloudGetFilesByCategory(category) || [];
+                } catch (cloudErr) {
+                    console.warn("Cloud load failed, using local IndexedDB:", cloudErr);
+                }
+            }
+
+            // Merge by fileName — prefer the version that actually has row data
+            var map = {};
+            function consider(f, source) {
+                if (!f || !f.fileName) return;
+                var key = f.fileName;
+                var rows = fileRowCount(f);
+                if (!map[key]) {
+                    map[key] = { file: f, rows: rows, source: source };
+                    return;
+                }
+                // Prefer non-empty data; if both have data, prefer cloud (newer multi-device)
+                if (rows > map[key].rows) {
+                    map[key] = { file: f, rows: rows, source: source };
+                } else if (rows === map[key].rows && rows > 0 && source === "cloud") {
+                    map[key] = { file: f, rows: rows, source: source };
+                }
+            }
+            for (var i = 0; i < localList.length; i++) consider(localList[i], "local");
+            for (var j = 0; j < cloudList.length; j++) consider(cloudList[j], "cloud");
+
+            var merged = Object.keys(map).map(function(k) { return map[k].file; });
+
+            // If local has good data but cloud is empty/missing, push local → cloud (heal)
+            if (typeof window.pdCloudSaveFile === "function") {
+                for (var k = 0; k < merged.length; k++) {
+                    var mf = merged[k];
+                    var cloudMatch = null;
+                    for (var c = 0; c < cloudList.length; c++) {
+                        if (cloudList[c].fileName === mf.fileName) { cloudMatch = cloudList[c]; break; }
+                    }
+                    var cloudRows = fileRowCount(cloudMatch);
+                    var localRows = fileRowCount(mf);
+                    if (localRows > 0 && cloudRows === 0) {
+                        try {
+                            await window.pdCloudSaveFile(category, mf.fileName, mf.headers || [], mf.data || [], mf.size || 0);
+                            console.log("Healed cloud from local:", mf.fileName, localRows, "rows");
+                        } catch (healErr) {
+                            console.warn("Cloud heal failed for", mf.fileName, healErr);
+                        }
+                    }
+                }
+            }
+
+            // Cache non-empty merged results locally
+            await cacheFilesLocally(category, merged);
+            return merged;
         }
 
         async function deleteFileFromDB(category, fileName) {
@@ -1095,13 +1154,17 @@
             try {
                 var saved = await getFilesByCategory(cat);
                 if (saved && saved.length > 0) {
+                    loadedFiles = {};
+                    var totalRowsLoaded = 0;
                     for (var i = 0; i < saved.length; i++) {
                         var f = saved[i];
+                        var rows = f.data || [];
                         loadedFiles[f.fileName] = {
-                            headers: f.headers,
-                            data: f.data,
-                            size: f.size
+                            headers: f.headers || [],
+                            data: rows,
+                            size: f.size || 0
                         };
+                        totalRowsLoaded += rows.length;
                     }
                     document.getElementById("hintText").style.display = "none";
                     var badge = document.getElementById("savedBadge");
@@ -1111,6 +1174,9 @@
                     updateInfoBar();
                     renderTable(allCombinedData);
                     buildDataFilterBar();
+                    if (totalRowsLoaded === 0) {
+                        showStatus("⚠️ " + saved.length + " টি ফাইল আছে কিন্তু রো ডাটা খালি। ফাইলগুলো আবার আপলোড করুন।", true);
+                    }
                 } else {
                     document.getElementById("tableArea").innerHTML = '<div class="no-data">এখনো কোনো ফাইল সেভ নেই। উপরের বাটন থেকে Excel ফাইল সিলেক্ট করুন। সব ফাইলের ডাটা একসাথে দেখাবে।</div>';
                 }
@@ -4821,95 +4887,116 @@ window.pdCloudSaveFile = async function(category, fileName, fileHeaders, fileDat
   const id = pdFileDocId(category, fileName);
   const headers = fileHeaders || [];
   const data = fileData || [];
-  // Firestore doc limit ~1 MiB. Split large tables into chunks of rows.
-  const CHUNK_ROWS = 800; // safe for typical production sheets
-  const approxBytes = JSON.stringify({ headers, data }).length;
-  if (approxBytes < 900000 && data.length <= CHUNK_ROWS) {
+  // Firestore does NOT allow nested arrays (array-of-arrays).
+  // Store rows as JSON string (and chunk if very large).
+  const dataJson = JSON.stringify(data);
+  const CHUNK_CHARS = 700000; // keep each doc under ~1MB
+  if (dataJson.length <= CHUNK_CHARS) {
     await setDoc(doc(db, "pd_files", id), {
       id: id,
       category: category,
       fileName: fileName,
       headers: headers,
-      data: data,
+      dataJson: dataJson,
+      data: [], // legacy empty
       size: size || 0,
+      rowCount: data.length,
       chunkCount: 1,
       savedAt: new Date().toISOString(),
       updatedAt: serverTimestamp()
     });
     return true;
   }
-  // Multi-chunk write
-  const chunkCount = Math.ceil(data.length / CHUNK_ROWS) || 1;
-  // meta doc
+  const chunkCount = Math.ceil(dataJson.length / CHUNK_CHARS) || 1;
   await setDoc(doc(db, "pd_files", id), {
     id: id,
     category: category,
     fileName: fileName,
     headers: headers,
-    data: [], // empty on meta when chunked
+    dataJson: "",
+    data: [],
     size: size || 0,
+    rowCount: data.length,
     chunkCount: chunkCount,
-    totalRows: data.length,
     savedAt: new Date().toISOString(),
     updatedAt: serverTimestamp()
   });
   for (let c = 0; c < chunkCount; c++) {
-    const slice = data.slice(c * CHUNK_ROWS, (c + 1) * CHUNK_ROWS);
+    const slice = dataJson.slice(c * CHUNK_CHARS, (c + 1) * CHUNK_CHARS);
     await setDoc(doc(db, "pd_files", id + "__c" + c), {
       parentId: id,
       category: category,
       fileName: fileName,
       chunkIndex: c,
-      data: slice,
+      dataJsonPart: slice,
       updatedAt: serverTimestamp()
     });
   }
   return true;
 };
 
-window.pdCloudGetFilesByCategory = async function(category) {
+window.pdCloudGetFilesByCategorywindow.pdCloudGetFilesByCategory = async function(category) {
   const q = query(collection(db, "pd_files"), where("category", "==", category));
   const snap = await getDocs(q);
   const metas = [];
   const chunksByParent = {};
   snap.forEach(function(d) {
     const data = d.data();
-    // chunk docs have parentId + chunkIndex
     if (data.parentId != null && data.chunkIndex != null) {
       if (!chunksByParent[data.parentId]) chunksByParent[data.parentId] = [];
       chunksByParent[data.parentId].push(data);
       return;
     }
-    // skip pure chunk docs that somehow lack parentId
     if (String(d.id).indexOf("__c") >= 0 && !data.headers) return;
     metas.push({
       id: data.id || d.id,
       category: data.category,
       fileName: data.fileName,
       headers: data.headers || [],
-      data: data.data || [],
+      dataJson: data.dataJson || "",
+      data: data.data || [], // legacy
       size: data.size || 0,
       savedAt: data.savedAt || "",
-      chunkCount: data.chunkCount || 1
+      chunkCount: data.chunkCount || 1,
+      rowCount: data.rowCount || 0
     });
   });
-  // reassemble chunks
+  const list = [];
   for (let i = 0; i < metas.length; i++) {
     const m = metas[i];
-    if (m.chunkCount > 1) {
-      const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
-      const rows = [];
-      for (let c = 0; c < chunks.length; c++) {
-        const part = chunks[c].data || [];
-        for (let r = 0; r < part.length; r++) rows.push(part[r]);
+    let rows = [];
+    try {
+      if (m.chunkCount > 1) {
+        const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
+        let json = "";
+        for (let c = 0; c < chunks.length; c++) {
+          json += (chunks[c].dataJsonPart || "");
+        }
+        if (json) rows = JSON.parse(json);
+      } else if (m.dataJson) {
+        rows = JSON.parse(m.dataJson);
+      } else if (Array.isArray(m.data) && m.data.length) {
+        // legacy nested-array docs (may be empty due to Firestore limits)
+        rows = m.data;
       }
-      m.data = rows;
+    } catch (parseErr) {
+      console.warn("Failed to parse cloud data for", m.fileName, parseErr);
+      rows = [];
     }
+    list.push({
+      id: m.id,
+      category: m.category,
+      fileName: m.fileName,
+      headers: m.headers || [],
+      data: rows,
+      size: m.size || 0,
+      savedAt: m.savedAt || ""
+    });
   }
-  return metas;
+  return list;
 };
 
-window.pdCloudDeleteFile = async function(category, fileName) {
+window.pdCloudDeleteFilewindow.pdCloudDeleteFile = async function(category, fileName) {
   const id = pdFileDocId(category, fileName);
   // delete meta
   try { await deleteDoc(doc(db, "pd_files", id)); } catch (e) {}
@@ -4922,7 +5009,6 @@ window.pdCloudDeleteFile = async function(category, fileName) {
 };
 
 window.pdCloudGetAllFiles = async function() {
-  // reuse category logic by reading all then grouping — simple full scan
   const snap = await getDocs(collection(db, "pd_files"));
   const metas = [];
   const chunksByParent = {};
@@ -4939,28 +5025,43 @@ window.pdCloudGetAllFiles = async function() {
       category: data.category,
       fileName: data.fileName,
       headers: data.headers || [],
+      dataJson: data.dataJson || "",
       data: data.data || [],
       size: data.size || 0,
       savedAt: data.savedAt || "",
       chunkCount: data.chunkCount || 1
     });
   });
+  const list = [];
   for (let i = 0; i < metas.length; i++) {
     const m = metas[i];
-    if (m.chunkCount > 1) {
-      const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
-      const rows = [];
-      for (let c = 0; c < chunks.length; c++) {
-        const part = chunks[c].data || [];
-        for (let r = 0; r < part.length; r++) rows.push(part[r]);
+    let rows = [];
+    try {
+      if (m.chunkCount > 1) {
+        const chunks = (chunksByParent[m.id] || []).sort(function(a,b){ return (a.chunkIndex||0)-(b.chunkIndex||0); });
+        let json = "";
+        for (let c = 0; c < chunks.length; c++) json += (chunks[c].dataJsonPart || "");
+        if (json) rows = JSON.parse(json);
+      } else if (m.dataJson) {
+        rows = JSON.parse(m.dataJson);
+      } else if (Array.isArray(m.data) && m.data.length) {
+        rows = m.data;
       }
-      m.data = rows;
-    }
+    } catch (e) { rows = []; }
+    list.push({
+      id: m.id,
+      category: m.category,
+      fileName: m.fileName,
+      headers: m.headers || [],
+      data: rows,
+      size: m.size || 0,
+      savedAt: m.savedAt || ""
+    });
   }
-  return metas;
+  return list;
 };
 
-const DEFAULT_ADMIN_PASS = "eco@sr123";
+const DEFAULT_ADMIN_PASSconst DEFAULT_ADMIN_PASS = "eco@sr123";
 const ADMIN_SETTINGS_DOC = doc(db, "app_settings", "production_dashboard");
 
 let currentRole = null;      // 'admin' | 'viewer'
